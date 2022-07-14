@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMobileScreenButton, faLock, faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
+import {
+	faMobileScreenButton,
+	faLock,
+	faAnglesLeft,
+	faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -21,8 +26,13 @@ const toastOptions = {
 };
 
 function Register() {
-	const [user, setUser] = useState({ phone: '', password: '', confirmpassword: '' });
-	const { phone, password, confirmpassword } = user;
+	const [user, setUser] = useState({
+		phone: '',
+		username: '',
+		password: '',
+		confirmpassword: '',
+	});
+	const { phone, username, password, confirmpassword } = user;
 
 	const handleForm = (e) => {
 		setUser({
@@ -48,6 +58,7 @@ function Register() {
 		if (validateUser()) {
 			const { data } = await axios.post(registerRoute, {
 				phone: phone,
+				username: username,
 				password: password,
 			});
 
@@ -59,6 +70,7 @@ function Register() {
 			}
 		}
 	};
+
 	return (
 		<div className={cx('wrapper')}>
 			<div className={cx('tabs')}>
@@ -79,8 +91,19 @@ function Register() {
 								type="phone"
 								placeholder="Số điện thoại"
 								name="phone"
-								autoComplete="off"
 								value={phone}
+								onChange={(e) => handleForm(e)}
+							/>
+						</div>
+						<div className={cx('form-group')}>
+							<FontAwesomeIcon className={cx('form-icon')} icon={faUser} />
+							<input
+								className={cx('form-input')}
+								type="text"
+								placeholder="Tên người dùng"
+								name="username"
+								autoComplete="off"
+								value={username}
 								onChange={(e) => handleForm(e)}
 							/>
 						</div>
@@ -112,6 +135,7 @@ function Register() {
 							primary
 							disabled={
 								phone.length >= 6 &&
+								username.length >= 1 &&
 								password.length >= 8 &&
 								confirmpassword.length >= 8
 									? false
