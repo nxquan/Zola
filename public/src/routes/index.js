@@ -7,9 +7,9 @@ import Message from '@/Pages/Message';
 
 const publicRoutes = [
 	{ path: '/register', element: Register, layout: FrontLayout },
-	{ path: '/home', element: Home },
+	{ path: '/', element: Home },
 	{ path: '/message', element: Message },
-	{ path: '/', element: Login, layout: FrontLayout },
+	{ path: '/login', element: Login, layout: FrontLayout },
 ];
 
 const privateRoutes = [];

@@ -127,7 +127,7 @@ function Register() {
 							text
 							small
 							leftIcon={<FontAwesomeIcon icon={faAnglesLeft} />}
-							to="/"
+							to="/login"
 						>
 							Quay lại
 						</Button>

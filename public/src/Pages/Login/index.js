@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMobileScreenButton, faLock } from '@fortawesome/free-solid-svg-icons';
-
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMobileScreenButton, faLock } from '@fortawesome/free-solid-svg-icons';
+
 import images from '@/assets/images';
 import Button from '@/components/Button';
 import { loginRoute } from '@/utils/APIRoute';
@@ -23,6 +22,7 @@ const toastOptions = {
 	draggable: true,
 	theme: 'light',
 };
+
 function Login() {
 	const navigate = useNavigate();
 	const [tab, setTab] = useState(1);
@@ -33,10 +33,7 @@ function Login() {
 	const toggleTab = (e, index) => {
 		e.preventDefault();
 		setTab(index);
-
-		if (index === 1) {
-			setLoginQR(true);
-		}
+		if (index === 1) setLoginQR(true);
 	};
 
 	const handleForm = (e) => {
@@ -45,14 +42,14 @@ function Login() {
 
 	const hanldeSubmit = async (e) => {
 		e.preventDefault();
-
 		const { data } = await axios.post(loginRoute, {
 			phone,
 			password,
 		});
 
 		if (data.status) {
-			navigate('/home');
+			await localStorage.setItem('user', JSON.stringify(user));
+			navigate('/');
 		} else {
 			toast.error(data.msg, toastOptions);
 		}
@@ -107,7 +104,7 @@ function Login() {
 							/>
 							<input
 								className={cx('form-input')}
-								type="phone"
+								type="tel"
 								placeholder="Số điện thoại"
 								autoComplete="off"
 								name="phone"
