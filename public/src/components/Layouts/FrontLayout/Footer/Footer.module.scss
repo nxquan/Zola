@@ -1,0 +1,69 @@
+.more-action {
+	display: block;
+	padding: 20px 15px;
+	color: #888;
+	font-size: 0.875rem;
+	font-weight: normal;
+	text-align: center;
+
+	a {
+		color: var(--primary-color);
+		font-size: 0.9rem;
+		text-decoration: underline;
+	}
+}
+
+.inner {
+	margin-top: 80px;
+	margin-bottom: 30px;
+	font-size: 0.8rem;
+	color: #555;
+	text-align: center;
+}
+.languages {
+	margin-bottom: 24px;
+}
+.lang {
+	font-size: 0.8rem;
+	color: var(--primary-color);
+	+ .lang {
+		margin-left: 8px;
+	}
+	&:hover {
+		cursor: pointer;
+	}
+}
+.lang.active {
+	font-weight: 500;
+}
+.logos {
+	margin-top: 20px;
+	ul {
+		list-style-type: none;
+		display: flex;
+		justify-content: center;
+		li + li {
+			margin-left: 16px;
+		}
+	}
+	& a i {
+		display: block;
+		background-image: url('../../../../assets/images/logos.png');
+		background-repeat: no-repeat;
+		background-size: 120px 24px;
+		width: 24px;
+		height: 24px;
+	}
+	& .logo-mp3 {
+		background-position: -24px;
+	}
+	& .logo-zingtv {
+		background-position: -48px 0;
+	}
+	& .logo-zing {
+		background-position: -72px 0;
+	}
+	& .logo-baomoi {
+		background-position: -96px 0;
+	}
+}
