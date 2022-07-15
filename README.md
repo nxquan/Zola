@@ -2,10 +2,10 @@
 
 ## FrontEnd
 ### Primary:
-  ReactJS
-### Addition:
-##BackEnd
-### Primary:
-  NodeJS
-  ExpressJS
-### Addition:
+  - ReactJS
+#### Addition:
+## BackEnd
+#### Primary:
+  - NodeJS
+  - ExpressJS
+#### Addition:
