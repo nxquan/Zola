@@ -14,9 +14,9 @@ function NavItem({ to, onClick, active, children }) {
 		Component = Link;
 		props.to = to;
 	}
-	let classes = cx('icon', { active });
+	let classes = cx('icon');
 	return (
-		<div className={cx('wrapper')}>
+		<div className={cx('wrapper', { active })}>
 			<Component className={classes} {...props}>
 				{children}
 			</Component>

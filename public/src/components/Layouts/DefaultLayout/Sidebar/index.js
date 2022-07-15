@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faCommentDots,
@@ -6,6 +8,7 @@ import {
 	faCloud,
 	faBriefcase,
 	faGear,
+	faClockFour,
 } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 
@@ -16,6 +19,8 @@ import images from '@/assets/images';
 const cx = classNames.bind(styles);
 
 function Sidebar({ children }) {
+	const [tab, setTab] = useState(0);
+
 	return (
 		<div className={cx('wrapper')}>
 			<div className={cx('main-bar')}>
@@ -24,25 +29,29 @@ function Sidebar({ children }) {
 						<div className={cx('nav-tab-avt')}>
 							<img src={images.avt} />
 						</div>
-						<NavItem active to="/message">
+						<NavItem active={tab === 0} onClick={() => setTab(0)} to="/message">
 							<FontAwesomeIcon icon={faCommentDots} />
 						</NavItem>
-						<NavItem to="/contact">
+
+						<NavItem active={tab === 1} onClick={() => setTab(1)} to="/contact">
 							<FontAwesomeIcon icon={faAddressBook} />
 						</NavItem>
-						<NavItem to="/todo">
+						<NavItem active={tab === 2} onClick={() => setTab(2)} to="/todo">
 							<FontAwesomeIcon icon={faSquareCheck} />
+						</NavItem>
+						<NavItem active={tab === 3} onClick={() => setTab(3)} to="/diary">
+							<FontAwesomeIcon icon={faClockFour} />
 						</NavItem>
 					</div>
 				</div>
 				<div className={cx('nav-tab-bottom')}>
-					<NavItem to="/me">
+					<NavItem active={tab === 4} onClick={() => setTab(4)} to="/me">
 						<FontAwesomeIcon icon={faCloud} />
 					</NavItem>
-					<NavItem to="/bag">
+					<NavItem active={tab === 5} onClick={() => setTab(5)}>
 						<FontAwesomeIcon icon={faBriefcase} />
 					</NavItem>
-					<NavItem onClick={() => alert('123')}>
+					<NavItem active={tab === 6} onClick={() => setTab(6)}>
 						<FontAwesomeIcon icon={faGear} />
 					</NavItem>
 				</div>
