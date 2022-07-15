@@ -3,6 +3,7 @@ const images = {
 	bg: require('@/assets/images/bg.svg').default,
 	download: require('@/assets/images/download.png'),
 	logos: require('@/assets/images/logos.png'),
+	avt: require('@/assets/images/avt.jpg'),
 };
 
 export default images;

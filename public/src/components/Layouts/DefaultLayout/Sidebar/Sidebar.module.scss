@@ -1,0 +1,31 @@
+.wrapper {
+	display: flex;
+	width: var(--width-sidebar);
+	height: 100vh;
+}
+
+.nav-tab-avt {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	height: 54px;
+	img {
+		border-radius: 50%;
+		width: 48px;
+		height: 48px;
+		border: 1px solid var(--white-color);
+		object-fit: cover;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}
+.main-bar {
+	width: var(--width-main-bar);
+	height: 100%;
+	background-color: var(--primary-color);
+	padding-top: 32px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}

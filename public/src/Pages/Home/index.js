@@ -23,9 +23,12 @@ function Home() {
 		};
 	}, []);
 
-	useEffect(async () => {
-		if (!localStorage.getItem('user')) navigate('/login');
-		else setCurrentUser(await JSON.parse(localStorage.getItem('user')));
+	useEffect(() => {
+		async function getUserFromLocalStorage() {
+			if (!localStorage.getItem('user')) navigate('/login');
+			else setCurrentUser(await JSON.parse(localStorage.getItem('user')));
+		}
+		getUserFromLocalStorage();
 	}, []);
 
 	return (
