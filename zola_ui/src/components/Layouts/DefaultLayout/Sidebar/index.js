@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import Tippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faCommentDots,
@@ -26,9 +26,18 @@ function Sidebar({ children }) {
 			<div className={cx('main-bar')}>
 				<div>
 					<div className={cx('nav-tab-top')}>
-						<div className={cx('nav-tab-avt')}>
-							<img src={images.avt} />
-						</div>
+						<Tippy
+							render={(attrs) => (
+								<div className="box" tabIndex="-1" {...attrs}>
+									My tippy box
+								</div>
+							)}
+							// visible={true}
+						>
+							<div className={cx('nav-tab-avt')}>
+								<img src={images.avt} />
+							</div>
+						</Tippy>
 						<NavItem active={tab === 0} onClick={() => setTab(0)} to="/message">
 							<FontAwesomeIcon icon={faCommentDots} />
 						</NavItem>
