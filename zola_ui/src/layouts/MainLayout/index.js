@@ -1,8 +1,7 @@
 import classNames from 'classnames/bind';
 
-import styles from './DefaultLayout.module.scss';
+import styles from './MainLayout.module.scss';
 import Sidebar from './Sidebar';
-import Search from './Search';
 
 const cx = classNames.bind(styles);
 

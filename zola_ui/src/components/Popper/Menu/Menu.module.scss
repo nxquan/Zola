@@ -1,0 +1,26 @@
+.menu-item {
+	padding: 0 8px;
+	font-size: 1.4rem;
+	text-align: left;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	& + .menu-item {
+		margin-top: 0;
+	}
+	svg {
+		width: 14px;
+		height: 14px;
+		flex-shrink: 0;
+		margin-right: 2px;
+	}
+
+	&.separate {
+		border-top: 1px solid #e1e4ea;
+	}
+
+	&.warning {
+		color: #db342e;
+	}
+}

@@ -1,4 +1,4 @@
-import FrontLayout from '@/components/Layouts/FrontLayout';
+import FrontLayout from '@/layouts/FrontLayout';
 
 import Login from '@/Pages/Login';
 import Register from '@/Pages/Register';

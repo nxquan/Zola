@@ -40,7 +40,7 @@ function Login() {
 		SetUser({ ...user, [e.target.name]: e.target.value });
 	};
 
-	const hanldeSubmit = async (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const { data } = await axios.post(loginRoute, {
 			phone,
@@ -96,7 +96,7 @@ function Login() {
 					<p className={cx('note')}>Quét mã QR bằng Zalo để đăng nhập</p>
 				</div>
 				<div className={cx('content-item', { active: tab === 2 })}>
-					<form className={cx('form-signin')} onSubmit={(e) => hanldeSubmit(e)}>
+					<form className={cx('form-signin')} onSubmit={(e) => handleSubmit(e)}>
 						<div className={cx('form-group')}>
 							<FontAwesomeIcon
 								className={cx('form-icon')}
