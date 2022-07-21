@@ -22,7 +22,7 @@ import Search from '../Search';
 import NavItem from '@/components/NavItem';
 import images from '@/assets/images';
 import WrapPopper from '@/components/Popper';
-import MenuItem from '@/components/Popper/Menu/MenuItem';
+import Menu from '@/components/Popper/Menu';
 
 const cx = classNames.bind(styles);
 
@@ -34,15 +34,28 @@ let settingMenu = [
 	{
 		icon: <FontAwesomeIcon icon={faGear} />,
 		title: 'Cài đặt',
-		separate: true,
 	},
 	{
 		icon: <FontAwesomeIcon icon={faFloppyDisk} />,
 		title: 'Lưu trữ',
+		separate: true,
+		children: [
+			{
+				title: 'Quản lý file',
+			},
+		],
 	},
 	{
 		icon: <FontAwesomeIcon icon={faGlobe} />,
 		title: 'Ngôn ngữ',
+		children: [
+			{
+				title: 'Tiếng Việt',
+			},
+			{
+				title: 'English',
+			},
+		],
 	},
 	{
 		icon: <FontAwesomeIcon icon={faCircleInfo} />,
@@ -89,23 +102,14 @@ function Sidebar({ children }) {
 						<FontAwesomeIcon icon={faBriefcase} />
 					</NavItem>
 					<Tippy
-						offset={[80, 0]}
+						offset={[70, 0]}
 						interactive
 						placement="top"
+						hideOnClick={false}
 						render={(attrs) => (
 							<div className="content" tabIndex="-1" {...attrs}>
 								<WrapPopper>
-									{settingMenu.map((item, index) => {
-										return (
-											<MenuItem
-												key={index}
-												icon={item.icon}
-												title={item.title}
-												separate={item.separate}
-												className={item.className}
-											/>
-										);
-									})}
+									<Menu items={settingMenu} />
 								</WrapPopper>
 							</div>
 						)}

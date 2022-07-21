@@ -1,16 +1,25 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+
 import classNames from 'classnames/bind';
-import Button from '@/components/Button';
 
 import styles from './Menu.module.scss';
+import { forwardRef } from 'react';
 const cx = classNames.bind(styles);
 
-function MenuItem({ icon, title, separate, className }) {
-	let classes = cx('menu-item', { separate }, { [className]: className });
+const MenuItem = forwardRef(({ item, className }, ref) => {
+	let classes = cx('menu-item', { separate: item.separate }, { [className]: className });
 	return (
-		<Button className={classes} leftIcon={icon}>
-			{title}
-		</Button>
+		<button className={classes} ref={ref}>
+			{item.icon && <span className={cx('icon')}>{item.icon}</span>}
+			<span className={cx('title')}>{item.title}</span>
+			{item.children && (
+				<span className={cx('icon', 'right-icon')}>
+					{<FontAwesomeIcon icon={faChevronRight} />}
+				</span>
+			)}
+		</button>
 	);
-}
+});
 
 export default MenuItem;

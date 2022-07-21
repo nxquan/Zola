@@ -1,11 +1,17 @@
+.menu-list {
+	padding: 8px;
+	margin: 0 -8px;
+}
+
 .menu-item {
-	padding: 0 8px;
+	padding: 0 32px 0 16px;
+	width: 100%;
+	height: 32px;
 	font-size: 1.4rem;
 	text-align: left;
-	height: 32px;
 	display: flex;
 	align-items: center;
-	width: 100%;
+	border-radius: 0;
 	& + .menu-item {
 		margin-top: 0;
 	}
@@ -23,4 +29,23 @@
 	&.warning {
 		color: #db342e;
 	}
+	&:hover {
+		cursor: pointer;
+		background-color: #f4f5f7;
+	}
+
+	.title {
+		flex-shrink: 0;
+	}
+}
+.icon {
+	flex-shrink: 0;
+}
+.icon + .title {
+	margin-left: 8px;
+}
+.right-icon {
+	margin-left: auto;
+	margin-right: -24px;
+	color: #abb4bc;
 }
