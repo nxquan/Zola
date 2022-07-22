@@ -1,31 +1,7 @@
 @import 'normalize.css';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
 //Embedded fonts
-@font-face {
-	font-family: SegoeUI;
-	src: url('/assets/fonts/Segoe UI Bold Italic.ttf');
-	font-weight: 700;
-	font-style: italic;
-}
-
-@font-face {
-	font-family: SegoeUI;
-	src: url('/assets/fonts/Segoe UI Bold.ttf');
-	font-weight: 700;
-}
-
-@font-face {
-	font-family: SegoeUI;
-	src: url('/assets/fonts/Segoe UI Italic.ttf');
-	font-style: italic;
-}
-
-@font-face {
-	font-family: SegoeUI;
-	src: url('/assets/fonts/Segoe UI.ttf');
-}
 
 :root {
 	--white-color: #fff;
@@ -45,6 +21,7 @@
 }
 html {
 	font-size: 62.5%;
+	font-family: 'Roboto', sans-serif;
 }
 body {
 	font-size: 1.6rem;
@@ -54,6 +31,7 @@ input {
 	border: none;
 	outline: none;
 	background-color: transparent;
+	font-family: 'Roboto', sans-serif;
 }
 
 a {

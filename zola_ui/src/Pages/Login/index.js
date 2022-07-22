@@ -88,7 +88,12 @@ function Login() {
 						<img className={cx('qrcode-img')} src={images.download} alt="QR Code" />
 						<div className={cx('qrcode-expired')}>
 							<p>Mã QR hết hạn</p>
-							<Button primary small onClick={() => setLoginQR(true)}>
+							<Button
+								className={cx('qrcode-btn')}
+								primary
+								small
+								onClick={() => setLoginQR(true)}
+							>
 								Lấy mã mới
 							</Button>
 						</div>

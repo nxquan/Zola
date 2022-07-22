@@ -6,11 +6,12 @@ import MenuItem from './MenuItem';
 import WrapPopper from '@/components/Popper';
 const cx = classNames.bind(styles);
 
-function Menu({ items }) {
+const defaultFn = () => {};
+
+function Menu({ items, onChange = defaultFn }) {
 	const renderItem = () => {
 		return items.map((item, index) => {
 			if (item.children) {
-				Menu({ items: item.children });
 				return (
 					<Tippy
 						key={index}
@@ -30,7 +31,16 @@ function Menu({ items }) {
 					</Tippy>
 				);
 			} else {
-				return <MenuItem key={index} item={item} className={item.className} />;
+				return (
+					<MenuItem
+						onClick={() => {
+							onChange(item);
+						}}
+						key={index}
+						item={item}
+						className={item.className}
+					/>
+				);
 			}
 		});
 	};

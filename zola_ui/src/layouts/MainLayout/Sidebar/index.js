@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Tippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -26,7 +27,7 @@ import Menu from '@/components/Popper/Menu';
 
 const cx = classNames.bind(styles);
 
-let settingMenu = [
+const settingMenu = [
 	{
 		icon: <FontAwesomeIcon icon={faUser} />,
 		title: 'Thông tin tài khoản',
@@ -51,9 +52,11 @@ let settingMenu = [
 		children: [
 			{
 				title: 'Tiếng Việt',
+				type: 'language',
 			},
 			{
 				title: 'English',
+				type: 'language',
 			},
 		],
 	},
@@ -64,13 +67,28 @@ let settingMenu = [
 	{
 		icon: <FontAwesomeIcon icon={faRightFromBracket} />,
 		title: 'Đăng xuất',
-		separate: true,
 		className: 'warning',
+		separate: true,
+		type: 'LOG_OUT',
 	},
 ];
 
 function Sidebar({ children }) {
 	const [tab, setTab] = useState(0);
+	const [isShowedMenu, setIsShowedMenu] = useState(false);
+	const navigate = useNavigate();
+	const handleChangeMenu = (menuItem) => {
+		switch (menuItem.type) {
+			case 'LOG_OUT':
+				async function logOutUser() {
+					await localStorage.removeItem('user');
+					navigate('/login');
+				}
+				logOutUser();
+				break;
+			default:
+		}
+	};
 
 	return (
 		<div className={cx('wrapper')}>
@@ -95,26 +113,33 @@ function Sidebar({ children }) {
 					</div>
 				</div>
 				<div className={cx('nav-tab-bottom')}>
-					<NavItem active={tab === 4} onClick={() => setTab(4)} to="/me">
+					<NavItem to="/me">
 						<FontAwesomeIcon icon={faCloud} />
 					</NavItem>
 					<NavItem active={tab === 5} onClick={() => setTab(5)}>
 						<FontAwesomeIcon icon={faBriefcase} />
 					</NavItem>
 					<Tippy
+						visible={isShowedMenu}
 						offset={[70, 0]}
 						interactive
 						placement="top"
-						hideOnClick={false}
 						render={(attrs) => (
 							<div className="content" tabIndex="-1" {...attrs}>
 								<WrapPopper>
-									<Menu items={settingMenu} />
+									<Menu items={settingMenu} onChange={handleChangeMenu} />
 								</WrapPopper>
 							</div>
 						)}
+						onClickOutside={() => setIsShowedMenu(false)}
 					>
-						<NavItem active={tab === 6} onClick={() => setTab(6)}>
+						<NavItem
+							active={tab === 6}
+							onClick={() => {
+								setIsShowedMenu(true);
+								setTab(6);
+							}}
+						>
 							<FontAwesomeIcon icon={faGear} />
 						</NavItem>
 					</Tippy>

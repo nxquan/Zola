@@ -2,21 +2,21 @@
 	display: block;
 	padding: 20px 15px;
 	color: #888;
-	font-size: 0.875rem;
+	font-size: 1.4rem;
 	font-weight: normal;
 	text-align: center;
 
 	a {
 		color: var(--primary-color);
-		font-size: 0.9rem;
 		text-decoration: underline;
+		margin-left: 6px;
 	}
 }
 
 .inner {
 	margin-top: 80px;
 	margin-bottom: 30px;
-	font-size: 0.8rem;
+	font-size: 1.2rem;
 	color: #555;
 	text-align: center;
 }
@@ -24,7 +24,7 @@
 	margin-bottom: 24px;
 }
 .lang {
-	font-size: 0.8rem;
+	font-size: 1.2rem;
 	color: var(--primary-color);
 	+ .lang {
 		margin-left: 8px;

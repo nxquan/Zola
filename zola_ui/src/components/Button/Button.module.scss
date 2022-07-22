@@ -1,12 +1,15 @@
 .wrapper {
 	background-color: transparent;
-	font-size: 0.875rem;
+	font-size: 1.4rem;
+
+	font-family: 'Roboto', sans-serif;
 	color: var(--black-color);
 	padding-left: 20px;
 	padding-right: 20px;
 	border-radius: 4px;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	text-align: center;
 	&:hover {
 		cursor: pointer;
