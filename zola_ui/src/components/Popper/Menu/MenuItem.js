@@ -8,17 +8,21 @@ import { forwardRef } from 'react';
 const cx = classNames.bind(styles);
 
 const MenuItem = forwardRef(({ item, className, onClick }, ref) => {
-	let classes = cx('menu-item', { separate: item.separate }, { [className]: className });
+	let classes = cx('menu-item', { [className]: className });
+
 	return (
-		<button className={classes} ref={ref} onClick={onClick}>
-			{item.icon && <span className={cx('icon')}>{item.icon}</span>}
-			<span className={cx('title')}>{item.title}</span>
-			{item.children && (
-				<span className={cx('icon', 'right-icon')}>
-					{<FontAwesomeIcon icon={faChevronRight} />}
-				</span>
-			)}
-		</button>
+		<>
+			{item.separate && <div className={cx('separate')}></div>}
+			<button className={classes} ref={ref} onClick={onClick}>
+				{item.icon && <span className={cx('icon')}>{item.icon}</span>}
+				<span className={cx('title')}>{item.title}</span>
+				{item.children && (
+					<span className={cx('icon', 'right-icon')}>
+						{<FontAwesomeIcon icon={faChevronRight} />}
+					</span>
+				)}
+			</button>
+		</>
 	);
 });
 

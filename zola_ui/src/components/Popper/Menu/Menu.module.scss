@@ -1,10 +1,10 @@
 .menu-list {
-	padding: 8px;
-	margin: 0 -8px;
+	padding: 8px 0;
 }
 
+//Menu item
 .menu-item {
-	padding: 0 32px 0 16px;
+	padding: 0 16px 0 16px;
 	width: 100%;
 	height: 32px;
 	font-size: 1.4rem;
@@ -21,14 +21,10 @@
 		flex-shrink: 0;
 		margin-right: 2px;
 	}
-
-	&.separate {
-		border-top: 1px solid #e1e4ea;
-	}
-
 	&.warning {
 		color: #db342e;
 	}
+
 	&:hover {
 		cursor: pointer;
 		background-color: #f4f5f7;
@@ -36,7 +32,13 @@
 
 	.title {
 		flex-shrink: 0;
+		letter-spacing: 0.3px;
 	}
+}
+.separate {
+	height: 1px;
+	background: #e1e4ea;
+	margin: 4px 16px;
 }
 .icon {
 	flex-shrink: 0;
@@ -46,6 +48,5 @@
 }
 .right-icon {
 	margin-left: auto;
-	margin-right: -24px;
 	color: #abb4bc;
 }

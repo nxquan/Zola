@@ -34,12 +34,101 @@
 	flex-direction: column;
 	justify-content: space-between;
 }
+.menu-list--width {
+	width: 208px;
+}
+.language-icon,
+.message-icon {
+	visibility: hidden;
+	color: var(--primary-active-color);
+	margin-left: -8px;
+	&.show {
+		visibility: visible;
+	}
+}
 
 //AUXILIARY SIDEBAR
-.inner {
-	height: max(100vh - 128px - 36.67px, 100vh - 97px - 36.67px);
-	overflow: overlay;
+.content {
+	display: flex;
+	flex-direction: column;
+	height: calc(100vh - var(--height-search));
+}
 
+.category {
+	margin: 0 16px;
+	.category-list {
+		height: 1px;
+		display: flex;
+		border-bottom: 1px solid #eaecf0;
+		.category-item {
+			height: 0;
+			overflow: hidden;
+		}
+		&.active {
+			height: 32px;
+			.category-item {
+				height: auto;
+				overflow: visible;
+			}
+		}
+	}
+	.category-count {
+		background-color: #db342e;
+		color: var(--white-color);
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		font-size: 0.9rem;
+		position: absolute;
+		top: -25%;
+		right: -8%;
+		text-align: center;
+		line-height: 12px;
+	}
+	.category-btn--open {
+		padding: 0;
+		font-size: 1.4rem;
+		font-weight: 500;
+		height: 32px;
+		width: 100%;
+		justify-content: flex-start;
+		&:hover {
+			color: #333;
+			text-decoration: none;
+		}
+		svg {
+			color: #abb4bc;
+		}
+	}
+	.category-item {
+		height: 24px;
+		position: relative;
+
+		&.active {
+			.category-btn {
+				background-color: #0068ff;
+				color: var(--white-color);
+			}
+		}
+	}
+	.category-btn {
+		padding: 4px 10px;
+		font-size: 1.2rem;
+	}
+	.category-item + .category-item {
+		margin-left: 4px;
+	}
+}
+
+.actions {
+	margin: 0 16px;
+	padding: 12px 0 8px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.inner {
+	overflow: overlay;
 	&::-webkit-scrollbar {
 		width: 8px;
 		height: 8px;
@@ -48,12 +137,6 @@
 		background-color: #ced1d5;
 		border-radius: 4px;
 	}
-}
-.actions {
-	margin: 0 16px;
-	padding: 12px 0 8px;
-	display: flex;
-	justify-content: space-between;
 }
 
 .action-btn {
@@ -67,14 +150,12 @@
 	}
 	svg {
 		margin-left: 6px;
-		font-weight: 100;
 	}
 }
 .action-btn--primary {
 	font-size: 1.3rem;
 	font-weight: 400;
 	color: #0068ff;
-
 	&:hover {
 		color: #004bb9;
 	}
