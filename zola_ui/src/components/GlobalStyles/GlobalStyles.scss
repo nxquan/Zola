@@ -1,8 +1,6 @@
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
-//Embedded fonts
-
 :root {
 	--white-color: #fff;
 	--text-color: #6f6f6f;
@@ -11,7 +9,7 @@
 	--primary-active-color: #006edc;
 	--error-color: #dd4b39;
 
-	--width-sidebar: 350px;
+	--width-sidebar: 376px;
 	--width-main-bar: 64px;
 }
 * {
@@ -34,7 +32,7 @@ input {
 	font-family: 'Roboto', sans-serif;
 }
 
-a {
+a[href] {
 	text-decoration: none;
 }
 

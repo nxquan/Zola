@@ -64,7 +64,7 @@ function Register() {
 
 			if (data.status) {
 				toast.success(data.msg, toastOptions);
-				setUser((prev) => ({ phone: '', password: '', confirmpassword: '' }));
+				setUser((prev) => ({ phone: '', username: '', password: '', confirmpassword: '' }));
 			} else {
 				toast.error(data.msg, toastOptions);
 			}

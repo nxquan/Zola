@@ -1,12 +1,13 @@
 .wrapper {
+	color: var(--black-color);
 	background-color: transparent;
 	font-size: 1.4rem;
-
-	font-family: 'Roboto', sans-serif;
-	color: var(--black-color);
+	padding-top: 4px;
+	padding-bottom: 4px;
 	padding-left: 20px;
 	padding-right: 20px;
 	border-radius: 4px;
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -41,6 +42,15 @@
 		color: var(--primary-color);
 	}
 }
+.rounded {
+	background-color: #e8eaef;
+	color: #001a33;
+	border-radius: 9999px;
+
+	&:hover {
+		background-color: #e1e4ea;
+	}
+}
 .disabled {
 	opacity: 0.5;
 	pointer-events: none;
@@ -49,7 +59,7 @@
 	height: 30px;
 	line-height: 30px;
 	& .icon {
-		font-size: 0.6rem;
+		font-size: 0.9rem;
 	}
 }
 

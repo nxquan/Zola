@@ -1,0 +1,147 @@
+.wrapper {
+	background-color: var(--white-color);
+	width: 100%;
+}
+.search {
+	height: 64px;
+	min-height: 64px;
+	display: flex;
+	align-items: center;
+	margin: 0 15px 0 16px;
+	.form-group {
+		width: 208px;
+		height: 32px;
+		background-color: #e8eaef;
+		border-radius: 9999px;
+		display: flex;
+		align-items: center;
+
+		&:focus-within {
+			background-color: var(--white-color);
+			border: 1px solid var(--primary-active-color);
+		}
+	}
+	.form-icon {
+		width: 14px;
+		color: #72808e;
+		font-size: 1.4rem;
+		margin: 0 8px 0 12px;
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+	.form-input {
+		width: 30px;
+		font-size: 1.5rem;
+		flex: 1;
+	}
+
+	.form-btns {
+		height: 32px;
+		display: flex;
+		align-items: center;
+		flex-shrink: 0;
+		.form-btn {
+			width: 32px;
+			height: 32px;
+			margin-left: 4px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 50%;
+			&:hover {
+				background-color: #eeeff2;
+				cursor: pointer;
+			}
+
+			svg {
+				color: #666b70;
+			}
+		}
+		.form-btn-close {
+			padding: 7px 16px;
+			font-size: 1.4rem;
+			font-weight: 500;
+			margin-left: 3px;
+			background-color: var(--white-color);
+			&:hover {
+				background-color: #eeeff2;
+				cursor: pointer;
+			}
+		}
+	}
+	.clear {
+		margin: 0 8px;
+		color: #72808e;
+		font-size: 1.5rem;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}
+.category {
+	margin: 0 16px;
+	.category-list {
+		height: 1px;
+		display: flex;
+		border-bottom: 1px solid #eaecf0;
+		.category-item {
+			height: 0;
+			overflow: hidden;
+		}
+		&.active {
+			height: 32px;
+			.category-item {
+				height: auto;
+				overflow: visible;
+			}
+		}
+	}
+	.category-count {
+		background-color: #db342e;
+		color: var(--white-color);
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		font-size: 0.9rem;
+		position: absolute;
+		top: -25%;
+		right: -8%;
+		text-align: center;
+		line-height: 12px;
+	}
+	.category-btn--open {
+		padding: 0;
+		font-size: 1.4rem;
+		font-weight: 500;
+		height: 32px;
+		width: 100%;
+		justify-content: flex-start;
+		&:hover {
+			color: #333;
+			text-decoration: none;
+		}
+		svg {
+			color: #abb4bc;
+		}
+	}
+	.category-item {
+		height: 24px;
+		position: relative;
+
+		&.active {
+			.category-btn {
+				background-color: #0068ff;
+				color: var(--white-color);
+			}
+		}
+	}
+	.category-btn {
+		padding: 4px 10px;
+		font-size: 1.2rem;
+	}
+	.category-item + .category-item {
+		margin-left: 4px;
+	}
+}

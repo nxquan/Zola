@@ -15,16 +15,18 @@ import {
 	faGlobe,
 	faCircleInfo,
 	faRightFromBracket,
+	faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
-import classNames from 'classnames/bind';
 
+import classNames from 'classnames/bind';
 import styles from './Sidebar.module.scss';
+
 import Search from '../Search';
 import NavItem from '@/components/NavItem';
 import images from '@/assets/images';
 import WrapPopper from '@/components/Popper';
 import Menu from '@/components/Popper/Menu';
-
+import Account from '@/components/Account';
 const cx = classNames.bind(styles);
 
 const settingMenu = [
@@ -72,10 +74,34 @@ const settingMenu = [
 		type: 'LOG_OUT',
 	},
 ];
-
+const typeMessage = [
+	{
+		title: 'Hiển thị tất cả tin nhắn',
+	},
+	{
+		title: 'Chỉ tin nhắn chưa đọc',
+	},
+	{
+		title: 'Chỉ tin nhắn từ người lạ',
+	},
+];
+const typeActionMenu = [
+	{
+		title: 'Đánh dấu tin đã đã đọc',
+	},
+	{
+		title: 'Gửi tin đồng thời',
+	},
+	{
+		title: 'Chuyển sang giao diện mới',
+		separate: true,
+	},
+];
 function Sidebar({ children }) {
 	const [tab, setTab] = useState(0);
 	const [isShowedMenu, setIsShowedMenu] = useState(false);
+	const [isShowedTypeMessageMenu, setIsShowedTypeMessageMenu] = useState(false);
+	const [isShowedTypeActionMenu, setIsShowedTypeActionMenu] = useState(false);
 	const navigate = useNavigate();
 	const handleChangeMenu = (menuItem) => {
 		switch (menuItem.type) {
@@ -149,7 +175,68 @@ function Sidebar({ children }) {
 			<div className={cx('aux-bar')}>
 				<Search />
 				<div className={cx('container')}>
-					<div className={cx('content')}>{children}</div>
+					<div className={cx('content')}>
+						<div className={cx('actions')}>
+							<Tippy
+								visible={isShowedTypeMessageMenu}
+								interactive
+								offset={[0, 1]}
+								placement="bottom-start"
+								render={(attrs) => (
+									<div className="content" tabIndex="-1" {...attrs}>
+										<WrapPopper>
+											<Menu items={typeMessage} />
+										</WrapPopper>
+									</div>
+								)}
+								onClickOutside={() => setIsShowedTypeMessageMenu(false)}
+							>
+								<button
+									className={cx('action-btn')}
+									onClick={() => setIsShowedTypeMessageMenu(true)}
+								>
+									Tất cả tin nhắn
+									<FontAwesomeIcon icon={faChevronDown} />
+								</button>
+							</Tippy>
+							<Tippy
+								visible={isShowedTypeActionMenu}
+								interactive
+								offset={[0, 1]}
+								placement="bottom-start"
+								render={(attrs) => (
+									<div className="content" tabIndex="-1" {...attrs}>
+										<WrapPopper>
+											<Menu items={typeActionMenu} />
+										</WrapPopper>
+									</div>
+								)}
+								onClickOutside={() => setIsShowedTypeActionMenu(false)}
+							>
+								<button
+									className={cx('action-btn', 'action-btn--primary')}
+									onClick={() => setIsShowedTypeActionMenu(true)}
+								>
+									Thao tác
+								</button>
+							</Tippy>
+						</div>
+						<div className={cx('inner')}>
+							<Account selected />
+							<Account />
+							<Account />
+							<Account />
+							<Account />
+							<Account />
+							<Account />
+							<Account />
+							<Account />
+							<Account />
+							<Account />
+							<Account />
+							<Account />
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
