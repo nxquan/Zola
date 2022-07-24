@@ -24,13 +24,13 @@ import {
 import classNames from 'classnames/bind';
 import styles from './Sidebar.module.scss';
 
+import WrapPopper from '@/components/Popper';
+import Menu from '@/components/Popper/Menu';
 import Search from '../Search';
 import NavItem from '@/components/NavItem';
 import images from '@/assets/images';
-import WrapPopper from '@/components/Popper';
-import Menu from '@/components/Popper/Menu';
-import Account from '@/components/Account';
 import Button from '@/components/Button';
+import Contacts from '@/components/Contacts';
 
 const cx = classNames.bind(styles);
 
@@ -110,14 +110,14 @@ const typeActionMenu = [
 	},
 ];
 
-function Sidebar({ children }) {
+function Sidebar({ currentUser, contacts, children }) {
 	const [tab, setTab] = useState(0);
 	const [isShowedMenu, setIsShowedMenu] = useState(false);
 	const [isShowedTypeMessageMenu, setIsShowedTypeMessageMenu] = useState(false);
 	const [isShowedTypeActionMenu, setIsShowedTypeActionMenu] = useState(false);
 	const [showCategory, setShowCategory] = useState(false);
-
 	const navigate = useNavigate();
+
 	const handleChangeMenu = (menuItem) => {
 		switch (menuItem.type) {
 			case 'LOG_OUT':
@@ -278,19 +278,7 @@ function Sidebar({ children }) {
 							</Tippy>
 						</div>
 						<div className={cx('inner')}>
-							<Account selected />
-							<Account />
-							<Account />
-							<Account />
-							<Account />
-							<Account />
-							<Account />
-							<Account />
-							<Account />
-							<Account />
-							<Account />
-							<Account />
-							<Account />
+							<Contacts contacts={contacts} />
 						</div>
 					</div>
 				</div>

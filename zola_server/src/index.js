@@ -10,10 +10,6 @@ const app = express();
 app.use(cors());
 app.use(morgan('combined'));
 
-app.get('/', (req, res) => {
-	res.send('Hello World!');
-});
-
 app.use(
 	express.urlencoded({
 		extended: true,
@@ -22,6 +18,9 @@ app.use(
 app.use(express.json());
 
 db.connect();
+app.get('/', (req, res) => {
+	res.send('Hello World!');
+});
 route(app);
 
 app.listen(5000, () => {
