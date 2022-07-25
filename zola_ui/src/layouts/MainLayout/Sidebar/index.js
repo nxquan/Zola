@@ -31,6 +31,7 @@ import NavItem from '@/components/NavItem';
 import images from '@/assets/images';
 import Button from '@/components/Button';
 import Contacts from '@/components/Contacts';
+import Image from '@/components/Image';
 
 const cx = classNames.bind(styles);
 
@@ -110,7 +111,7 @@ const typeActionMenu = [
 	},
 ];
 
-function Sidebar({ currentUser, contacts, children }) {
+function Sidebar({ currentUser, contacts, children, onChangeChat }) {
 	const [tab, setTab] = useState(0);
 	const [isShowedMenu, setIsShowedMenu] = useState(false);
 	const [isShowedTypeMessageMenu, setIsShowedTypeMessageMenu] = useState(false);
@@ -137,24 +138,24 @@ function Sidebar({ currentUser, contacts, children }) {
 				<div>
 					<div className={cx('nav-tab-top')}>
 						<div className={cx('nav-tab-avt')}>
-							<img alt="Avatar" src={images.avt} />
+							<Image alt="Avatar" src={currentUser.profilePicture} />
 						</div>
-						<NavItem active={tab === 0} onClick={() => setTab(0)} to="/message">
+						<NavItem active={tab === 0} onClick={() => setTab(0)}>
 							<FontAwesomeIcon icon={faCommentDots} />
 						</NavItem>
-						<NavItem active={tab === 1} onClick={() => setTab(1)} to="/contact">
+						<NavItem active={tab === 1} onClick={() => setTab(1)}>
 							<FontAwesomeIcon icon={faAddressBook} />
 						</NavItem>
-						<NavItem active={tab === 2} onClick={() => setTab(2)} to="/todo">
+						<NavItem active={tab === 2} onClick={() => setTab(2)}>
 							<FontAwesomeIcon icon={faSquareCheck} />
 						</NavItem>
-						<NavItem active={tab === 3} onClick={() => setTab(3)} to="/diary">
+						<NavItem active={tab === 3} onClick={() => setTab(3)}>
 							<FontAwesomeIcon icon={faClockFour} />
 						</NavItem>
 					</div>
 				</div>
 				<div className={cx('nav-tab-bottom')}>
-					<NavItem to="/me">
+					<NavItem>
 						<FontAwesomeIcon icon={faCloud} />
 					</NavItem>
 					<NavItem active={tab === 5} onClick={() => setTab(5)}>
@@ -278,7 +279,7 @@ function Sidebar({ currentUser, contacts, children }) {
 							</Tippy>
 						</div>
 						<div className={cx('inner')}>
-							<Contacts contacts={contacts} />
+							<Contacts onChangeChat={onChangeChat} contacts={contacts} />
 						</div>
 					</div>
 				</div>

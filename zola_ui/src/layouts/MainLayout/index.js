@@ -5,6 +5,7 @@ import axios from 'axios';
 import classNames from 'classnames/bind';
 import styles from './MainLayout.module.scss';
 import Sidebar from './Sidebar';
+import Welcome from '@/components/Welcome';
 import { getFriendsRoute, getInformationUser } from '@/utils/APIRoute';
 
 const cx = classNames.bind(styles);
@@ -12,6 +13,11 @@ const cx = classNames.bind(styles);
 function MainLayout({ children }) {
 	const [currentUser, setCurrentUser] = useState(undefined);
 	const [contacts, setContacts] = useState([]);
+	const [currentChat, setCurrentChat] = useState(undefined);
+
+	const handleChangeChat = (contact) => {
+		setCurrentChat(contact);
+	};
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -51,9 +57,15 @@ function MainLayout({ children }) {
 
 	return (
 		<div className={cx('wrapper')}>
-			<Sidebar contacts={contacts} currentUser={currentUser} />
+			<Sidebar
+				contacts={contacts}
+				currentUser={!!currentUser && currentUser}
+				onChangeChat={handleChangeChat}
+			/>
 			<div className={cx('container')}>
-				<div className={cx('content')}>{children}</div>
+				<div className={cx('content')}>
+					{currentChat === undefined ? <Welcome /> : <></>}
+				</div>
 			</div>
 		</div>
 	);
