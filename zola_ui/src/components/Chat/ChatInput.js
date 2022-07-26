@@ -10,10 +10,23 @@ import { MdFormatColorText, MdOutlineAttachFile } from 'react-icons/md';
 import classNames from 'classnames/bind';
 import ButtonIcon from '@/components/ButtonIcon';
 
+import { useState } from 'react';
+import Picker from 'emoji-picker-react';
+
 import styles from './Chat.module.scss';
 const cx = classNames.bind(styles);
 
 function ChatInput({ currentChat }) {
+	const [msg, setMsg] = useState('');
+	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+	const handleShowEmojiPicker = () => {
+		setShowEmojiPicker(!showEmojiPicker);
+	};
+	const onEmojiClick = (event, emojiObject) => {
+		let curMsg = msg;
+		curMsg += emojiObject.emoji;
+		setMsg(curMsg);
+	};
 	return (
 		<div className={cx('chat-input')}>
 			<div className={cx('chat-input-actions', 'chat-input-btns')}>
@@ -50,14 +63,17 @@ function ChatInput({ currentChat }) {
 					type="text"
 					className={cx('input')}
 					placeholder={`Nhập @, tin nhắn tới ${currentChat.username}`}
+					value={msg}
+					onChange={(e) => setMsg(e.target.value)}
 				/>
 				<div className={cx('chat-input-btns')}>
 					<ButtonIcon className={cx('chat-input-btn')}>
 						<BiMessageEdit />
 					</ButtonIcon>
-					<ButtonIcon className={cx('chat-input-btn')}>
+					<div className={cx('chat-input-btn', 'emoji')} onClick={handleShowEmojiPicker}>
 						<BsEmojiSmile />
-					</ButtonIcon>
+						{showEmojiPicker && <Picker onEmojiClick={onEmojiClick} disableSearchBar />}
+					</div>
 					<ButtonIcon className={cx('chat-input-btn')}>
 						<FaAt />
 					</ButtonIcon>
