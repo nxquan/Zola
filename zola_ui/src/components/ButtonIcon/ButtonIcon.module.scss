@@ -14,7 +14,10 @@
 	&.active {
 		background-color: var(--primary-active-color);
 	}
-
+	&.disabled {
+		opacity: 0.15;
+		pointer-events: none;
+	}
 	svg {
 		margin: auto;
 	}

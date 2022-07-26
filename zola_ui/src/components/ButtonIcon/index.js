@@ -6,7 +6,7 @@ import styles from './ButtonIcon.module.scss';
 
 const cx = classNames.bind(styles);
 
-const ButtonIcon = forwardRef(({ to, onClick, active, children, className }, ref) => {
+const ButtonIcon = forwardRef(({ to, onClick, active, disabled, children, className }, ref) => {
 	let Component = 'button';
 	let props = {
 		onClick,
@@ -15,7 +15,7 @@ const ButtonIcon = forwardRef(({ to, onClick, active, children, className }, ref
 		Component = Link;
 		props.to = to;
 	}
-	let classes = cx('wrapper', { [className]: className }, { active });
+	let classes = cx('wrapper', { [className]: className }, { active }, { disabled });
 	return (
 		<Component className={classes} ref={ref} onClick={onClick}>
 			{children}

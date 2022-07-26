@@ -8,11 +8,14 @@ import ChatInput from './ChatInput';
 const cx = classNames.bind(styles);
 
 function Chat({ currentUser, currentChat }) {
+	const handleSendChat = (msg) => {
+		alert(msg);
+	};
 	return (
 		<div className={cx('wrapper')}>
 			<ChatHeader currentChat={currentChat} />
 			<ChatMessage />
-			<ChatInput currentChat={currentChat} />
+			<ChatInput currentChat={currentChat} handleSendChat={handleSendChat} />
 		</div>
 	);
 }

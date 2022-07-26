@@ -3,10 +3,10 @@ import { IoImageOutline } from 'react-icons/io5';
 import { AiOutlineExclamation, AiFillLike } from 'react-icons/ai';
 
 import { BiMessageEdit, BiScreenshot } from 'react-icons/bi';
-import { FaRegAddressCard, FaAt } from 'react-icons/fa';
+import { FaRegAddressCard } from 'react-icons/fa';
 import { IoMdAlarm } from 'react-icons/io';
 import { MdFormatColorText, MdOutlineAttachFile } from 'react-icons/md';
-
+import { FiAtSign } from 'react-icons/fi';
 import classNames from 'classnames/bind';
 import ButtonIcon from '@/components/ButtonIcon';
 
@@ -16,7 +16,7 @@ import Picker from 'emoji-picker-react';
 import styles from './Chat.module.scss';
 const cx = classNames.bind(styles);
 
-function ChatInput({ currentChat }) {
+function ChatInput({ currentChat, handleSendChat }) {
 	const [msg, setMsg] = useState('');
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 	const handleShowEmojiPicker = () => {
@@ -26,6 +26,12 @@ function ChatInput({ currentChat }) {
 		let curMsg = msg;
 		curMsg += emojiObject.emoji;
 		setMsg(curMsg);
+	};
+	const sendChat = (msg) => {
+		if (msg.length > 0) {
+			handleSendChat(msg);
+			setMsg('');
+		}
 	};
 	return (
 		<div className={cx('chat-input')}>
@@ -74,11 +80,14 @@ function ChatInput({ currentChat }) {
 						<BsEmojiSmile />
 						{showEmojiPicker && <Picker onEmojiClick={onEmojiClick} disableSearchBar />}
 					</div>
-					<ButtonIcon className={cx('chat-input-btn')}>
-						<FaAt />
+					<ButtonIcon disabled={msg.length > 0} className={cx('chat-input-btn')}>
+						<FiAtSign />
 					</ButtonIcon>
-					<ButtonIcon className={cx('chat-input-btn', 'chat-input-btn--color')}>
-						<AiFillLike />
+					<ButtonIcon
+						className={cx('chat-input-btn', 'chat-input-btn--color')}
+						onClick={(e) => sendChat(msg)}
+					>
+						{!!msg ? <span className={cx('submit-text')}>GỬI</span> : <AiFillLike />}
 					</ButtonIcon>
 				</div>
 			</div>
