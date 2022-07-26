@@ -1,11 +1,10 @@
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import classNames from 'classnames/bind';
 import styles from './Slider.module.scss';
 import { slideWelcome } from './slideData';
 import { useRef, useState, useEffect } from 'react';
 import SlideDots from './SlideDots';
+
+import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 const cx = classNames.bind(styles);
 
 function Slider() {
@@ -53,10 +52,10 @@ function Slider() {
 	return (
 		<div className={cx('slider')}>
 			<button className={cx('slider-btn', 'prev')} onClick={() => handleChangeSlide('prev')}>
-				<FontAwesomeIcon icon={faChevronLeft} />
+				<BsChevronLeft />
 			</button>
 			<button className={cx('slider-btn', 'next')} onClick={() => handleChangeSlide('next')}>
-				<FontAwesomeIcon icon={faChevronRight} />
+				<BsChevronRight />
 			</button>
 			<div className={cx('slider-inner')} ref={slideContainerRef}>
 				{slideWelcome.map((slide) => {

@@ -21,12 +21,16 @@
 			border: 1px solid var(--primary-active-color);
 		}
 	}
-	.form-icon {
+	.form-label {
 		width: 14px;
-		color: #72808e;
-		font-size: 1.4rem;
 		margin: 0 8px 0 12px;
-
+		display: flex;
+		align-items: center;
+		svg {
+			flex-shrink: 0;
+			font-size: 1.6rem;
+			color: var(--icon-color);
+		}
 		&:hover {
 			cursor: pointer;
 		}
@@ -50,13 +54,20 @@
 			align-items: center;
 			justify-content: center;
 			border-radius: 50%;
+
+			&.form-btn--smaller {
+				svg {
+					font-size: 1.9rem;
+				}
+			}
 			&:hover {
 				background-color: #eeeff2;
 				cursor: pointer;
 			}
 
 			svg {
-				color: #666b70;
+				color: var(--icon-color);
+				font-size: 2rem;
 			}
 		}
 		.form-btn-close {

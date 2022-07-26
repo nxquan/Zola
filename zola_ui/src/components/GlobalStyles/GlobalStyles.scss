@@ -9,7 +9,7 @@
 	--primary-color: #0190f3;
 	--primary-active-color: #006edc;
 	--error-color: #dd4b39;
-
+	--icon-color: #666b70;
 	--width-sidebar: 376px;
 	--width-main-bar: 64px;
 	--height-search: 64px;
@@ -27,7 +27,8 @@ body {
 	font-size: 1.6rem;
 }
 button,
-input {
+input,
+textarea {
 	border: none;
 	outline: none;
 	background-color: transparent;

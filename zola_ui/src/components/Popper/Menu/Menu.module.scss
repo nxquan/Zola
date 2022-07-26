@@ -15,11 +15,14 @@
 	& + .menu-item {
 		margin-top: 0;
 	}
-	svg {
-		width: 14px;
-		height: 14px;
-		flex-shrink: 0;
+	.icon {
 		margin-right: 2px;
+		width: 15px;
+		height: 15px;
+	}
+	svg {
+		flex-shrink: 0;
+		font-size: 1.5rem;
 	}
 	&.warning {
 		color: #db342e;

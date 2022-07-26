@@ -7,12 +7,12 @@ import styles from './MainLayout.module.scss';
 import Sidebar from './Sidebar';
 import Welcome from '@/components/Welcome';
 import { getFriendsRoute, getInformationUser } from '@/utils/APIRoute';
-
+import Chat from '@/components/Chat';
 const cx = classNames.bind(styles);
 
 function MainLayout({ children }) {
-	const [currentUser, setCurrentUser] = useState(undefined);
 	const [contacts, setContacts] = useState([]);
+	const [currentUser, setCurrentUser] = useState(undefined);
 	const [currentChat, setCurrentChat] = useState(undefined);
 
 	const handleChangeChat = (contact) => {
@@ -64,7 +64,11 @@ function MainLayout({ children }) {
 			/>
 			<div className={cx('container')}>
 				<div className={cx('content')}>
-					{currentChat === undefined ? <Welcome /> : <></>}
+					{currentChat === undefined ? (
+						<Welcome />
+					) : (
+						<Chat currentUser={currentUser} currentChat={currentChat}></Chat>
+					)}
 				</div>
 			</div>
 		</div>

@@ -2,33 +2,43 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Tippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faCommentDots,
-	faAddressBook,
-	faSquareCheck,
-	faCloud,
-	faBriefcase,
-	faGear,
-	faClockFour,
-	faUser,
-	faFloppyDisk,
-	faGlobe,
-	faCircleInfo,
-	faRightFromBracket,
-	faChevronDown,
-	faCaretDown,
-	faCaretRight,
-	faCheck,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
+import {
+	FaRegCommentDots,
+	FaCommentDots,
+	FaRegAddressBook,
+	FaAddressBook,
+	FaRegCheckSquare,
+	FaCheckSquare,
+	FaRegClock,
+	FaClock,
+} from 'react-icons/fa';
+
+import {
+	AiOutlineCloud,
+	AiTwotoneCloud,
+	AiOutlineExclamationCircle,
+	AiOutlineLogout,
+} from 'react-icons/ai';
+import { IoBriefcase, IoBriefcaseOutline } from 'react-icons/io5';
+import {
+	BsGear,
+	BsGearFill,
+	BsGlobe,
+	BsChevronDown,
+	BsCaretDownFill,
+	BsCaretRightFill,
+} from 'react-icons/bs';
+import { FiUser } from 'react-icons/fi';
+import { ImFloppyDisk } from 'react-icons/im';
 import classNames from 'classnames/bind';
 import styles from './Sidebar.module.scss';
 
 import WrapPopper from '@/components/Popper';
 import Menu from '@/components/Popper/Menu';
 import Search from '../Search';
-import NavItem from '@/components/NavItem';
-import images from '@/assets/images';
+import ButtonIcon from '@/components/ButtonIcon';
 import Button from '@/components/Button';
 import Contacts from '@/components/Contacts';
 import Image from '@/components/Image';
@@ -37,15 +47,15 @@ const cx = classNames.bind(styles);
 
 const settingMenu = [
 	{
-		icon: <FontAwesomeIcon icon={faUser} />,
+		icon: <FiUser />,
 		title: 'Thông tin tài khoản',
 	},
 	{
-		icon: <FontAwesomeIcon icon={faGear} />,
+		icon: <BsGear />,
 		title: 'Cài đặt',
 	},
 	{
-		icon: <FontAwesomeIcon icon={faFloppyDisk} />,
+		icon: <ImFloppyDisk />,
 		title: 'Lưu trữ',
 		separate: true,
 		children: [
@@ -55,7 +65,7 @@ const settingMenu = [
 		],
 	},
 	{
-		icon: <FontAwesomeIcon icon={faGlobe} />,
+		icon: <BsGlobe />,
 		title: 'Ngôn ngữ',
 		children: [
 			{
@@ -71,11 +81,11 @@ const settingMenu = [
 		],
 	},
 	{
-		icon: <FontAwesomeIcon icon={faCircleInfo} />,
+		icon: <AiOutlineExclamationCircle />,
 		title: 'Giới thiệu',
 	},
 	{
-		icon: <FontAwesomeIcon icon={faRightFromBracket} />,
+		icon: <AiOutlineLogout />,
 		title: 'Đăng xuất',
 		className: 'warning',
 		separate: true,
@@ -111,7 +121,7 @@ const typeActionMenu = [
 	},
 ];
 
-function Sidebar({ currentUser, contacts, children, onChangeChat }) {
+function Sidebar({ currentUser, contacts, onChangeChat }) {
 	const [tab, setTab] = useState(0);
 	const [isShowedMenu, setIsShowedMenu] = useState(false);
 	const [isShowedTypeMessageMenu, setIsShowedTypeMessageMenu] = useState(false);
@@ -140,27 +150,51 @@ function Sidebar({ currentUser, contacts, children, onChangeChat }) {
 						<div className={cx('nav-tab-avt')}>
 							<Image alt="Avatar" src={currentUser.profilePicture} />
 						</div>
-						<NavItem active={tab === 0} onClick={() => setTab(0)}>
-							<FontAwesomeIcon icon={faCommentDots} />
-						</NavItem>
-						<NavItem active={tab === 1} onClick={() => setTab(1)}>
-							<FontAwesomeIcon icon={faAddressBook} />
-						</NavItem>
-						<NavItem active={tab === 2} onClick={() => setTab(2)}>
-							<FontAwesomeIcon icon={faSquareCheck} />
-						</NavItem>
-						<NavItem active={tab === 3} onClick={() => setTab(3)}>
-							<FontAwesomeIcon icon={faClockFour} />
-						</NavItem>
+						<ButtonIcon
+							className={cx('nav-tab-btn')}
+							active={tab === 0}
+							onClick={() => setTab(0)}
+						>
+							{tab !== 0 ? <FaRegCommentDots /> : <FaCommentDots />}
+						</ButtonIcon>
+						<ButtonIcon
+							className={cx('nav-tab-btn')}
+							active={tab === 1}
+							onClick={() => setTab(1)}
+						>
+							{tab !== 1 ? <FaRegAddressBook /> : <FaAddressBook />}
+						</ButtonIcon>
+						<ButtonIcon
+							className={cx('nav-tab-btn')}
+							active={tab === 2}
+							onClick={() => setTab(2)}
+						>
+							{tab !== 2 ? <FaRegCheckSquare /> : <FaCheckSquare />}
+						</ButtonIcon>
+						<ButtonIcon
+							className={cx('nav-tab-btn')}
+							active={tab === 3}
+							onClick={() => setTab(3)}
+						>
+							{tab !== 3 ? <FaRegClock /> : <FaClock />}
+						</ButtonIcon>
 					</div>
 				</div>
 				<div className={cx('nav-tab-bottom')}>
-					<NavItem>
-						<FontAwesomeIcon icon={faCloud} />
-					</NavItem>
-					<NavItem active={tab === 5} onClick={() => setTab(5)}>
-						<FontAwesomeIcon icon={faBriefcase} />
-					</NavItem>
+					<ButtonIcon
+						className={cx('nav-tab-btn')}
+						active={tab === 4}
+						onClick={() => setTab(4)}
+					>
+						{tab !== 4 ? <AiOutlineCloud /> : <AiTwotoneCloud />}
+					</ButtonIcon>
+					<ButtonIcon
+						className={cx('nav-tab-btn')}
+						active={tab === 5}
+						onClick={() => setTab(5)}
+					>
+						{tab !== 5 ? <IoBriefcaseOutline /> : <IoBriefcase />}
+					</ButtonIcon>
 					<Tippy
 						appendTo={() => document.body}
 						visible={isShowedMenu}
@@ -180,15 +214,16 @@ function Sidebar({ currentUser, contacts, children, onChangeChat }) {
 						)}
 						onClickOutside={() => setIsShowedMenu(false)}
 					>
-						<NavItem
+						<ButtonIcon
 							active={tab === 6}
 							onClick={() => {
 								setIsShowedMenu(true);
 								setTab(6);
 							}}
+							className={cx('nav-tab-btn')}
 						>
-							<FontAwesomeIcon icon={faGear} />
-						</NavItem>
+							{tab !== 6 ? <BsGear /> : <BsGearFill />}
+						</ButtonIcon>
 					</Tippy>
 				</div>
 			</div>
@@ -201,13 +236,7 @@ function Sidebar({ currentUser, contacts, children, onChangeChat }) {
 							<Button
 								className={cx('category-btn--open')}
 								text
-								leftIcon={
-									showCategory ? (
-										<FontAwesomeIcon icon={faCaretDown} />
-									) : (
-										<FontAwesomeIcon icon={faCaretRight} />
-									)
-								}
+								leftIcon={showCategory ? <BsCaretRightFill /> : <BsCaretDownFill />}
 								onClick={() => setShowCategory(!showCategory)}
 							>
 								Phân loại
@@ -252,7 +281,7 @@ function Sidebar({ currentUser, contacts, children, onChangeChat }) {
 									onClick={() => setIsShowedTypeMessageMenu(true)}
 								>
 									Tất cả tin nhắn
-									<FontAwesomeIcon icon={faChevronDown} />
+									<BsChevronDown />
 								</button>
 							</Tippy>
 							<Tippy

@@ -1,21 +1,21 @@
 import { useRef, useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
-import {
-	faCircleXmark,
-	faMagnifyingGlass,
-	faUser,
-	faUsers,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { IoSearchOutline } from 'react-icons/io5';
+import { FiUserPlus } from 'react-icons/fi';
+import { AiOutlineUsergroupAdd } from 'react-icons/ai';
+import { FaTimesCircle } from 'react-icons/fa';
 
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
 
 import Button from '@/components/Button';
+import ButtonIcon from '@/components/ButtonIcon';
 const cx = classNames.bind(styles);
 
 function Search() {
 	const [searchValue, setSearchValue] = useState('');
+	// eslint-disable-next-line no-unused-vars
 	const [showSearchResult, setShowSearchResult] = useState(false);
 
 	const inputRef = useRef();
@@ -27,8 +27,8 @@ function Search() {
 					render={(attrs) => <div className="box" tabIndex="-1" {...attrs}></div>}
 				>
 					<div className={cx('form-group')}>
-						<label htmlFor="form-input">
-							<FontAwesomeIcon className={cx('form-icon')} icon={faMagnifyingGlass} />
+						<label htmlFor="form-input" className={cx('form-label')}>
+							<IoSearchOutline />
 						</label>
 						<input
 							id="form-input"
@@ -46,7 +46,7 @@ function Search() {
 									inputRef.current.focus();
 								}}
 							>
-								<FontAwesomeIcon icon={faCircleXmark} />
+								<FaTimesCircle />
 							</button>
 						)}
 					</div>
@@ -54,12 +54,12 @@ function Search() {
 				<div className={cx('form-btns')}>
 					{!showSearchResult ? (
 						<>
-							<button className={cx('form-btn')}>
-								<FontAwesomeIcon icon={faUser} />
-							</button>
-							<button className={cx('form-btn')}>
-								<FontAwesomeIcon icon={faUsers} />
-							</button>
+							<ButtonIcon className={cx('form-btn', 'form-btn--smaller')}>
+								<FiUserPlus />
+							</ButtonIcon>
+							<ButtonIcon className={cx('form-btn')}>
+								<AiOutlineUsergroupAdd />
+							</ButtonIcon>
 						</>
 					) : (
 						<Button className={cx('form-btn-close')} rounded>

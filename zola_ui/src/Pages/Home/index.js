@@ -16,7 +16,7 @@ function Home() {
 	useEffect(() => {
 		const id = setTimeout(() => {
 			setIsLoading(!isLoading);
-		}, 1000);
+		}, 5000);
 
 		return () => {
 			clearTimeout(id);
@@ -34,7 +34,6 @@ function Home() {
 	return (
 		<div className={cx('wrapper')}>
 			{isLoading && <LoadingSpinner title="Đang đăng nhập..." />}
-			<h1>Home page</h1>
 		</div>
 	);
 }
