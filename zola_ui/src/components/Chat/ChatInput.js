@@ -22,17 +22,20 @@ function ChatInput({ currentChat, handleSendChat }) {
 	const handleShowEmojiPicker = () => {
 		setShowEmojiPicker(!showEmojiPicker);
 	};
+
 	const onEmojiClick = (event, emojiObject) => {
 		let curMsg = msg;
 		curMsg += emojiObject.emoji;
 		setMsg(curMsg);
 	};
+
 	const sendChat = (msg) => {
 		if (msg.length > 0) {
 			handleSendChat(msg);
 			setMsg('');
 		}
 	};
+
 	return (
 		<div className={cx('chat-input')}>
 			<div className={cx('chat-input-actions', 'chat-input-btns')}>
@@ -86,6 +89,7 @@ function ChatInput({ currentChat, handleSendChat }) {
 					<ButtonIcon
 						className={cx('chat-input-btn', 'chat-input-btn--color')}
 						onClick={(e) => sendChat(msg)}
+						type="submit"
 					>
 						{!!msg ? <span className={cx('submit-text')}>GỬI</span> : <AiFillLike />}
 					</ButtonIcon>

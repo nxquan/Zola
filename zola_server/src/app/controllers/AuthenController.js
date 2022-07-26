@@ -3,8 +3,7 @@ const User = require('../model/User');
 
 class AuthenController {
 	async register(req, res, next) {
-		const checkPhone = await User.findOne({ phone: req.body.phone });
-
+		let checkPhone = await User.findOne({ phone: req.body.phone });
 		if (checkPhone) return res.json({ msg: 'Số điện thoại đã được sử dụng', status: false });
 		bcrypt.genSalt(10, (err, salt) => {
 			bcrypt.hash(req.body.password, salt, function (err, hash) {
