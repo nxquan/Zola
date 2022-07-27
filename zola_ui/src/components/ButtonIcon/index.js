@@ -6,21 +6,24 @@ import styles from './ButtonIcon.module.scss';
 
 const cx = classNames.bind(styles);
 
-const ButtonIcon = forwardRef(({ to, onClick, active, disabled, children, className }, ref) => {
-	let Component = 'button';
-	let props = {
-		onClick,
-	};
-	if (to) {
-		Component = Link;
-		props.to = to;
+const ButtonIcon = forwardRef(
+	({ to, onClick, active, disabled, children, className, type }, ref) => {
+		let Component = 'button';
+		let props = {
+			onClick,
+			type,
+		};
+		if (to) {
+			Component = Link;
+			props.to = to;
+		}
+		let classes = cx('wrapper', { [className]: className }, { active }, { disabled });
+		return (
+			<Component className={classes} ref={ref} {...props}>
+				{children}
+			</Component>
+		);
 	}
-	let classes = cx('wrapper', { [className]: className }, { active }, { disabled });
-	return (
-		<Component className={classes} ref={ref} onClick={onClick}>
-			{children}
-		</Component>
-	);
-});
+);
 
 export default ButtonIcon;

@@ -12,18 +12,18 @@ import { addMessage, getAllMessages } from '@/utils/APIRoute';
 const cx = classNames.bind(styles);
 
 function Chat({ currentUser, currentChat, socket }) {
-	const curDate = new Date();
-
 	const [messages, setMessages] = useState([]);
 	const [arrivalMessage, setArrivalMessage] = useState(null);
 	const scrollRef = useRef();
 
 	const handleSendChat = async (msg) => {
+		let curDate = new Date();
 		await axios.post(addMessage, {
 			from: currentUser._id,
 			to: currentChat._id,
 			message: msg,
 		});
+
 		socket.current.emit('send-msg', {
 			from: currentUser._id,
 			to: currentChat._id,
@@ -35,7 +35,9 @@ function Chat({ currentUser, currentChat, socket }) {
 			{
 				fromSelf: true,
 				message: msg,
-				sendedTime: `2022-07-26T${curDate.getHours()}:${curDate.getMinutes()}:34.677+00:00`,
+				sendedTime: `2022-07-26T${curDate.getHours() - 7}:${
+					curDate.getMinutes() < 10 ? '0' + curDate.getMinutes() : curDate.getMinutes()
+				}:34.677+00:00`,
 			},
 		]);
 	};
@@ -59,12 +61,17 @@ function Chat({ currentUser, currentChat, socket }) {
 	}, [currentChat]);
 
 	useEffect(() => {
+		let curDate = new Date();
 		if (socket.current) {
 			socket.current.on('msg-receive', (msg) => {
 				setArrivalMessage({
 					fromSelf: false,
 					message: msg,
-					sendedTime: `2022-07-26T${curDate.getHours()}:${curDate.getMinutes()}:34.677+00:00`,
+					sendedTime: `2022-07-26T${curDate.getHours() - 7}:${
+						curDate.getMinutes() < 10
+							? '0' + curDate.getMinutes()
+							: curDate.getMinutes()
+					}:34.677+00:00`,
 				});
 			});
 		}

@@ -28,11 +28,13 @@ class MessageController {
 				users: { $all: [from, to] },
 			}).sort({ updatedAt: 1 });
 
-			const messages = plainMessages.map((msg) => ({
-				fromSelf: msg.sender.toString() === from,
-				message: msg.message.text,
-				sendedTime: msg.updatedAt,
-			}));
+			const messages = plainMessages.map((msg) => {
+				return {
+					fromSelf: msg.sender.toString() === from,
+					message: msg.message.text,
+					sendedTime: msg.updatedAt,
+				};
+			});
 
 			return res.json({ status: true, messages: messages });
 		} catch (error) {

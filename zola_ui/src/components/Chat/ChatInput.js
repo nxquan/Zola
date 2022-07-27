@@ -67,7 +67,13 @@ function ChatInput({ currentChat, handleSendChat }) {
 					<AiOutlineExclamation />
 				</ButtonIcon>
 			</div>
-			<div className={cx('chat-input-text')}>
+			<form
+				className={cx('chat-input-text')}
+				onSubmit={(e) => {
+					e.preventDefault();
+					sendChat(msg);
+				}}
+			>
 				<input
 					type="text"
 					className={cx('input')}
@@ -94,7 +100,7 @@ function ChatInput({ currentChat, handleSendChat }) {
 						{!!msg ? <span className={cx('submit-text')}>GỬI</span> : <AiFillLike />}
 					</ButtonIcon>
 				</div>
-			</div>
+			</form>
 		</div>
 	);
 }
