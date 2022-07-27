@@ -23,7 +23,7 @@ function Chat({ currentUser, currentChat }) {
 	return (
 		<div className={cx('wrapper')}>
 			<ChatHeader currentChat={currentChat} />
-			<ChatMessage />
+			<ChatMessage currentUser={currentUser} currentChat={currentChat} />
 			<ChatInput currentChat={currentChat} handleSendChat={handleSendChat} />
 		</div>
 	);
