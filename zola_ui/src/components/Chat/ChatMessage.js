@@ -1,33 +1,13 @@
-import { useEffect, useState } from 'react';
-
+import { forwardRef } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Chat.module.scss';
 import ChatItem from './ChatItem';
-import axios from 'axios';
-import { getAllMessages } from '@/utils/APIRoute';
 
 const cx = classNames.bind(styles);
 
-function ChatMessage({ currentUser, currentChat }) {
-	const [messages, setMessages] = useState([]);
-	useEffect(() => {
-		async function fetchMessage() {
-			const { data } = await axios.get(getAllMessages, {
-				params: {
-					from: currentUser._id,
-					to: currentChat._id,
-				},
-			});
-			if (data.status) {
-				setMessages(data.messages);
-			}
-		}
-		fetchMessage();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [currentChat]);
-
+const ChatMessage = forwardRef(({ messages }, ref) => {
 	return (
-		<div className={cx('chat-message')}>
+		<div className={cx('chat-message')} ref={ref}>
 			{messages.map((item, index) => {
 				let sameUser = false;
 				if (index >= 1 && messages[index - 1].fromSelf === item.fromSelf) {
@@ -37,6 +17,6 @@ function ChatMessage({ currentUser, currentChat }) {
 			})}
 		</div>
 	);
-}
+});
 
 export default ChatMessage;

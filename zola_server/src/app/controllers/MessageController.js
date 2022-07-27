@@ -28,8 +28,6 @@ class MessageController {
 				users: { $all: [from, to] },
 			}).sort({ updatedAt: 1 });
 
-			console.log('plainMessages', plainMessages);
-
 			const messages = plainMessages.map((msg) => ({
 				fromSelf: msg.sender.toString() === from,
 				message: msg.message.text,

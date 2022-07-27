@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
@@ -6,11 +6,13 @@ import classNames from 'classnames/bind';
 import styles from './MainLayout.module.scss';
 import Sidebar from './Sidebar';
 import Welcome from '@/components/Welcome';
-import { getFriendsRoute, getInformationUser } from '@/utils/APIRoute';
+import { getFriendsRoute, getInformationUser, host } from '@/utils/APIRoute';
 import Chat from '@/components/Chat';
+import { io } from 'socket.io-client';
 const cx = classNames.bind(styles);
 
 function MainLayout({ children }) {
+	const socketRef = useRef();
 	const [contacts, setContacts] = useState([]);
 	const [currentUser, setCurrentUser] = useState(undefined);
 	const [currentChat, setCurrentChat] = useState(undefined);
@@ -56,6 +58,13 @@ function MainLayout({ children }) {
 		}
 	}, [currentUser]);
 
+	useEffect(() => {
+		if (currentUser) {
+			socketRef.current = io(host);
+			socketRef.current.emit('add-user', currentUser._id);
+		}
+	}, [currentUser]);
+
 	return (
 		<div className={cx('wrapper')}>
 			<Sidebar
@@ -68,7 +77,11 @@ function MainLayout({ children }) {
 					{currentChat === undefined ? (
 						<Welcome />
 					) : (
-						<Chat currentUser={currentUser} currentChat={currentChat}></Chat>
+						<Chat
+							currentUser={currentUser}
+							currentChat={currentChat}
+							socket={socketRef}
+						></Chat>
 					)}
 				</div>
 			</div>
