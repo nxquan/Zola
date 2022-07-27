@@ -18,6 +18,7 @@ function MainLayout({ children }) {
 	const handleChangeChat = (contact) => {
 		setCurrentChat(contact);
 	};
+
 	const navigate = useNavigate();
 
 	useEffect(() => {

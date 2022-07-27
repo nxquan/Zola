@@ -4,13 +4,15 @@ import styles from './Chat.module.scss';
 import Image from '@/components/Image';
 const cx = classNames.bind(styles);
 
-function ChatItem({ message, self, sameUser }) {
+function ChatItem({ item, sameUser }) {
+	let classes = cx('chat-item', { sender: item.fromSelf }, { 'same-user': sameUser });
+
 	return (
-		<div className={cx('chat-item')}>
+		<div className={classes}>
 			<Image className={cx('chat-img')} />
 			<div className={cx('chat-inner')}>
-				<p className={cx('chat-content')}>Em bảo bạn nhanh chóng lên lấy bản chính rồi</p>
-				<span className={cx('chat-time')}> 08:09</span>
+				<p className={cx('chat-content')}>{item.message}</p>
+				<span className={cx('chat-time')}> {item.sendedTime.substr(11, 5)}</span>
 			</div>
 		</div>
 	);

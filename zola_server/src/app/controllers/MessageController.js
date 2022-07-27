@@ -22,14 +22,18 @@ class MessageController {
 
 	async getAllMessages(req, res, next) {
 		try {
-			const [from, to] = req.body;
+			const { from, to } = req.query;
+
 			const plainMessages = await Message.find({
 				users: { $all: [from, to] },
 			}).sort({ updatedAt: 1 });
 
+			console.log('plainMessages', plainMessages);
+
 			const messages = plainMessages.map((msg) => ({
 				fromSelf: msg.sender.toString() === from,
 				message: msg.message.text,
+				sendedTime: msg.updatedAt,
 			}));
 
 			return res.json({ status: true, messages: messages });
