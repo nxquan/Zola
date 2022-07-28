@@ -6,6 +6,7 @@ const cx = classNames.bind(styles);
 
 function ChatItem({ item, sameUser }) {
 	let classes = cx('chat-item', { sender: item.fromSelf }, { 'same-user': sameUser });
+
 	let hours = item.sendedTime.substr(11, 2);
 	let textHours;
 	let minutes = item.sendedTime.substr(14, 2);

@@ -5,16 +5,23 @@ import Image from '../Image';
 
 import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 import { FiVideo } from 'react-icons/fi';
-import { BsLayoutSidebarReverse } from 'react-icons/bs';
+import { BsLayoutSidebarReverse, BsChevronLeft } from 'react-icons/bs';
 import { IoSearchOutline } from 'react-icons/io5';
+
 import ButtonIcon from '../ButtonIcon';
 
 const cx = classNames.bind(styles);
 
-function ChatHeader({ currentChat }) {
+function ChatHeader({ currentChat, handleChangeChat }) {
 	return (
 		<div className={cx('header')}>
 			<div className={cx('header-infor')}>
+				<ButtonIcon
+					className={cx('header-back-btn')}
+					onClick={() => handleChangeChat(undefined)}
+				>
+					<BsChevronLeft />
+				</ButtonIcon>
 				<Image
 					src={currentChat.profilePicture}
 					alt="Avatar"

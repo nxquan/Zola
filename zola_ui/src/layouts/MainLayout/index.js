@@ -71,13 +71,15 @@ function MainLayout({ children }) {
 				contacts={contacts}
 				currentUser={!!currentUser && currentUser}
 				onChangeChat={handleChangeChat}
+				hideSidebar={!!currentChat}
 			/>
-			<div className={cx('container')}>
+			<div className={cx('container', { 'show-container': !!currentChat })}>
 				<div className={cx('content')}>
 					{currentChat === undefined ? (
-						<Welcome />
+						<Welcome className={'hide-welcome'} />
 					) : (
 						<Chat
+							handleChangeChat={handleChangeChat}
 							currentUser={currentUser}
 							currentChat={currentChat}
 							socket={socketRef}

@@ -13,6 +13,7 @@ function Contacts({ contacts, onChangeChat }) {
 		setCurrentSelected(index);
 		onChangeChat(contact);
 	};
+
 	return (
 		<div className={cx('wrapper')}>
 			{contacts.map((contact, index) => {

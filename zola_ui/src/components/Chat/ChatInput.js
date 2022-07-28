@@ -16,7 +16,7 @@ import Picker from 'emoji-picker-react';
 import styles from './Chat.module.scss';
 const cx = classNames.bind(styles);
 
-function ChatInput({ currentChat, handleSendChat }) {
+function ChatInput({ currentChat, handleSendChat, scrollRef }) {
 	const [msg, setMsg] = useState('');
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 	const handleShowEmojiPicker = () => {
@@ -80,6 +80,7 @@ function ChatInput({ currentChat, handleSendChat }) {
 					placeholder={`Nhập @, tin nhắn tới ${currentChat.username}`}
 					value={msg}
 					onChange={(e) => setMsg(e.target.value)}
+					onFocus={() => (scrollRef.current.scrollTop = scrollRef.current.scrollHeight)}
 				/>
 				<div className={cx('chat-input-btns')}>
 					<ButtonIcon className={cx('chat-input-btn')}>

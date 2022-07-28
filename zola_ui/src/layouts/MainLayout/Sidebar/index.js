@@ -121,7 +121,7 @@ const typeActionMenu = [
 	},
 ];
 
-function Sidebar({ currentUser, contacts, onChangeChat }) {
+function Sidebar({ currentUser, contacts, onChangeChat, hideSidebar }) {
 	const [tab, setTab] = useState(0);
 	const [isShowedMenu, setIsShowedMenu] = useState(false);
 	const [isShowedTypeMessageMenu, setIsShowedTypeMessageMenu] = useState(false);
@@ -143,7 +143,7 @@ function Sidebar({ currentUser, contacts, onChangeChat }) {
 	};
 
 	return (
-		<div className={cx('wrapper')}>
+		<div className={cx('wrapper', { 'hide-aux-sidebar': hideSidebar })}>
 			<div className={cx('main-bar')}>
 				<div>
 					<div className={cx('nav-tab-top')}>
@@ -153,7 +153,10 @@ function Sidebar({ currentUser, contacts, onChangeChat }) {
 						<ButtonIcon
 							className={cx('nav-tab-btn')}
 							active={tab === 0}
-							onClick={() => setTab(0)}
+							onClick={() => {
+								setTab(0);
+								onChangeChat(undefined);
+							}}
 						>
 							{tab !== 0 ? <FaRegCommentDots /> : <FaCommentDots />}
 						</ButtonIcon>

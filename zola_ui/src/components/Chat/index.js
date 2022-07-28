@@ -11,13 +11,13 @@ import { addMessage, getAllMessages } from '@/utils/APIRoute';
 
 const cx = classNames.bind(styles);
 
-function Chat({ currentUser, currentChat, socket }) {
+function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
+	let curDate = new Date();
 	const [messages, setMessages] = useState([]);
 	const [arrivalMessage, setArrivalMessage] = useState(null);
 	const scrollRef = useRef();
 
 	const handleSendChat = async (msg) => {
-		let curDate = new Date();
 		await axios.post(addMessage, {
 			from: currentUser._id,
 			to: currentChat._id,
@@ -30,16 +30,31 @@ function Chat({ currentUser, currentChat, socket }) {
 			msg,
 		});
 
-		setMessages((prev) => [
-			...prev,
-			{
-				fromSelf: true,
-				message: msg,
-				sendedTime: `2022-07-26T${curDate.getHours() - 7}:${
-					curDate.getMinutes() < 10 ? '0' + curDate.getMinutes() : curDate.getMinutes()
-				}:34.677+00:00`,
-			},
-		]);
+		setMessages((prev) => {
+			let years = curDate.getFullYear();
+			let months = curDate.getMonth() + 1;
+			let day = curDate.getDate();
+			let hours = curDate.getHours();
+			let minutes = curDate.getMinutes();
+			let seconds = curDate.getSeconds();
+			hours = Number(hours) - 7;
+			if (hours < 0) {
+				day += 1;
+				hours = 24 - (7 - hours);
+			}
+			return [
+				...prev,
+				{
+					fromSelf: true,
+					message: msg,
+					sendedTime: `${years}-${months < 10 ? '0' + months : months}-${
+						day < 10 ? '0' + day : day
+					}T${hours < 10 ? '0' + hours : hours}:${
+						minutes < 10 ? '0' + minutes : minutes
+					}:${seconds < 10 ? '0' + seconds : seconds}.000Z`,
+				},
+			];
+		});
 	};
 
 	useEffect(() => {
@@ -61,17 +76,27 @@ function Chat({ currentUser, currentChat, socket }) {
 	}, [currentChat]);
 
 	useEffect(() => {
-		let curDate = new Date();
+		let years = curDate.getFullYear();
+		let months = curDate.getMonth() + 1;
+		let day = curDate.getDate();
+		let hours = curDate.getHours();
+		let minutes = curDate.getMinutes();
+		let seconds = curDate.getSeconds();
+		hours = Number(hours) - 7;
+		if (hours < 0) {
+			day += 1;
+			hours = 24 - (7 - hours);
+		}
 		if (socket.current) {
 			socket.current.on('msg-receive', (msg) => {
 				setArrivalMessage({
 					fromSelf: false,
 					message: msg,
-					sendedTime: `2022-07-26T${curDate.getHours() - 7}:${
-						curDate.getMinutes() < 10
-							? '0' + curDate.getMinutes()
-							: curDate.getMinutes()
-					}:34.677+00:00`,
+					sendedTime: `${years}-${months < 10 ? '0' + months : months}-${
+						day < 10 ? '0' + day : day
+					}T${hours < 10 ? '0' + hours : hours}:${
+						minutes < 10 ? '0' + minutes : minutes
+					}:${seconds < 10 ? '0' + seconds : seconds}.000Z`,
 				});
 			});
 		}
@@ -86,15 +111,19 @@ function Chat({ currentUser, currentChat, socket }) {
 
 	useEffect(() => {
 		if (scrollRef.current) {
-			scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+			scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
 		}
 	}, [messages]);
 
 	return (
 		<div className={cx('wrapper')}>
-			<ChatHeader currentChat={currentChat} />
+			<ChatHeader handleChangeChat={handleChangeChat} currentChat={currentChat} />
 			<ChatMessage messages={messages} ref={scrollRef} />
-			<ChatInput currentChat={currentChat} handleSendChat={handleSendChat} />
+			<ChatInput
+				currentChat={currentChat}
+				handleSendChat={handleSendChat}
+				scrollRef={scrollRef}
+			/>
 		</div>
 	);
 }

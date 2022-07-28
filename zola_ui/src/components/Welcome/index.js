@@ -4,9 +4,9 @@ import styles from './Welcome.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Welcome() {
+function Welcome({ className }) {
 	return (
-		<div className={cx('wrapper')}>
+		<div className={cx('wrapper', { [className]: className })}>
 			<div className={cx('header')}>
 				<h2 className={cx('heading')}>
 					Chào mừng đến với <span>Zalo PC!</span>

@@ -163,3 +163,22 @@
 		color: #004bb9;
 	}
 }
+
+@media screen and (max-width: 739px) {
+	.wrapper {
+		flex: 1;
+		border-right: none;
+		width: auto;
+		&.hide-aux-sidebar {
+			width: var(--width-main-bar);
+			flex: 0;
+			.aux-bar {
+				flex: 0;
+				display: none;
+			}
+		}
+	}
+	.aux-bar {
+		flex: 1;
+	}
+}
