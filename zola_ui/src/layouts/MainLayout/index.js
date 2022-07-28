@@ -2,13 +2,15 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
+import { io } from 'socket.io-client';
+
 import classNames from 'classnames/bind';
 import styles from './MainLayout.module.scss';
 import Sidebar from './Sidebar';
 import Welcome from '@/components/Welcome';
+import Chat from '@/Pages/Chat';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import { getFriendsRoute, getInformationUser, host } from '@/utils/APIRoute';
-import Chat from '@/components/Chat';
-import { io } from 'socket.io-client';
 const cx = classNames.bind(styles);
 
 function MainLayout({ children }) {
@@ -16,6 +18,7 @@ function MainLayout({ children }) {
 	const [contacts, setContacts] = useState([]);
 	const [currentUser, setCurrentUser] = useState(undefined);
 	const [currentChat, setCurrentChat] = useState(undefined);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleChangeChat = (contact) => {
 		setCurrentChat(contact);
@@ -27,6 +30,7 @@ function MainLayout({ children }) {
 		async function getUserFromLocalStorage() {
 			if (!localStorage.getItem('user')) navigate('/login');
 			else {
+				setIsLoading(true);
 				let temp = await JSON.parse(localStorage.getItem('user'));
 				const { data } = await axios.get(getInformationUser, {
 					params: {
@@ -34,6 +38,7 @@ function MainLayout({ children }) {
 					},
 				});
 				setCurrentUser(data.infor);
+				setIsLoading(false);
 			}
 		}
 		getUserFromLocalStorage();
@@ -66,28 +71,34 @@ function MainLayout({ children }) {
 	}, [currentUser]);
 
 	return (
-		<div className={cx('wrapper')}>
-			<Sidebar
-				contacts={contacts}
-				currentUser={!!currentUser && currentUser}
-				onChangeChat={handleChangeChat}
-				hideSidebar={!!currentChat}
-			/>
-			<div className={cx('container', { 'show-container': !!currentChat })}>
-				<div className={cx('content')}>
-					{currentChat === undefined ? (
-						<Welcome className={'hide-welcome'} />
-					) : (
-						<Chat
-							handleChangeChat={handleChangeChat}
-							currentUser={currentUser}
-							currentChat={currentChat}
-							socket={socketRef}
-						></Chat>
-					)}
+		<>
+			{isLoading ? (
+				<LoadingSpinner title="Đang đăng nhập..." />
+			) : (
+				<div className={cx('wrapper')}>
+					<Sidebar
+						contacts={contacts}
+						currentUser={!!currentUser && currentUser}
+						onChangeChat={handleChangeChat}
+						hideSidebar={!!currentChat}
+					/>
+					<div className={cx('container', { 'show-container': !!currentChat })}>
+						<div className={cx('content')}>
+							{currentChat === undefined ? (
+								<Welcome className={'hide-welcome'} />
+							) : (
+								<Chat
+									handleChangeChat={handleChangeChat}
+									currentUser={currentUser}
+									currentChat={currentChat}
+									socket={socketRef}
+								></Chat>
+							)}
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
+			)}
+		</>
 	);
 }
 

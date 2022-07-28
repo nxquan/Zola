@@ -9,7 +9,7 @@ function LoadingSpinner({ title, icon, children }) {
 	return (
 		<div className={cx('wrapper')}>
 			<div className={cx('logo-wrapper')}>
-				<img className={cx('logo')} src={images.logo} />
+				<img alt="Logo Zalo" className={cx('logo')} src={images.logo} />
 			</div>
 			<div className={cx('spinner')}></div>
 			<div className={cx('content')}>

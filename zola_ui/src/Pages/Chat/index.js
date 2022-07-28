@@ -88,7 +88,7 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 			hours = 24 - (7 - hours);
 		}
 		if (socket.current) {
-			socket.current.on('msg-receive', (msg) => {
+			socket.current.on('receive-msg', (msg) => {
 				setArrivalMessage({
 					fromSelf: false,
 					message: msg,

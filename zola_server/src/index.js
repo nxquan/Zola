@@ -7,6 +7,7 @@ const route = require('./routes');
 const app = express();
 const server = require('http').createServer(app);
 const socket = require('socket.io');
+require('dotenv').config();
 
 const io = socket(server, {
 	cors: {
@@ -14,8 +15,6 @@ const io = socket(server, {
 		credentials: true,
 	},
 });
-
-require('dotenv').config();
 
 app.use(cors());
 app.use(morgan('combined'));
@@ -28,9 +27,11 @@ app.use(
 app.use(express.json());
 
 db.connect();
+
 app.get('/', (req, res) => {
 	res.send('Server is running, here!!');
 });
+
 route(app);
 
 global.onlineUsers = new Map();
@@ -45,7 +46,7 @@ io.on('connection', (client) => {
 	client.on('send-msg', (data) => {
 		const sendUser = onlineUsers.get(data.to);
 		if (sendUser) {
-			client.to(sendUser).emit('msg-receive', data.msg);
+			client.to(sendUser).emit('receive-msg', data.msg);
 		}
 	});
 });

@@ -1,14 +1,14 @@
 import classNames from 'classnames/bind';
 
 import styles from './Chat.module.scss';
-import Image from '../Image';
+import Image from '@/components/Image';
 
 import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 import { FiVideo } from 'react-icons/fi';
 import { BsLayoutSidebarReverse, BsChevronLeft } from 'react-icons/bs';
 import { IoSearchOutline } from 'react-icons/io5';
 
-import ButtonIcon from '../ButtonIcon';
+import ButtonIcon from '@/components/ButtonIcon';
 
 const cx = classNames.bind(styles);
 

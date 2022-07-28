@@ -239,7 +239,7 @@ function Sidebar({ currentUser, contacts, onChangeChat, hideSidebar }) {
 							<Button
 								className={cx('category-btn--open')}
 								text
-								leftIcon={showCategory ? <BsCaretRightFill /> : <BsCaretDownFill />}
+								leftIcon={showCategory ? <BsCaretDownFill /> : <BsCaretRightFill />}
 								onClick={() => setShowCategory(!showCategory)}
 							>
 								Phân loại
