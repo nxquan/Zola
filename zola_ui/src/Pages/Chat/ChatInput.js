@@ -1,31 +1,38 @@
 import { BsEmojiSmile, BsCheckSquare } from 'react-icons/bs';
 import { IoImageOutline } from 'react-icons/io5';
 import { AiOutlineExclamation, AiFillLike } from 'react-icons/ai';
-
 import { BiMessageEdit, BiScreenshot } from 'react-icons/bi';
 import { FaRegAddressCard } from 'react-icons/fa';
 import { IoMdAlarm } from 'react-icons/io';
 import { MdFormatColorText, MdOutlineAttachFile } from 'react-icons/md';
 import { FiAtSign } from 'react-icons/fi';
+
 import classNames from 'classnames/bind';
+import styles from './Chat.module.scss';
 import ButtonIcon from '@/components/ButtonIcon';
 
 import { useState } from 'react';
-import Picker from 'emoji-picker-react';
+import useClickOutside from '@/hooks/useClickOutside';
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
 
-import styles from './Chat.module.scss';
 const cx = classNames.bind(styles);
 
 function ChatInput({ currentChat, handleSendChat, scrollRef }) {
 	const [msg, setMsg] = useState('');
-	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-	const handleShowEmojiPicker = () => {
-		setShowEmojiPicker(!showEmojiPicker);
+	const { showEmoji, setShowEmoji, ref } = useClickOutside(false);
+
+	const handleShowEmojiPicker = (e) => {
+		if (ref.current && ref.current.contains(e.target)) {
+			setShowEmoji(true);
+		} else {
+			setShowEmoji((prev) => !prev);
+		}
 	};
 
-	const onEmojiClick = (event, emojiObject) => {
+	const onEmojiSelect = (emojiObject) => {
 		let curMsg = msg;
-		curMsg += emojiObject.emoji;
+		curMsg += emojiObject.native;
 		setMsg(curMsg);
 	};
 
@@ -88,7 +95,18 @@ function ChatInput({ currentChat, handleSendChat, scrollRef }) {
 					</ButtonIcon>
 					<div className={cx('chat-input-btn', 'emoji')} onClick={handleShowEmojiPicker}>
 						<BsEmojiSmile />
-						{showEmojiPicker && <Picker onEmojiClick={onEmojiClick} disableSearchBar />}
+						{showEmoji && (
+							<div className={cx('emoji-wrapper')} ref={ref}>
+								<Picker
+									data={data}
+									theme="light"
+									onEmojiSelect={onEmojiSelect}
+									searchPosition="none"
+									previewPosition="none"
+									navPosition="bottom"
+								/>
+							</div>
+						)}
 					</div>
 					<ButtonIcon disabled={msg.length > 0} className={cx('chat-input-btn')}>
 						<FiAtSign />

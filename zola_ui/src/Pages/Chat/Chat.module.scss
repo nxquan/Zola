@@ -155,29 +155,30 @@
 	display: flex;
 	align-items: center;
 }
-.chat-input-btn {
-	height: 40px;
-	width: 40px;
-	border-radius: 4px;
+.chat-input-btns {
+	.chat-input-btn {
+		height: 40px;
+		width: 40px;
+		border-radius: 4px;
 
-	& + & {
-		margin-left: 2px;
-	}
-	&:hover {
-		background-color: #eeeff2;
-		cursor: pointer;
-	}
-	&.chat-input-btn--color {
+		& + & {
+			margin-left: 2px;
+		}
+		&:hover {
+			background-color: #eeeff2;
+			cursor: pointer;
+		}
+		&.chat-input-btn--color {
+			svg {
+				color: #fac059;
+			}
+		}
 		svg {
-			color: #fac059;
+			font-size: 2.2rem;
+			color: #666b70;
 		}
 	}
-	svg {
-		font-size: 2.2rem;
-		color: #666b70;
-	}
 }
-
 .chat-input-text {
 	height: 55px;
 	padding: 0 16px;
@@ -198,18 +199,11 @@
 	.emoji {
 		display: flex;
 		position: relative;
-		svg {
-			margin: auto;
-		}
-		aside {
-			width: 340px;
-			padding-bottom: 10px;
+		& .emoji-wrapper {
 			position: absolute;
-			box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.18);
-			border: 1px solid #e1e4ea;
-			top: calc(-100% - 280px);
-			right: 0;
-
+			z-index: 20;
+			top: -435px;
+			right: calc(100% - 40px);
 			& ::-webkit-scrollbar {
 				width: 8px;
 				height: 8px;
@@ -218,6 +212,9 @@
 				background-color: #ced1d5;
 				border-radius: 4px;
 			}
+		}
+		svg {
+			margin: auto;
 		}
 	}
 
