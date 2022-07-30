@@ -18,9 +18,9 @@ import Picker from '@emoji-mart/react';
 
 const cx = classNames.bind(styles);
 
-function ChatInput({ currentChat, handleSendChat, scrollRef }) {
+function ChatInput({ currentChat, handleSendMsg, handleSendFile, scrollRef }) {
 	const [msg, setMsg] = useState('');
-	const { showEmoji, setShowEmoji, ref } = useClickOutside(false);
+	const { showEmoji, setShowEmoji, ref, containRef } = useClickOutside(false);
 
 	const handleShowEmojiPicker = (e) => {
 		if (ref.current && ref.current.contains(e.target)) {
@@ -38,7 +38,7 @@ function ChatInput({ currentChat, handleSendChat, scrollRef }) {
 
 	const sendChat = (msg) => {
 		if (msg.length > 0) {
-			handleSendChat(msg);
+			handleSendMsg(msg);
 			setMsg('');
 		}
 	};
@@ -50,10 +50,27 @@ function ChatInput({ currentChat, handleSendChat, scrollRef }) {
 					<BsEmojiSmile />
 				</ButtonIcon>
 				<ButtonIcon className={cx('chat-input-btn')}>
-					<IoImageOutline />
+					<label htmlFor="input-image" className={cx('input-label')}>
+						<IoImageOutline />
+					</label>
+					<input
+						id="input-image"
+						className={cx('input-file')}
+						type="file"
+						accept="image/png,image/jpeg,image/jpg"
+						onChange={(e) => handleSendFile(e.target.files[0], 'IMAGE')}
+					/>
 				</ButtonIcon>
 				<ButtonIcon className={cx('chat-input-btn')}>
-					<MdOutlineAttachFile />
+					<label htmlFor="input-file" className={cx('input-label')}>
+						<MdOutlineAttachFile />
+					</label>
+					<input
+						id="input-file"
+						className={cx('input-file')}
+						type="file"
+						onChange={(e) => handleSendFile(e.target.files[0])}
+					/>
 				</ButtonIcon>
 				<ButtonIcon className={cx('chat-input-btn')}>
 					<BiScreenshot />
@@ -93,7 +110,11 @@ function ChatInput({ currentChat, handleSendChat, scrollRef }) {
 					<ButtonIcon className={cx('chat-input-btn')}>
 						<BiMessageEdit />
 					</ButtonIcon>
-					<div className={cx('chat-input-btn', 'emoji')} onClick={handleShowEmojiPicker}>
+					<div
+						className={cx('chat-input-btn', 'emoji')}
+						onClick={handleShowEmojiPicker}
+						ref={containRef}
+					>
 						<BsEmojiSmile />
 						{showEmoji && (
 							<div className={cx('emoji-wrapper')} ref={ref}>

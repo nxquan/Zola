@@ -3,9 +3,26 @@ const mongoose = require('mongoose');
 const Message = new mongoose.Schema(
 	{
 		message: {
+			typeOfMessage: {
+				type: String,
+				default: 'text',
+			},
 			text: {
 				type: String,
-				required: true,
+			},
+			file: {
+				typeOfFile: {
+					type: String,
+				},
+				url: {
+					type: String,
+				},
+				filename: {
+					type: String,
+				},
+				size: {
+					type: Number,
+				},
 			},
 		},
 		users: Array,

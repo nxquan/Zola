@@ -8,3 +8,5 @@ export const getFriendsRoute = `${host}/api/user/get-friends`;
 
 export const addMessage = `${host}/api/message/add-message`;
 export const getAllMessages = `${host}/api/message/get-all-messages`;
+export const uploadImage = `${host}/api/message/upload-image`;
+export const uploadFile = `${host}/api/message/upload-file`;

@@ -3,7 +3,7 @@ var morgan = require('morgan');
 var cors = require('cors');
 const db = require('./config/db');
 const route = require('./routes');
-
+const path = require('path');
 const app = express();
 const server = require('http').createServer(app);
 const socket = require('socket.io');
@@ -15,7 +15,7 @@ const io = socket(server, {
 		credentials: true,
 	},
 });
-
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use(morgan('combined'));
 
@@ -46,7 +46,7 @@ io.on('connection', (client) => {
 	client.on('send-msg', (data) => {
 		const sendUser = onlineUsers.get(data.to);
 		if (sendUser) {
-			client.to(sendUser).emit('receive-msg', data.msg);
+			client.to(sendUser).emit('receive-msg', data.message);
 		}
 	});
 });
