@@ -8,7 +8,7 @@ import { forwardRef } from 'react';
 const cx = classNames.bind(styles);
 
 const MenuItem = forwardRef(({ item, className, onClick }, ref) => {
-	let classes = cx('menu-item', { [className]: className });
+	let classes = cx('menu-item', { [className]: className }, { heading: item.heading });
 
 	return (
 		<>

@@ -42,9 +42,26 @@ import ButtonIcon from '@/components/ButtonIcon';
 import Button from '@/components/Button';
 import Contacts from '@/components/Contacts';
 import Image from '@/components/Image';
+import Modal from '@/components/Modal';
 
 const cx = classNames.bind(styles);
-
+const profileMenu = [
+	{
+		title: 'Hồ sơ của bạn',
+		separate: true,
+		type: 'PROFILE',
+	},
+	{
+		title: 'Cài đặt',
+		type: 'SETTING',
+	},
+	{
+		title: 'Đăng xuất',
+		className: 'warning',
+		separate: true,
+		type: 'LOG_OUT',
+	},
+];
 const settingMenu = [
 	{
 		icon: <FiUser />,
@@ -127,9 +144,12 @@ function Sidebar({ currentUser, contacts, onChangeChat, hideSidebar }) {
 	const [isShowedTypeMessageMenu, setIsShowedTypeMessageMenu] = useState(false);
 	const [isShowedTypeActionMenu, setIsShowedTypeActionMenu] = useState(false);
 	const [showCategory, setShowCategory] = useState(false);
+	const [showProfileMenu, setShowProfileMenu] = useState(false);
+	const [showModal, setShowModal] = useState({ show: false, element: null });
+	let profileMenuWithUser = [{ title: currentUser.username, heading: true }, ...profileMenu];
 	const navigate = useNavigate();
 
-	const handleChangeMenu = (menuItem) => {
+	const handleChangeSettingMenu = (menuItem) => {
 		switch (menuItem.type) {
 			case 'LOG_OUT':
 				async function logOutUser() {
@@ -139,184 +159,233 @@ function Sidebar({ currentUser, contacts, onChangeChat, hideSidebar }) {
 				logOutUser();
 				break;
 			default:
+				console.log(menuItem);
+		}
+	};
+	const handleChangeProfileMenu = (menuItem) => {
+		switch (menuItem.type) {
+			case 'LOG_OUT':
+				async function logOutUser() {
+					await localStorage.removeItem('user');
+					navigate('/login');
+				}
+				logOutUser();
+				break;
+			case 'PROFILE':
+				setShowModal((prev) => ({
+					show: true,
+					element: '123',
+				}));
+				setShowProfileMenu(false);
+				break;
+			default:
 		}
 	};
 
 	return (
-		<div className={cx('wrapper', { 'hide-aux-sidebar': hideSidebar })}>
-			<div className={cx('main-bar')}>
-				<div>
-					<div className={cx('nav-tab-top')}>
-						<div className={cx('nav-tab-avt')}>
-							<Image alt="Avatar" src={currentUser.profilePicture} />
+		<>
+			<div className={cx('wrapper', { 'hide-aux-sidebar': hideSidebar })}>
+				<div className={cx('main-bar')}>
+					<div>
+						<div className={cx('nav-tab-top')}>
+							<Tippy
+								appendTo={() => document.body}
+								visible={showProfileMenu}
+								offset={[0, 0]}
+								interactive
+								placement="right-end"
+								render={(attrs) => (
+									<div className="content" tabIndex="-1" {...attrs}>
+										<WrapPopper>
+											<Menu
+												items={profileMenuWithUser}
+												className={cx('profile-menu-list--width')}
+												onChange={handleChangeProfileMenu}
+											/>
+										</WrapPopper>
+									</div>
+								)}
+								onClickOutside={() => setShowProfileMenu(false)}
+							>
+								<div
+									className={cx('nav-tab-avt')}
+									onClick={() => setShowProfileMenu(true)}
+								>
+									<Image alt="Avatar" src={currentUser.profilePicture} />
+								</div>
+							</Tippy>
+							<ButtonIcon
+								className={cx('nav-tab-btn')}
+								active={tab === 0}
+								onClick={() => {
+									setTab(0);
+									onChangeChat(undefined);
+								}}
+							>
+								{tab !== 0 ? <FaRegCommentDots /> : <FaCommentDots />}
+							</ButtonIcon>
+							<ButtonIcon
+								className={cx('nav-tab-btn')}
+								active={tab === 1}
+								onClick={() => setTab(1)}
+							>
+								{tab !== 1 ? <FaRegAddressBook /> : <FaAddressBook />}
+							</ButtonIcon>
+							<ButtonIcon
+								className={cx('nav-tab-btn')}
+								active={tab === 2}
+								onClick={() => setTab(2)}
+							>
+								{tab !== 2 ? <FaRegCheckSquare /> : <FaCheckSquare />}
+							</ButtonIcon>
+							<ButtonIcon
+								className={cx('nav-tab-btn')}
+								active={tab === 3}
+								onClick={() => setTab(3)}
+							>
+								{tab !== 3 ? <FaRegClock /> : <FaClock />}
+							</ButtonIcon>
 						</div>
+					</div>
+					<div className={cx('nav-tab-bottom')}>
 						<ButtonIcon
 							className={cx('nav-tab-btn')}
-							active={tab === 0}
-							onClick={() => {
-								setTab(0);
-								onChangeChat(undefined);
-							}}
+							active={tab === 4}
+							onClick={() => setTab(4)}
 						>
-							{tab !== 0 ? <FaRegCommentDots /> : <FaCommentDots />}
+							{tab !== 4 ? <AiOutlineCloud /> : <AiTwotoneCloud />}
 						</ButtonIcon>
 						<ButtonIcon
 							className={cx('nav-tab-btn')}
-							active={tab === 1}
-							onClick={() => setTab(1)}
+							active={tab === 5}
+							onClick={() => setTab(5)}
 						>
-							{tab !== 1 ? <FaRegAddressBook /> : <FaAddressBook />}
+							{tab !== 5 ? <IoBriefcaseOutline /> : <IoBriefcase />}
 						</ButtonIcon>
-						<ButtonIcon
-							className={cx('nav-tab-btn')}
-							active={tab === 2}
-							onClick={() => setTab(2)}
+						<Tippy
+							appendTo={() => document.body}
+							visible={isShowedMenu}
+							offset={[70, 0]}
+							interactive
+							placement="top"
+							render={(attrs) => (
+								<div className="content" tabIndex="-1" {...attrs}>
+									<WrapPopper>
+										<Menu
+											items={settingMenu}
+											className={cx('menu-list--width')}
+											onChange={handleChangeSettingMenu}
+										/>
+									</WrapPopper>
+								</div>
+							)}
+							onClickOutside={() => setIsShowedMenu(false)}
 						>
-							{tab !== 2 ? <FaRegCheckSquare /> : <FaCheckSquare />}
-						</ButtonIcon>
-						<ButtonIcon
-							className={cx('nav-tab-btn')}
-							active={tab === 3}
-							onClick={() => setTab(3)}
-						>
-							{tab !== 3 ? <FaRegClock /> : <FaClock />}
-						</ButtonIcon>
+							<ButtonIcon
+								active={tab === 6}
+								onClick={() => {
+									setIsShowedMenu(true);
+									setTab(6);
+								}}
+								className={cx('nav-tab-btn')}
+							>
+								{tab !== 6 ? <BsGear /> : <BsGearFill />}
+							</ButtonIcon>
+						</Tippy>
 					</div>
 				</div>
-				<div className={cx('nav-tab-bottom')}>
-					<ButtonIcon
-						className={cx('nav-tab-btn')}
-						active={tab === 4}
-						onClick={() => setTab(4)}
-					>
-						{tab !== 4 ? <AiOutlineCloud /> : <AiTwotoneCloud />}
-					</ButtonIcon>
-					<ButtonIcon
-						className={cx('nav-tab-btn')}
-						active={tab === 5}
-						onClick={() => setTab(5)}
-					>
-						{tab !== 5 ? <IoBriefcaseOutline /> : <IoBriefcase />}
-					</ButtonIcon>
-					<Tippy
-						appendTo={() => document.body}
-						visible={isShowedMenu}
-						offset={[70, 0]}
-						interactive
-						placement="top"
-						render={(attrs) => (
-							<div className="content" tabIndex="-1" {...attrs}>
-								<WrapPopper>
-									<Menu
-										items={settingMenu}
-										className={cx('menu-list--width')}
-										onChange={handleChangeMenu}
-									/>
-								</WrapPopper>
-							</div>
-						)}
-						onClickOutside={() => setIsShowedMenu(false)}
-					>
-						<ButtonIcon
-							active={tab === 6}
-							onClick={() => {
-								setIsShowedMenu(true);
-								setTab(6);
-							}}
-							className={cx('nav-tab-btn')}
-						>
-							{tab !== 6 ? <BsGear /> : <BsGearFill />}
-						</ButtonIcon>
-					</Tippy>
-				</div>
-			</div>
 
-			<div className={cx('aux-bar')}>
-				<Search />
-				<div className={cx('container')}>
-					<div className={cx('content')}>
-						<div className={cx('category')}>
-							<Button
-								className={cx('category-btn--open')}
-								text
-								leftIcon={showCategory ? <BsCaretDownFill /> : <BsCaretRightFill />}
-								onClick={() => setShowCategory(!showCategory)}
-							>
-								Phân loại
-							</Button>
-							<div className={cx('category-list', { active: showCategory })}>
-								<div className={cx('category-item', 'active')}>
-									<div className={cx('category-count')}>1</div>
-									<Button rounded className={cx('category-btn')}>
-										Tất cả
-									</Button>
-								</div>
-								<div className={cx('category-item')}>
-									<Button rounded className={cx('category-btn')}>
-										ƯU TIÊN
-									</Button>
-								</div>
-								<div className={cx('category-item')}>
-									<Button rounded className={cx('category-btn')}>
-										KHÁC
-									</Button>
+				<div className={cx('aux-bar')}>
+					<Search />
+					<div className={cx('container')}>
+						<div className={cx('content')}>
+							<div className={cx('category')}>
+								<Button
+									className={cx('category-btn--open')}
+									text
+									leftIcon={
+										showCategory ? <BsCaretDownFill /> : <BsCaretRightFill />
+									}
+									onClick={() => setShowCategory(!showCategory)}
+								>
+									Phân loại
+								</Button>
+								<div className={cx('category-list', { active: showCategory })}>
+									<div className={cx('category-item', 'active')}>
+										<div className={cx('category-count')}>1</div>
+										<Button rounded className={cx('category-btn')}>
+											Tất cả
+										</Button>
+									</div>
+									<div className={cx('category-item')}>
+										<Button rounded className={cx('category-btn')}>
+											ƯU TIÊN
+										</Button>
+									</div>
+									<div className={cx('category-item')}>
+										<Button rounded className={cx('category-btn')}>
+											KHÁC
+										</Button>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div className={cx('actions')}>
-							<Tippy
-								appendTo={() => document.body}
-								visible={isShowedTypeMessageMenu}
-								interactive
-								offset={[0, 1]}
-								placement="bottom-start"
-								render={(attrs) => (
-									<div className="content" tabIndex="-1" {...attrs}>
-										<WrapPopper>
-											<Menu items={typeMessage} />
-										</WrapPopper>
-									</div>
-								)}
-								onClickOutside={() => setIsShowedTypeMessageMenu(false)}
-							>
-								<button
-									className={cx('action-btn')}
-									onClick={() => setIsShowedTypeMessageMenu(true)}
+
+							<div className={cx('actions')}>
+								<Tippy
+									appendTo={() => document.body}
+									visible={isShowedTypeMessageMenu}
+									interactive
+									offset={[0, 1]}
+									placement="bottom-start"
+									render={(attrs) => (
+										<div className="content" tabIndex="-1" {...attrs}>
+											<WrapPopper>
+												<Menu items={typeMessage} />
+											</WrapPopper>
+										</div>
+									)}
+									onClickOutside={() => setIsShowedTypeMessageMenu(false)}
 								>
-									Tất cả tin nhắn
-									<BsChevronDown />
-								</button>
-							</Tippy>
-							<Tippy
-								appendTo={() => document.body}
-								visible={isShowedTypeActionMenu}
-								interactive
-								offset={[0, 1]}
-								placement="bottom-start"
-								render={(attrs) => (
-									<div className="content" tabIndex="-1" {...attrs}>
-										<WrapPopper>
-											<Menu items={typeActionMenu} />
-										</WrapPopper>
-									</div>
-								)}
-								onClickOutside={() => setIsShowedTypeActionMenu(false)}
-							>
-								<button
-									className={cx('action-btn', 'action-btn--primary')}
-									onClick={() => setIsShowedTypeActionMenu(true)}
+									<button
+										className={cx('action-btn')}
+										onClick={() => setIsShowedTypeMessageMenu(true)}
+									>
+										Tất cả tin nhắn
+										<BsChevronDown />
+									</button>
+								</Tippy>
+								<Tippy
+									appendTo={() => document.body}
+									visible={isShowedTypeActionMenu}
+									interactive
+									offset={[0, 1]}
+									placement="bottom-start"
+									render={(attrs) => (
+										<div className="content" tabIndex="-1" {...attrs}>
+											<WrapPopper>
+												<Menu items={typeActionMenu} />
+											</WrapPopper>
+										</div>
+									)}
+									onClickOutside={() => setIsShowedTypeActionMenu(false)}
 								>
-									Thao tác
-								</button>
-							</Tippy>
-						</div>
-						<div className={cx('inner')}>
-							<Contacts onChangeChat={onChangeChat} contacts={contacts} />
+									<button
+										className={cx('action-btn', 'action-btn--primary')}
+										onClick={() => setIsShowedTypeActionMenu(true)}
+									>
+										Thao tác
+									</button>
+								</Tippy>
+							</div>
+							<div className={cx('inner')}>
+								<Contacts onChangeChat={onChangeChat} contacts={contacts} />
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+			{showModal.show && <Modal>{showModal.element} </Modal>}
+		</>
 	);
 }
 

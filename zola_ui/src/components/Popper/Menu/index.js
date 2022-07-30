@@ -22,7 +22,7 @@ function Menu({ items, className, onChange = defaultFn }) {
 						render={(attrs) => (
 							<div className="content" tabIndex="-1" {...attrs}>
 								<WrapPopper>
-									<Menu items={item.children} />
+									<Menu items={item.children} onChange={onChange} />
 								</WrapPopper>
 							</div>
 						)}
@@ -34,7 +34,8 @@ function Menu({ items, className, onChange = defaultFn }) {
 			} else {
 				return (
 					<MenuItem
-						onClick={() => {
+						onClick={(e) => {
+							e.preventDefault();
 							onChange(item);
 						}}
 						key={index}
