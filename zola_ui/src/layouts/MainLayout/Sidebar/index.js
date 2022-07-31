@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Tippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
@@ -35,6 +34,7 @@ import { ImFloppyDisk } from 'react-icons/im';
 import classNames from 'classnames/bind';
 import styles from './Sidebar.module.scss';
 
+import Tippy from '@tippyjs/react/headless';
 import WrapPopper from '@/components/Popper';
 import Menu from '@/components/Popper/Menu';
 import Search from '../Search';
@@ -42,8 +42,9 @@ import ButtonIcon from '@/components/ButtonIcon';
 import Button from '@/components/Button';
 import Contacts from '@/components/Contacts';
 import Image from '@/components/Image';
-import Modal from '@/components/Modal';
 
+import Modal from '@/components/Modal';
+import Profile from '@/components/Profile';
 const cx = classNames.bind(styles);
 const profileMenu = [
 	{
@@ -145,7 +146,8 @@ function Sidebar({ currentUser, contacts, onChangeChat, hideSidebar }) {
 	const [isShowedTypeActionMenu, setIsShowedTypeActionMenu] = useState(false);
 	const [showCategory, setShowCategory] = useState(false);
 	const [showProfileMenu, setShowProfileMenu] = useState(false);
-	const [showModal, setShowModal] = useState({ show: false, element: null });
+	const [showModal, setShowModal] = useState(false);
+	const modalRef = useRef(null);
 	let profileMenuWithUser = [{ title: currentUser.username, heading: true }, ...profileMenu];
 	const navigate = useNavigate();
 
@@ -162,6 +164,7 @@ function Sidebar({ currentUser, contacts, onChangeChat, hideSidebar }) {
 				console.log(menuItem);
 		}
 	};
+
 	const handleChangeProfileMenu = (menuItem) => {
 		switch (menuItem.type) {
 			case 'LOG_OUT':
@@ -172,15 +175,26 @@ function Sidebar({ currentUser, contacts, onChangeChat, hideSidebar }) {
 				logOutUser();
 				break;
 			case 'PROFILE':
-				setShowModal((prev) => ({
-					show: true,
-					element: '123',
-				}));
+				setShowModal((prev) => {
+					return true;
+				});
 				setShowProfileMenu(false);
 				break;
 			default:
 		}
 	};
+
+	useEffect(() => {
+		function handleClickOutsideModal(e) {
+			if (modalRef.current && !modalRef.current.contains(e.target)) {
+				setShowModal(false);
+			}
+		}
+		document.addEventListener('click', handleClickOutsideModal, true);
+		return () => {
+			document.removeEventListener('click', handleClickOutsideModal, true);
+		};
+	}, [modalRef]);
 
 	return (
 		<>
@@ -384,7 +398,10 @@ function Sidebar({ currentUser, contacts, onChangeChat, hideSidebar }) {
 					</div>
 				</div>
 			</div>
-			{showModal.show && <Modal>{showModal.element} </Modal>}
+
+			<Modal showModal={showModal}>
+				<Profile ref={modalRef} showModal={showModal} setShowModal={setShowModal} />
+			</Modal>
 		</>
 	);
 }
