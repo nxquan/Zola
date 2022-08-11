@@ -32,7 +32,11 @@ function ChatInput({ currentChat, handleSendMsg, handleSendFile, scrollRef }) {
 
 	const onEmojiSelect = (emojiObject) => {
 		let curMsg = msg;
-		curMsg += emojiObject.native;
+		if (msg.length === 0) {
+			curMsg += emojiObject.native + ' ';
+		} else {
+			curMsg += ' ' + emojiObject.native + ' ';
+		}
 		setMsg(curMsg);
 	};
 

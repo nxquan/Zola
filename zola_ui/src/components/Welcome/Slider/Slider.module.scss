@@ -27,7 +27,7 @@
 	.slide-title {
 		font-size: 1.8rem;
 		font-weight: 500;
-		color: #0068ff;
+		color: var(--primary-dark-color);
 		display: block;
 		margin: 18px 0 12px;
 	}
@@ -75,7 +75,7 @@
 			cursor: pointer;
 		}
 		&.active {
-			background-color: #0068ff;
+			background-color: var(--primary-dark-color);
 		}
 	}
 }

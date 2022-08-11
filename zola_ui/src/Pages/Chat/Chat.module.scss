@@ -257,7 +257,8 @@
 	align-items: center;
 	transition: border-top 0.25s ease;
 	&:focus-within {
-		border-top-color: #0068ff;
+		border-top-width: 1.4px;
+		border-top-color: var(--primary-dark-color);
 	}
 	.input {
 		flex: 1;

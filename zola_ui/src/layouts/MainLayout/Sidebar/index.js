@@ -400,7 +400,12 @@ function Sidebar({ currentUser, contacts, onChangeChat, hideSidebar }) {
 			</div>
 
 			<Modal showModal={showModal}>
-				<Profile ref={modalRef} showModal={showModal} setShowModal={setShowModal} />
+				<Profile
+					currentUser={currentUser}
+					ref={modalRef}
+					showModal={showModal}
+					setShowModal={setShowModal}
+				/>
 			</Modal>
 		</>
 	);

@@ -112,7 +112,7 @@
 
 		&.active {
 			.category-btn {
-				background-color: #0068ff;
+				background-color: var(--primary-dark-color);
 				color: var(--white-color);
 			}
 		}
@@ -161,7 +161,7 @@
 .action-btn--primary {
 	font-size: 1.3rem;
 	font-weight: 400;
-	color: #0068ff;
+	color: var(--primary-dark-color);
 	&:hover {
 		color: #004bb9;
 	}
