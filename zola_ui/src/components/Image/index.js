@@ -7,7 +7,17 @@ const cx = classNames.bind(styles);
 function Image({ src, alt, className, ...props }) {
 	let classes = cx('wrapper', { [className]: className });
 
-	return <img className={classes} src={src || images.NoImage} alt={alt} {...props} />;
+	return (
+		<img
+			className={classes}
+			src={src || images.NoImage}
+			alt={alt}
+			{...props}
+			onError={(e) => {
+				e.target.src = images.NoImage;
+			}}
+		/>
+	);
 }
 
 export default Image;

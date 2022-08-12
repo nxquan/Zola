@@ -10,7 +10,7 @@ import Sidebar from './Sidebar';
 import Welcome from '@/components/Welcome';
 import Chat from '@/Pages/Chat';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { getFriendsRoute, getInformationUser, host } from '@/utils/APIRoute';
+import { getFriendsRoute, getInformationUserRoute, host } from '@/utils/APIRoute';
 const cx = classNames.bind(styles);
 
 function MainLayout({ children }) {
@@ -32,7 +32,7 @@ function MainLayout({ children }) {
 			else {
 				setIsLoading(true);
 				let temp = await JSON.parse(localStorage.getItem('user'));
-				const { data } = await axios.get(getInformationUser, {
+				const { data } = await axios.get(getInformationUserRoute, {
 					params: {
 						phone: temp.phone,
 					},
@@ -79,6 +79,7 @@ function MainLayout({ children }) {
 					<Sidebar
 						contacts={contacts}
 						currentUser={!!currentUser && currentUser}
+						setCurrentUser={setCurrentUser}
 						onChangeChat={handleChangeChat}
 						hideSidebar={!!currentChat}
 					/>

@@ -12,10 +12,12 @@ import Tippy from '@tippyjs/react/headless';
 import WrapPopper from '@/components/Popper';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { BsChevronDown } from 'react-icons/bs';
+import axios from 'axios';
+import { updateInformationUserRoute, uploadAvatar } from '@/utils/APIRoute';
 
 const cx = classNames.bind(styles);
 
-const Profile = forwardRef(({ currentUser, showModal, setShowModal }, ref) => {
+const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowModal }, ref) => {
 	const [showEdit, setShowEdit] = useState(false);
 	const [showSetBirthday, setShowSetBirthday] = useState({
 		day: false,
@@ -23,14 +25,15 @@ const Profile = forwardRef(({ currentUser, showModal, setShowModal }, ref) => {
 		year: false,
 	});
 	const [birthday, setBirthday] = useState({
-		day: 1,
-		month: 1,
-		year: 2022,
+		day: currentUser.birthday.day,
+		month: currentUser.birthday.month,
+		year: currentUser.birthday.year,
 	});
+
 	const [username, setUsername] = useState(currentUser.username);
-	const [gender, setGender] = useState(0);
-	const [coverPicture, setCoverPicture] = useState(undefined);
-	const [profilePicture, setProfilePicture] = useState(undefined);
+	const [gender, setGender] = useState(Number(currentUser.gender));
+	const [coverPicture, setCoverPicture] = useState();
+	const [profilePicture, setProfilePicture] = useState();
 	const [submit, setSubmit] = useState(false);
 
 	const renderDaysOfMonth = (month) => {
@@ -45,7 +48,7 @@ const Profile = forwardRef(({ currentUser, showModal, setShowModal }, ref) => {
 			month === 12
 		) {
 			days = 31;
-		} else if (month === 2 || month === 6 || month === 9 || month == 11) {
+		} else if (month === 4 || month === 6 || month === 9 || month === 11) {
 			days = 30;
 		} else {
 			if (
@@ -168,6 +171,60 @@ const Profile = forwardRef(({ currentUser, showModal, setShowModal }, ref) => {
 		setProfilePicture(file);
 		setSubmit(true);
 	};
+	
+	const handleSubmitProfile = () => {
+		let coverForm = new FormData();
+		let profileForm = new FormData();
+
+		coverPicture && delete coverPicture.urlPreview;
+		profilePicture && delete profilePicture.urlPreview;
+
+		coverForm.append('profile-image', coverPicture);
+		profileForm.append('profile-image', profilePicture);
+
+		const sendAllImages = Promise.all([
+			axios.post(uploadAvatar, coverForm, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			}),
+			axios.post(uploadAvatar, profileForm, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			}),
+		]);
+
+		sendAllImages
+			.then(([coverData, profileData]) => {
+				setCurrentUser((prev) => ({
+					...prev,
+					coverPicture: coverData.data.url,
+					profilePicture: profileData.data.url,
+				}));
+				//Save in database
+				axios
+					.post(updateInformationUserRoute, {
+						_id: currentUser._id,
+						username,
+						gender,
+						birthday: {
+							day: birthday.day,
+							month: birthday.month,
+							year: birthday.year,
+						},
+						coverPicture: coverData.data.url,
+						profilePicture: profileData.data.url,
+					})
+					.then(() => {})
+					.catch(() => {});
+				setCoverPicture(undefined);
+				setProfilePicture(undefined);
+				setShowModal(false);
+			})
+			.catch(() => {});
+	};
+
 	return transitions(
 		(styles, item) =>
 			item &&
@@ -196,7 +253,7 @@ const Profile = forwardRef(({ currentUser, showModal, setShowModal }, ref) => {
 							<h5>Thông tin cá nhân</h5>
 							<div className={cx('body-detail')}>
 								<span className={cx('body-name')}>Bio</span>
-								<span className={cx('body-value')}>Online </span>
+								<span className={cx('body-value')}>Online</span>
 							</div>
 							<div className={cx('body-detail')}>
 								<span className={cx('body-name')}>Điện thoại</span>
@@ -206,11 +263,16 @@ const Profile = forwardRef(({ currentUser, showModal, setShowModal }, ref) => {
 							</div>
 							<div className={cx('body-detail')}>
 								<span className={cx('body-name')}>Giới tính</span>
-								<span className={cx('body-value')}>Nam </span>
+								<span className={cx('body-value')}>
+									{currentUser.gender ? 'Nam' : 'Nữ'}{' '}
+								</span>
 							</div>
 							<div className={cx('body-detail')}>
 								<span className={cx('body-name')}>Ngày sinh</span>
-								<span className={cx('body-value')}>06 tháng 02, 2002 </span>
+								<span className={cx('body-value')}>
+									{currentUser.birthday.day} tháng {currentUser.birthday.month},{' '}
+									{currentUser.birthday.year}{' '}
+								</span>
 							</div>
 						</div>
 					</div>
@@ -250,6 +312,7 @@ const Profile = forwardRef(({ currentUser, showModal, setShowModal }, ref) => {
 									type="file"
 									id="cover-picture"
 									onChange={(e) => handleChangeCoverPicture(e)}
+									accept="image/png,image/jpeg,image/jpg"
 								/>
 							</label>
 							<label htmlFor="profile-picture">
@@ -265,6 +328,7 @@ const Profile = forwardRef(({ currentUser, showModal, setShowModal }, ref) => {
 									type="file"
 									id="profile-picture"
 									onChange={(e) => handleChangeProfilePicture(e)}
+									accept="image/png, image/jpg, image/jpeg"
 								/>
 							</label>
 						</div>
@@ -306,6 +370,7 @@ const Profile = forwardRef(({ currentUser, showModal, setShowModal }, ref) => {
 												setGender(1);
 												setSubmit(true);
 											}}
+											defaultChecked={gender === 1}
 										/>
 										<span>Nam</span>
 										<input
@@ -317,6 +382,7 @@ const Profile = forwardRef(({ currentUser, showModal, setShowModal }, ref) => {
 												setGender(0);
 												setSubmit(true);
 											}}
+											defaultChecked={gender === 0}
 										/>
 										<span>Nữ</span>
 									</div>
@@ -446,6 +512,9 @@ const Profile = forwardRef(({ currentUser, showModal, setShowModal }, ref) => {
 							primary
 							disabled={!submit}
 							className={cx('footer-btn', 'footer-btn--submit')}
+							onClick={() => {
+								submit && handleSubmitProfile();
+							}}
 						>
 							Cập nhật
 						</Button>

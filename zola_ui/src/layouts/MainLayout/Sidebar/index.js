@@ -139,7 +139,7 @@ const typeActionMenu = [
 	},
 ];
 
-function Sidebar({ currentUser, contacts, onChangeChat, hideSidebar }) {
+function Sidebar({ currentUser, setCurrentUser, contacts, onChangeChat, hideSidebar }) {
 	const [tab, setTab] = useState(0);
 	const [isShowedMenu, setIsShowedMenu] = useState(false);
 	const [isShowedTypeMessageMenu, setIsShowedTypeMessageMenu] = useState(false);
@@ -402,6 +402,7 @@ function Sidebar({ currentUser, contacts, onChangeChat, hideSidebar }) {
 			<Modal showModal={showModal}>
 				<Profile
 					currentUser={currentUser}
+					setCurrentUser={setCurrentUser}
 					ref={modalRef}
 					showModal={showModal}
 					setShowModal={setShowModal}

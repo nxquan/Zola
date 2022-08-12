@@ -13,7 +13,58 @@ class UserController {
 			return res.json({ msg: 'Người dùng không tồn tại', status: false });
 		}
 	}
-
+	async updateInformationUser(req, res, next) {
+		let updatedValues;
+		if (req.body.coverPicture === undefined && req.body.profilePicture === undefined) {
+			updatedValues = {
+				username: req.body.username,
+				gender: req.body.gender,
+				birthday: {
+					day: req.body.birthday.day,
+					month: req.body.birthday.month,
+					year: req.body.birthday.year,
+				},
+			};
+		} else if (req.body.coverPicture === undefined) {
+			updatedValues = {
+				username: req.body.username,
+				gender: req.body.gender,
+				birthday: {
+					day: req.body.birthday.day,
+					month: req.body.birthday.month,
+					year: req.body.birthday.year,
+				},
+				profilePicture: req.body.profilePicture,
+			};
+		} else {
+			updatedValues = {
+				username: req.body.username,
+				gender: req.body.gender,
+				birthday: {
+					day: req.body.birthday.day,
+					month: req.body.birthday.month,
+					year: req.body.birthday.year,
+				},
+				coverPicture: req.body.coverPicture,
+			};
+		}
+		await User.updateOne({ _id: req.body._id }, updatedValues);
+	}
+	async uploadAvatar(req, res, next) {
+		if (req.file) {
+			let url = process.env.HOST + req.file.path.substr(10);
+			return res.json({
+				msg: 'Uploading image is added successfully!',
+				status: true,
+				url: url,
+			});
+		} else {
+			return res.json({
+				status: false,
+				msg: 'No file updated!!!',
+			});
+		}
+	}
 	async getFriends(req, res, next) {
 		try {
 			const friends = [];
