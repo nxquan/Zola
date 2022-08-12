@@ -14,41 +14,11 @@ class UserController {
 		}
 	}
 	async updateInformationUser(req, res, next) {
-		let updatedValues;
-		if (req.body.coverPicture === undefined && req.body.profilePicture === undefined) {
-			updatedValues = {
-				username: req.body.username,
-				gender: req.body.gender,
-				birthday: {
-					day: req.body.birthday.day,
-					month: req.body.birthday.month,
-					year: req.body.birthday.year,
-				},
-			};
-		} else if (req.body.coverPicture === undefined) {
-			updatedValues = {
-				username: req.body.username,
-				gender: req.body.gender,
-				birthday: {
-					day: req.body.birthday.day,
-					month: req.body.birthday.month,
-					year: req.body.birthday.year,
-				},
-				profilePicture: req.body.profilePicture,
-			};
-		} else {
-			updatedValues = {
-				username: req.body.username,
-				gender: req.body.gender,
-				birthday: {
-					day: req.body.birthday.day,
-					month: req.body.birthday.month,
-					year: req.body.birthday.year,
-				},
-				coverPicture: req.body.coverPicture,
-			};
-		}
-		await User.updateOne({ _id: req.body._id }, updatedValues);
+		let updatedValues = req.body;
+		console.log(updatedValues);
+		await User.updateOne({ _id: req.body._id }, { ...req.body });
+
+		return res.json({ msg: 'Updating successfully!', status: true });
 	}
 	async uploadAvatar(req, res, next) {
 		if (req.file) {

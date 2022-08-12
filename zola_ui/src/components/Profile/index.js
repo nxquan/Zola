@@ -14,8 +14,16 @@ import { AiOutlineCheck } from 'react-icons/ai';
 import { BsChevronDown } from 'react-icons/bs';
 import axios from 'axios';
 import { updateInformationUserRoute, uploadAvatar } from '@/utils/APIRoute';
+import { ToastContainer, toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
+const toastOptions = {
+	position: 'bottom-right',
+	autoClose: 5000,
+	closeOnClick: true,
+	draggable: true,
+	theme: 'light',
+};
 
 const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowModal }, ref) => {
 	const [showEdit, setShowEdit] = useState(false);
@@ -171,58 +179,107 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 		setProfilePicture(file);
 		setSubmit(true);
 	};
-	
+
 	const handleSubmitProfile = () => {
+		let sendAllImages;
+		let updatedInformation = {
+			_id: currentUser._id,
+		};
+
 		let coverForm = new FormData();
 		let profileForm = new FormData();
 
-		coverPicture && delete coverPicture.urlPreview;
-		profilePicture && delete profilePicture.urlPreview;
+		if (gender !== Number(currentUser.gender)) {
+			updatedInformation.gender = gender;
+		}
+		if (username !== currentUser.username) {
+			updatedInformation.username = username;
+		}
+		if (
+			birthday.day !== currentUser.birthday.day ||
+			birthday.month !== currentUser.birthday.month ||
+			birthday.year !== currentUser.birthday.year
+		) {
+			updatedInformation.birthday = birthday;
+		}
+		function updateCurrentInformation() {
+			axios
+				.post(updateInformationUserRoute, { ...updatedInformation })
+				.then((res) => {
+					setCurrentUser((prev) => ({ ...prev, ...updatedInformation }));
+					setCoverPicture(undefined);
+					setProfilePicture(undefined);
+				})
+				.catch(() => {});
+		}
 
-		coverForm.append('profile-image', coverPicture);
-		profileForm.append('profile-image', profilePicture);
+		if (coverPicture && profilePicture) {
+			delete coverPicture.urlPreview;
+			delete profilePicture.urlPreview;
 
-		const sendAllImages = Promise.all([
-			axios.post(uploadAvatar, coverForm, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			}),
-			axios.post(uploadAvatar, profileForm, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			}),
-		]);
+			coverForm.append('profile-image', coverPicture);
+			profileForm.append('profile-image', profilePicture);
 
-		sendAllImages
-			.then(([coverData, profileData]) => {
-				setCurrentUser((prev) => ({
-					...prev,
-					coverPicture: coverData.data.url,
-					profilePicture: profileData.data.url,
-				}));
-				//Save in database
-				axios
-					.post(updateInformationUserRoute, {
-						_id: currentUser._id,
-						username,
-						gender,
-						birthday: {
-							day: birthday.day,
-							month: birthday.month,
-							year: birthday.year,
-						},
-						coverPicture: coverData.data.url,
-						profilePicture: profileData.data.url,
-					})
-					.then(() => {})
-					.catch(() => {});
-				setCoverPicture(undefined);
-				setProfilePicture(undefined);
-				setShowModal(false);
-			})
-			.catch(() => {});
+			sendAllImages = Promise.all([
+				axios.post(uploadAvatar, coverForm, {
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				}),
+				axios.post(uploadAvatar, profileForm, {
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				}),
+			]);
+			sendAllImages
+				.then(([coverData, profileData]) => {
+					updatedInformation.coverPicture = coverData.data.url;
+					updatedInformation.profilePicture = profileData.data.url;
+					updateCurrentInformation();
+				})
+				.catch(() => {});
+		} else if (coverPicture) {
+			delete coverPicture.urlPreview;
+			coverForm.append('profile-image', coverPicture);
+			axios
+				.post(uploadAvatar, coverForm, {
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				})
+				.then((coverData) => {
+					updatedInformation.coverPicture = coverData.data.url;
+					updateCurrentInformation();
+				})
+				.catch(() => {});
+		} else if (profilePicture) {
+			delete profilePicture.urlPreview;
+			coverForm.append('profile-image', profilePicture);
+			axios
+				.post(uploadAvatar, coverForm, {
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				})
+				.then((coverData) => {
+					updatedInformation.profilePicture = coverData.data.url;
+					updateCurrentInformation();
+				})
+				.catch(() => {});
+		} else {
+			axios
+				.post(updateInformationUserRoute, { ...updatedInformation })
+				.then((res) => {
+					setCurrentUser((prev) => ({ ...prev, ...updatedInformation }));
+				})
+				.catch(() => {});
+		}
+
+		toast.success('Cập nhật thành công', toastOptions);
+		setTimeout(() => {
+			setShowModal(false);
+		}, 1200);
 	};
 
 	return transitions(
@@ -287,239 +344,261 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 					</Button>
 				</animated.div>
 			)) || (
-				<animated.div className={cx('wrapper', 'wrapper-edit')} ref={ref} style={styles}>
-					<div className={cx('header')}>
-						<h4 className={cx('header-heading')}>Cập nhật thông tin</h4>
-						<ButtonIcon
-							className={cx('header-icon')}
-							onClick={() => setShowModal(false)}
-						>
-							<GrClose />
-						</ButtonIcon>
-					</div>
-					<div className={cx('body')}>
-						<div className={cx('body-preview')}>
-							<label htmlFor="cover-picture">
-								<Image
-									className={cx('cover-picture')}
-									src={
-										coverPicture
-											? coverPicture.urlPreview
-											: currentUser.coverPicture
-									}
-								/>
-								<input
-									type="file"
-									id="cover-picture"
-									onChange={(e) => handleChangeCoverPicture(e)}
-									accept="image/png,image/jpeg,image/jpg"
-								/>
-							</label>
-							<label htmlFor="profile-picture">
-								<Image
-									className={cx('profile-picture')}
-									src={
-										profilePicture
-											? profilePicture.urlPreview
-											: currentUser.profilePicture
-									}
-								/>
-								<input
-									type="file"
-									id="profile-picture"
-									onChange={(e) => handleChangeProfilePicture(e)}
-									accept="image/png, image/jpg, image/jpeg"
-								/>
-							</label>
+				<>
+					<animated.div
+						className={cx('wrapper', 'wrapper-edit')}
+						ref={ref}
+						style={styles}
+					>
+						<div className={cx('header')}>
+							<h4 className={cx('header-heading')}>Cập nhật thông tin</h4>
+							<ButtonIcon
+								className={cx('header-icon')}
+								onClick={() => setShowModal(false)}
+							>
+								<GrClose />
+							</ButtonIcon>
 						</div>
-
-						<div className={cx('body-infor')}>
-							<div className={cx('form-group')}>
-								<label htmlFor="input-username" className={cx('form-label')}>
-									Tên hiển thị
+						<div className={cx('body')}>
+							<div className={cx('body-preview')}>
+								<label htmlFor="cover-picture">
+									<Image
+										className={cx('cover-picture')}
+										src={
+											coverPicture
+												? coverPicture.urlPreview
+												: currentUser.coverPicture
+										}
+									/>
+									<input
+										type="file"
+										id="cover-picture"
+										onChange={(e) => handleChangeCoverPicture(e)}
+										accept="image/png,image/jpeg,image/jpg"
+									/>
 								</label>
-								<input
-									id="input-username"
-									name="username"
-									className={cx('form-control')}
-									placeholder="Nhập tên hiển thị"
-									value={username}
-									onChange={(e) => {
-										setUsername(e.target.value);
-										setSubmit(true);
-									}}
-								/>
-								<span className={cx('form-note')}>
-									Sử dụng tên thật để bạn bè dễ dàng nhận diện hơn
-								</span>
+								<label htmlFor="profile-picture">
+									<Image
+										className={cx('profile-picture')}
+										src={
+											profilePicture
+												? profilePicture.urlPreview
+												: currentUser.profilePicture
+										}
+									/>
+									<input
+										type="file"
+										id="profile-picture"
+										onChange={(e) => handleChangeProfilePicture(e)}
+										accept="image/png, image/jpg, image/jpeg"
+									/>
+								</label>
 							</div>
 
-							<div className={cx('body-inner')}>
-								<h5>Thông tin cá nhân</h5>
+							<div className={cx('body-infor')}>
 								<div className={cx('form-group')}>
-									<label htmlFor="input-gender" className={cx('form-label')}>
-										Giới tính
+									<label htmlFor="input-username" className={cx('form-label')}>
+										Tên hiển thị
 									</label>
-									<div className={cx('form-inner')}>
-										<input
-											type="radio"
-											id="input-gender"
-											name="username"
-											className={cx('form-control--radio')}
-											onChange={() => {
-												setGender(1);
-												setSubmit(true);
-											}}
-											defaultChecked={gender === 1}
-										/>
-										<span>Nam</span>
-										<input
-											type="radio"
-											id="input-gender"
-											name="username"
-											className={cx('form-control--radio')}
-											onChange={() => {
-												setGender(0);
-												setSubmit(true);
-											}}
-											defaultChecked={gender === 0}
-										/>
-										<span>Nữ</span>
-									</div>
+									<input
+										id="input-username"
+										name="username"
+										className={cx('form-control')}
+										placeholder="Nhập tên hiển thị"
+										value={username}
+										onChange={(e) => {
+											setUsername(e.target.value);
+											setSubmit(true);
+										}}
+									/>
+									<span className={cx('form-note')}>
+										Sử dụng tên thật để bạn bè dễ dàng nhận diện hơn
+									</span>
 								</div>
-								<div className={cx('form-group')}>
-									<label htmlFor="input-birthday" className={cx('form-label')}>
-										Ngày sinh
-									</label>
-									<div className={cx('form-group--birthday')}>
-										<Tippy
-											visible={showSetBirthday.day}
-											interactive
-											offset={[0, 1]}
-											placement="top-start"
-											render={(attrs) => (
-												<div className="content" tabIndex="-1" {...attrs}>
-													<WrapPopper className={cx('calendar')}>
-														{renderDaysOfMonth(birthday.month)}
-													</WrapPopper>
-												</div>
-											)}
-											onClickOutside={() => {
-												setShowSetBirthday((prev) => ({
-													day: false,
-													month: false,
-													year: false,
-												}));
-											}}
-										>
-											<div
-												className={cx('input-birthday')}
-												onClick={() =>
-													setShowSetBirthday((prev) => ({
-														day: true,
-														month: false,
-														year: false,
-													}))
-												}
-											>
-												{birthday.day}
-												<BsChevronDown />
-											</div>
-										</Tippy>
-										<Tippy
-											visible={showSetBirthday.month}
-											interactive
-											offset={[0, 1]}
-											placement="top-start"
-											render={(attrs) => (
-												<div className="content" tabIndex="-1" {...attrs}>
-													<WrapPopper className={cx('calendar')}>
-														{renderMonths()}
-													</WrapPopper>
-												</div>
-											)}
-											onClickOutside={() => {
-												setShowSetBirthday((prev) => ({
-													day: false,
-													month: false,
-													year: false,
-												}));
-											}}
-										>
-											<div
-												className={cx('input-birthday')}
-												onClick={() =>
-													setShowSetBirthday((prev) => ({
-														day: false,
-														month: true,
-														year: false,
-													}))
-												}
-											>
-												{birthday.month}
-												<BsChevronDown />
-											</div>
-										</Tippy>
 
-										<Tippy
-											visible={showSetBirthday.year}
-											interactive
-											offset={[0, 1]}
-											placement="top-start"
-											render={(attrs) => (
-												<div className="content" tabIndex="-1" {...attrs}>
-													<WrapPopper className={cx('calendar')}>
-														{renderYears()}
-													</WrapPopper>
-												</div>
-											)}
-											onClickOutside={() => {
-												setShowSetBirthday((prev) => ({
-													day: false,
-													month: false,
-													year: false,
-												}));
-											}}
+								<div className={cx('body-inner')}>
+									<h5>Thông tin cá nhân</h5>
+									<div className={cx('form-group')}>
+										<label htmlFor="input-gender" className={cx('form-label')}>
+											Giới tính
+										</label>
+										<div className={cx('form-inner')}>
+											<input
+												type="radio"
+												id="input-gender"
+												name="username"
+												className={cx('form-control--radio')}
+												onChange={() => {
+													setGender(1);
+													setSubmit(true);
+												}}
+												defaultChecked={gender === 1}
+											/>
+											<span>Nam</span>
+											<input
+												type="radio"
+												id="input-gender"
+												name="username"
+												className={cx('form-control--radio')}
+												onChange={() => {
+													setGender(0);
+													setSubmit(true);
+												}}
+												defaultChecked={gender === 0}
+											/>
+											<span>Nữ</span>
+										</div>
+									</div>
+									<div className={cx('form-group')}>
+										<label
+											htmlFor="input-birthday"
+											className={cx('form-label')}
 										>
-											<div
-												className={cx('input-birthday')}
-												onClick={() => {
+											Ngày sinh
+										</label>
+										<div className={cx('form-group--birthday')}>
+											<Tippy
+												visible={showSetBirthday.day}
+												interactive
+												offset={[0, 1]}
+												placement="top-start"
+												render={(attrs) => (
+													<div
+														className="content"
+														tabIndex="-1"
+														{...attrs}
+													>
+														<WrapPopper className={cx('calendar')}>
+															{renderDaysOfMonth(birthday.month)}
+														</WrapPopper>
+													</div>
+												)}
+												onClickOutside={() => {
 													setShowSetBirthday((prev) => ({
 														day: false,
 														month: false,
-														year: true,
+														year: false,
 													}));
 												}}
 											>
-												{birthday.year}
-												<BsChevronDown />
-											</div>
-										</Tippy>
+												<div
+													className={cx('input-birthday')}
+													onClick={() =>
+														setShowSetBirthday((prev) => ({
+															day: true,
+															month: false,
+															year: false,
+														}))
+													}
+												>
+													{birthday.day}
+													<BsChevronDown />
+												</div>
+											</Tippy>
+											<Tippy
+												visible={showSetBirthday.month}
+												interactive
+												offset={[0, 1]}
+												placement="top-start"
+												render={(attrs) => (
+													<div
+														className="content"
+														tabIndex="-1"
+														{...attrs}
+													>
+														<WrapPopper className={cx('calendar')}>
+															{renderMonths()}
+														</WrapPopper>
+													</div>
+												)}
+												onClickOutside={() => {
+													setShowSetBirthday((prev) => ({
+														day: false,
+														month: false,
+														year: false,
+													}));
+												}}
+											>
+												<div
+													className={cx('input-birthday')}
+													onClick={() =>
+														setShowSetBirthday((prev) => ({
+															day: false,
+															month: true,
+															year: false,
+														}))
+													}
+												>
+													{birthday.month}
+													<BsChevronDown />
+												</div>
+											</Tippy>
+
+											<Tippy
+												visible={showSetBirthday.year}
+												interactive
+												offset={[0, 1]}
+												placement="top-start"
+												render={(attrs) => (
+													<div
+														className="content"
+														tabIndex="-1"
+														{...attrs}
+													>
+														<WrapPopper className={cx('calendar')}>
+															{renderYears()}
+														</WrapPopper>
+													</div>
+												)}
+												onClickOutside={() => {
+													setShowSetBirthday((prev) => ({
+														day: false,
+														month: false,
+														year: false,
+													}));
+												}}
+											>
+												<div
+													className={cx('input-birthday')}
+													onClick={() => {
+														setShowSetBirthday((prev) => ({
+															day: false,
+															month: false,
+															year: true,
+														}));
+													}}
+												>
+													{birthday.year}
+													<BsChevronDown />
+												</div>
+											</Tippy>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div className={cx('footer')}>
-						<Button
-							primary
-							className={cx('footer-btn', 'footer-btn--cancel')}
-							onClick={() => setShowModal(false)}
-						>
-							Hủy
-						</Button>
-						<Button
-							primary
-							disabled={!submit}
-							className={cx('footer-btn', 'footer-btn--submit')}
-							onClick={() => {
-								submit && handleSubmitProfile();
-							}}
-						>
-							Cập nhật
-						</Button>
-					</div>
-				</animated.div>
+						<div className={cx('footer')}>
+							<Button
+								primary
+								className={cx('footer-btn', 'footer-btn--cancel')}
+								onClick={() => setShowModal(false)}
+							>
+								Hủy
+							</Button>
+							<Button
+								primary
+								disabled={!submit}
+								className={cx('footer-btn', 'footer-btn--submit')}
+								onClick={() => {
+									submit && handleSubmitProfile();
+								}}
+							>
+								Cập nhật
+							</Button>
+						</div>
+					</animated.div>
+					<ToastContainer />
+				</>
 			))
 	);
 });
