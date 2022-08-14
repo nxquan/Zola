@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './Chat.module.scss';
@@ -50,4 +51,4 @@ function ChatHeader({ currentChat, handleChangeChat }) {
 	);
 }
 
-export default ChatHeader;
+export default memo(ChatHeader);

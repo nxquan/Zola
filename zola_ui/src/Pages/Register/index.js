@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faMobileScreenButton,
@@ -8,11 +7,14 @@ import {
 	faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import './Toastify.scss';
+
+import classNames from 'classnames/bind';
 import styles from './Register.module.scss';
+
 import Button from '@/components/Button';
 import { registerRoute } from '@/utils/APIRoute';
 const cx = classNames.bind(styles);
@@ -26,17 +28,17 @@ const toastOptions = {
 };
 
 function Register() {
-	const [user, setUser] = useState({
+	const [account, setAccount] = useState({
 		phone: '',
 		username: '',
 		password: '',
-		confirmpassword: '',
+		confirmPassword: '',
 	});
-	const { phone, username, password, confirmpassword } = user;
+	const { phone, username, password, confirmPassword } = account;
 
 	const handleForm = (e) => {
-		setUser({
-			...user,
+		setAccount({
+			...account,
 			[e.target.name]: e.target.value,
 		});
 	};
@@ -46,31 +48,35 @@ function Register() {
 			toast.error('Số điện thoại không hợp lệ', toastOptions);
 			return false;
 		}
-		if (password !== confirmpassword) {
+		if (password !== confirmPassword) {
 			toast.error('Mật khẩu phải giống nhau!!', toastOptions);
 			return false;
 		}
 		return true;
 	};
 
-	const handleSubmit = async function (e) {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (validateUser()) {
 			const { data } = await axios.post(registerRoute, {
-				phone: phone,
-				username: username,
-				password: password,
+				phone,
+				username,
+				password,
 			});
 
 			if (data.status) {
 				toast.success(data.msg, toastOptions);
-				setUser((prev) => ({ phone: '', username: '', password: '', confirmpassword: '' }));
+				setAccount((prev) => ({
+					phone: '',
+					username: '',
+					password: '',
+					confirmPassword: '',
+				}));
 			} else {
 				toast.error(data.msg, toastOptions);
 			}
 		}
 	};
-
 	return (
 		<div className={cx('wrapper')}>
 			<div className={cx('tabs')}>
@@ -126,8 +132,8 @@ function Register() {
 								type="password"
 								placeholder="Nhập lại mật khẩu"
 								autoComplete="off"
-								name="confirmpassword"
-								value={confirmpassword}
+								name="confirmPassword"
+								value={confirmPassword}
 								onChange={(e) => handleForm(e)}
 							/>
 						</div>
@@ -137,7 +143,7 @@ function Register() {
 								phone.length >= 6 &&
 								username.length >= 1 &&
 								password.length >= 8 &&
-								confirmpassword.length >= 8
+								confirmPassword.length >= 8
 									? false
 									: true
 							}

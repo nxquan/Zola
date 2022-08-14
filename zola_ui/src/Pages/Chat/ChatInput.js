@@ -11,7 +11,7 @@ import classNames from 'classnames/bind';
 import styles from './Chat.module.scss';
 import ButtonIcon from '@/components/ButtonIcon';
 
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import useClickOutside from '@/hooks/useClickOutside';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
@@ -149,4 +149,4 @@ function ChatInput({ currentChat, handleSendMsg, handleSendFile, scrollRef }) {
 	);
 }
 
-export default ChatInput;
+export default memo(ChatInput);

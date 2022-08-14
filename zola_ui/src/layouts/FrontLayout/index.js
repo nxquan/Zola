@@ -6,6 +6,7 @@ import Footer from './Footer';
 import images from '@/assets/images';
 
 const cx = classNames.bind(styles);
+
 function FrontLayout({ children }) {
 	return (
 		<div className={cx('wrapper')}>

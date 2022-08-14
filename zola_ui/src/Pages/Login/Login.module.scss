@@ -10,13 +10,13 @@
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .tab {
+	color: var(--text-color);
 	height: 50px;
 	text-align: center;
 	line-height: 50px;
 	font-size: 1.4rem;
 	padding: 0 20px;
 	flex: 1;
-	color: var(--text-color);
 	position: relative;
 	display: inline-block;
 }

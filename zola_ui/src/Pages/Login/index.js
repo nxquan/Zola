@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import classNames from 'classnames/bind';
-import styles from './Login.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMobileScreenButton, faLock } from '@fortawesome/free-solid-svg-icons';
 
+import classNames from 'classnames/bind';
+import styles from './Login.module.scss';
+
+import axios from 'axios';
 import images from '@/assets/images';
 import Button from '@/components/Button';
 import { loginRoute } from '@/utils/APIRoute';
@@ -24,11 +25,12 @@ const toastOptions = {
 };
 
 function Login() {
-	const navigate = useNavigate();
 	const [tab, setTab] = useState(1);
 	const [loginQR, setLoginQR] = useState(true);
-	const [user, SetUser] = useState({ phone: '', password: '' });
-	const { phone, password } = user;
+	const [account, setAccount] = useState({ phone: '', password: '' });
+
+	const navigate = useNavigate();
+	const { phone, password } = account;
 
 	const toggleTab = (e, index) => {
 		e.preventDefault();
@@ -37,7 +39,7 @@ function Login() {
 	};
 
 	const handleForm = (e) => {
-		SetUser({ ...user, [e.target.name]: e.target.value });
+		setAccount({ ...account, [e.target.name]: e.target.value });
 	};
 
 	const handleSubmit = async (e) => {
@@ -48,7 +50,7 @@ function Login() {
 		});
 
 		if (data.status) {
-			await localStorage.setItem('user', JSON.stringify(user));
+			await localStorage.setItem('account', JSON.stringify(account));
 			navigate('/');
 		} else {
 			toast.error(data.msg, toastOptions);

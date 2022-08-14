@@ -10,17 +10,18 @@
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .tab {
+	color: #333;
 	height: 50px;
 	text-align: center;
 	line-height: 50px;
 	font-size: 1.4rem;
+	font-weight: 600;
 	padding: 0 20px;
+
+	flex: 1;
 	position: relative;
 	display: inline-block;
 	text-transform: uppercase;
-	color: #333;
-	font-weight: 600;
-	flex: 1;
 }
 
 .tab::before {
@@ -41,9 +42,9 @@
 	width: 100%;
 	min-height: 270px;
 	padding: 30px 45px;
+	display: flex;
 	align-items: center;
 	flex-direction: column;
-	display: flex;
 }
 
 .form-signin {

@@ -1,7 +1,8 @@
-import { useEffect, useState, useRef } from 'react';
-import classNames from 'classnames/bind';
+import { useEffect, useState, useRef, useCallback } from 'react';
 
+import classNames from 'classnames/bind';
 import styles from './Chat.module.scss';
+
 import ChatHeader from './ChatHeader';
 import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
@@ -16,7 +17,7 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 	const [messages, setMessages] = useState([]);
 	const [arrivalMessage, setArrivalMessage] = useState(null);
 	const scrollRef = useRef();
-	const getSendedTime = (curDate) => {
+	const getSendedTime = () => {
 		let year = curDate.getFullYear();
 		let month = curDate.getMonth() + 1;
 		let day = curDate.getDate();
@@ -60,8 +61,7 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 			second: textSecond,
 		};
 	};
-
-	const handleSendMsg = async (msg) => {
+	const handleSendMsg = useCallback(async (msg) => {
 		await axios.post(addMessage, {
 			from: currentUser._id,
 			to: currentChat._id,
@@ -91,9 +91,9 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 				},
 			];
 		});
-	};
+	}, []);
 
-	const handleSendFile = (file, type) => {
+	const handleSendFile = useCallback((file, type) => {
 		switch (type) {
 			case 'IMAGE': {
 				let formData = new FormData();
@@ -135,7 +135,6 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 					.catch((error) => {
 						console.log(error);
 					});
-
 				break;
 			}
 
@@ -181,7 +180,8 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 					});
 			}
 		}
-	};
+	}, []);
+
 	useEffect(() => {
 		async function fetchMessage() {
 			const { data } = await axios.get(getAllMessages, {

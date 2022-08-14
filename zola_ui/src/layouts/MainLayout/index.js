@@ -13,25 +13,24 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import { getFriendsRoute, getInformationUserRoute, host } from '@/utils/APIRoute';
 const cx = classNames.bind(styles);
 
-function MainLayout({ children }) {
+function MainLayout() {
 	const socketRef = useRef();
 	const [contacts, setContacts] = useState([]);
-	const [currentUser, setCurrentUser] = useState(undefined);
-	const [currentChat, setCurrentChat] = useState(undefined);
+	const [currentUser, setCurrentUser] = useState();
+	const [currentChat, setCurrentChat] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 
+	const navigate = useNavigate();
 	const handleChangeChat = (contact) => {
 		setCurrentChat(contact);
 	};
 
-	const navigate = useNavigate();
-
 	useEffect(() => {
 		async function getUserFromLocalStorage() {
-			if (!localStorage.getItem('user')) navigate('/login');
+			if (!localStorage.getItem('account')) navigate('/login');
 			else {
 				setIsLoading(true);
-				let temp = await JSON.parse(localStorage.getItem('user'));
+				let temp = await JSON.parse(localStorage.getItem('account'));
 				const { data } = await axios.get(getInformationUserRoute, {
 					params: {
 						phone: temp.phone,
