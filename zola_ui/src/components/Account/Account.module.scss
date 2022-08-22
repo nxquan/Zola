@@ -1,0 +1,49 @@
+.wrapper {
+	display: flex;
+	align-items: center;
+	height: 72px;
+	padding: 0 16px;
+
+	&:hover {
+		background-color: #f4f5f7;
+		cursor: pointer;
+		.delete {
+			display: inline-block;
+		}
+	}
+}
+.avatar {
+	width: 48px;
+	height: 48px;
+}
+.inner {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	margin-left: 6px;
+	.username {
+		font-size: 1.6rem;
+		font-weight: 400;
+		color: var(--text-dark-color);
+	}
+
+	.delete {
+		margin-left: auto;
+		margin-right: 8px;
+		// display: none;
+		line-height: 0;
+		padding: 4px;
+		svg {
+			color: var(--icon-color);
+		}
+		&:hover {
+			cursor: pointer;
+			svg {
+				color: var(--primary-active-color);
+			}
+		}
+		svg {
+			font-size: 2rem;
+		}
+	}
+}

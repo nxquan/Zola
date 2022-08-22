@@ -85,9 +85,27 @@
 	.clear {
 		margin: 0 8px;
 		color: #72808e;
-		font-size: 1.5rem;
+		font-size: 1.52rem;
+		line-height: 0;
 		&:hover {
 			cursor: pointer;
+			svg {
+				color: var(--primary-dark-color);
+			}
 		}
+	}
+}
+
+.account-list {
+	width: 310px;
+	padding: 16px 0 8px 0;
+	background-color: #fff;
+
+	.heading {
+		padding: 0 16px;
+		margin-bottom: 6px;
+		font-size: 1.5rem;
+		font-weight: 500;
+		color: var(--text-dark-color);
 	}
 }
