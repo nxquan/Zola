@@ -98,6 +98,7 @@
 
 .account-list {
 	width: 310px;
+	height: calc(100vh - 64px);
 	padding: 16px 0 8px 0;
 	background-color: #fff;
 
@@ -107,5 +108,9 @@
 		font-size: 1.5rem;
 		font-weight: 500;
 		color: var(--text-dark-color);
+	}
+
+	.no-users {
+		padding: 16px;
 	}
 }

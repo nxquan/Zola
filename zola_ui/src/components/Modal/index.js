@@ -13,6 +13,7 @@ function Modal({ children, showModal }) {
 			duration: 100,
 		},
 	});
+
 	return transitions(
 		(styles, child) =>
 			child && (

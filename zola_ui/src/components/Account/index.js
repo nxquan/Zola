@@ -6,12 +6,15 @@ import styles from './Account.module.scss';
 import Image from '@/components/Image';
 const cx = classNames.bind(styles);
 
-function Account({ account }) {
+function Account({ item, onClick }) {
+	const props = {
+		onClick,
+	};
 	return (
-		<div className={cx('wrapper')}>
-			<Image className={cx('avatar')} />
+		<div className={cx('wrapper')} {...props}>
+			<Image src={item.profilePicture} className={cx('avatar')} />
 			<div className={cx('inner')}>
-				<h5 className={cx('username')}>Em</h5>
+				<h5 className={cx('username')}>{item.username}</h5>
 				<button className={cx('delete')}>
 					<IoCloseOutline />
 				</button>

@@ -1,29 +1,19 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
-function useOutsideClick(initialValue) {
-	const containRef = useRef(null);
-	const ref = useRef(null);
-	const [showEmoji, setShowEmoji] = useState(initialValue);
-
-	const handleClickOutside = (e) => {
-		if (
-			ref.current &&
-			!ref.current.contains(e.target) &&
-			containRef.current &&
-			!containRef.current.contains(e.target)
-		) {
-			setShowEmoji(false);
-		}
-	};
-
+function useClickOutside(ref, handler) {
 	useEffect(() => {
-		document.addEventListener('click', handleClickOutside);
-		return () => {
-			document.removeEventListener('click', handleClickOutside, true);
+		const listener = (e) => {
+			if (!ref.current || ref.current.contains(e.target)) {
+				return;
+			}
+			handler(e);
 		};
-	}, [ref]);
 
-	return { showEmoji, setShowEmoji, ref, containRef };
+		document.addEventListener('click', listener);
+		return () => {
+			document.removeEventListener('click', listener);
+		};
+	}, [ref, handler]);
 }
 
-export default useOutsideClick;
+export default useClickOutside;

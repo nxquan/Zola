@@ -13,13 +13,36 @@ class UserController {
 			return res.json({ msg: 'Người dùng không tồn tại', status: false });
 		}
 	}
+
+	async searchUsers(req, res, next) {
+		const regex = new RegExp(req.query.value, 'i');
+		//Find in username or phone
+		const usersWithName = await User.find({ username: { $regex: regex } });
+		const usersWithPhone = await User.find({ phone: { $regex: regex } });
+
+		const tempUsers = [...usersWithName, ...usersWithPhone];
+		const users = [];
+		for (let i = 0; i < tempUsers.length; i++) {
+			delete tempUsers[i].password;
+		}
+		//Delete the same user
+		tempUsers.forEach((user) => {
+			const check = users.some((otherUser) => user._id !== otherUser._id);
+			if (!check) {
+				users.push(user);
+			}
+		});
+
+		return res.json({ users, status: true });
+	}
+
 	async updateInformationUser(req, res, next) {
 		let updatedValues = req.body;
-		console.log(updatedValues);
 		await User.updateOne({ _id: req.body._id }, { ...req.body });
 
 		return res.json({ msg: 'Updating successfully!', status: true });
 	}
+
 	async uploadAvatar(req, res, next) {
 		if (req.file) {
 			let url = process.env.HOST + req.file.path.substr(10);

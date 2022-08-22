@@ -12,7 +12,7 @@ import styles from './Chat.module.scss';
 import ButtonIcon from '@/components/ButtonIcon';
 
 import { useState, memo } from 'react';
-import useClickOutside from '@/hooks/useClickOutside';
+import useClickOutsideContainer from '@/hooks/useClickOutsideContainer';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 
@@ -20,7 +20,7 @@ const cx = classNames.bind(styles);
 
 function ChatInput({ currentChat, handleSendMsg, handleSendFile, scrollRef }) {
 	const [msg, setMsg] = useState('');
-	const { showEmoji, setShowEmoji, ref, containRef } = useClickOutside(false);
+	const { showEmoji, setShowEmoji, ref, containRef } = useClickOutsideContainer(false);
 
 	const handleShowEmojiPicker = (e) => {
 		if (ref.current && ref.current.contains(e.target)) {

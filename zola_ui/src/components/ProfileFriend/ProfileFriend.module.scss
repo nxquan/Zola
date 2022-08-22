@@ -76,12 +76,12 @@
 		}
 	}
 }
-
 .body-infor {
 	position: relative;
 	margin-top: 90px;
 	padding: 16px 20px 0 20px;
 	border-top: 6px solid #e8eaef;
+
 	h5 {
 		font-size: 1.5rem;
 		font-weight: 500;
@@ -106,83 +106,7 @@
 		color: var(--text-dark-color);
 	}
 }
-.edit-infor {
-	height: 40px;
-	border-radius: 5px;
-	margin-top: auto;
-	margin-bottom: 16px;
-	span {
-		font-size: 1.5rem;
-		font-weight: 500;
-		color: var(--text-dark-color);
-	}
-}
 
-.wrapper-edit {
-	width: 400px;
-
-	.cover-picture {
-		height: 155px;
-	}
-	.profile-picture {
-		width: 84px;
-		height: 84px;
-		top: calc(100% - 42px);
-	}
-	.body {
-		overflow-y: auto;
-		padding-bottom: 20px;
-		&::-webkit-scrollbar {
-			width: 4px;
-		}
-		&::-webkit-scrollbar-thumb {
-			border-radius: 6px;
-			background: rgba(0, 0, 0, 0.5);
-		}
-	}
-	.body-infor {
-		margin-top: 46px;
-		padding: 0;
-
-		& > .form-group {
-			padding: 0 16px 16px 16px;
-		}
-	}
-	.body-inner {
-		border-top: 6px solid #f4f5f7;
-		padding: 16px 16px 0 16px;
-	}
-
-	.form-group--birthday {
-		display: flex;
-		.input-birthday {
-			flex: 1;
-			height: 42px;
-			padding: 0 12px;
-			border: 1px solid #e1e4ea;
-			border-radius: 4px;
-
-			display: flex;
-			align-items: center;
-			svg {
-				margin-left: auto;
-			}
-			& + .input-birthday {
-				margin-left: 12px;
-			}
-			&:hover {
-				cursor: pointer;
-			}
-		}
-	}
-	.footer {
-		height: 68px;
-		padding: 16px;
-		flex-shrink: 0;
-		display: flex;
-		justify-content: flex-end;
-	}
-}
 .footer {
 	& .footer-btn {
 		height: 40px;
@@ -245,39 +169,5 @@
 	.form-note {
 		color: #72808e;
 		font-size: 1.2rem;
-	}
-}
-.calendar {
-	min-width: 113px;
-	height: 218px;
-	padding: 8px;
-	overflow: overlay;
-	&::-webkit-scrollbar {
-		width: 4px;
-	}
-	&::-webkit-scrollbar-thumb {
-		border-radius: 6px;
-		background: rgba(0, 0, 0, 0.5);
-	}
-	.calendar-item {
-		height: 32px;
-		line-height: 32px;
-		padding: 0 8px;
-		margin: 0 -8px;
-
-		&.calendar-item--pick {
-			svg {
-				visibility: visible;
-			}
-		}
-		svg {
-			color: var(--primary-dark-color);
-			margin-right: 8px;
-			visibility: hidden;
-		}
-		&:hover {
-			background-color: #f4f5f7;
-			cursor: pointer;
-		}
 	}
 }

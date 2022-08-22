@@ -35,6 +35,7 @@ Router.post(
 	uploadImage.single('profile-image'),
 	userController.uploadAvatar
 );
+Router.get('/searchUsers', userController.searchUsers);
 
 Router.get('/:phone', userController.getInformationUser);
 
