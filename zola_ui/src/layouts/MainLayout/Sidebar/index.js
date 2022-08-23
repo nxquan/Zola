@@ -139,7 +139,14 @@ const typeActionMenu = [
 	},
 ];
 
-function Sidebar({ currentUser, setCurrentUser, contacts, onChangeChat, hideSidebar }) {
+function Sidebar({
+	currentUser,
+	setCurrentUser,
+	contacts,
+	setContacts,
+	onChangeChat,
+	hideSidebar,
+}) {
 	const [tab, setTab] = useState(0);
 	const [isShowedMenu, setIsShowedMenu] = useState(false);
 	const [isShowedTypeMessageMenu, setIsShowedTypeMessageMenu] = useState(false);
@@ -310,7 +317,12 @@ function Sidebar({ currentUser, setCurrentUser, contacts, onChangeChat, hideSide
 				</div>
 
 				<div className={cx('aux-bar')}>
-					<Search />
+					<Search
+						currentUser={currentUser}
+						contacts={contacts}
+						setContacts={setContacts}
+						onChangeChat={onChangeChat}
+					/>
 					<div className={cx('container')}>
 						<div className={cx('content')}>
 							<div className={cx('category')}>

@@ -91,6 +91,8 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 				},
 			];
 		});
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const handleSendFile = useCallback((file, type) => {
@@ -180,6 +182,7 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 					});
 			}
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {

@@ -35,7 +35,8 @@ Router.post(
 	uploadImage.single('profile-image'),
 	userController.uploadAvatar
 );
-Router.get('/searchUsers', userController.searchUsers);
+Router.get('/search-users', userController.searchUsers);
+Router.post('/add-friend', userController.addFiend);
 
 Router.get('/:phone', userController.getInformationUser);
 

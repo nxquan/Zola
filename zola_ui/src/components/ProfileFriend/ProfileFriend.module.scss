@@ -76,11 +76,30 @@
 		}
 	}
 }
+.body-actions {
+	display: flex;
+	justify-content: center;
+	padding: 0 16px;
+	width: 100%;
+	margin-top: 90px;
+
+	& .body-action {
+		width: 50%;
+		height: 32px;
+		padding: 0;
+		border-radius: 4px;
+		font-weight: 500;
+		& + .body-action {
+			margin-top: 0px;
+			margin-left: 8px;
+		}
+	}
+}
 .body-infor {
 	position: relative;
-	margin-top: 90px;
+	margin-top: 20px;
 	padding: 16px 20px 0 20px;
-	border-top: 6px solid #e8eaef;
+	border-top: 6px solid #f4f5f7;
 
 	h5 {
 		font-size: 1.5rem;

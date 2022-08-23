@@ -80,6 +80,21 @@ class UserController {
 			next(error);
 		}
 	}
+
+	async addFiend(req, res, next) {
+		try {
+			await User.findOneAndUpdate(
+				{ phone: req.body.phoneUser },
+				{ $push: { friends: req.body.phoneFriend } }
+			);
+			await User.findOneAndUpdate(
+				{ phone: req.body.phoneFriend },
+				{ $push: { friends: req.body.phoneUser } }
+			);
+		} catch (error) {
+			next(error);
+		}
+	}
 }
 
 module.exports = new UserController();

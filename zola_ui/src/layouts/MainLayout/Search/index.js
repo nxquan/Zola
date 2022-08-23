@@ -21,7 +21,7 @@ import useClickOutside from '@/hooks/useClickOutside';
 
 const cx = classNames.bind(styles);
 
-function Search() {
+function Search({ currentUser, contacts, setContacts, onChangeChat }) {
 	const [searchValue, setSearchValue] = useState('');
 	const [showSearchResult, setShowSearchResult] = useState(false);
 	const [results, setResults] = useState([]);
@@ -44,6 +44,7 @@ function Search() {
 		setSearchValue('');
 		inputRef.current.focus();
 	};
+
 	useEffect(() => {
 		async function searchUsers() {
 			if (debouncedValue) {
@@ -89,7 +90,6 @@ function Search() {
 													item={item}
 													key={index}
 													onClick={() => {
-														console.log('Clicked item!');
 														setCurrentFriend(item);
 													}}
 												/>
@@ -157,8 +157,12 @@ function Search() {
 			{showModal && (
 				<Modal showModal={showModal}>
 					<ProfileFriend
-						currentUser={currentFriend}
+						currentFriend={currentFriend}
+						currentUserPhone={currentUser.phone}
+						contacts={contacts}
+						setContacts={setContacts}
 						onClose={handleCloseModal}
+						onChangeChat={onChangeChat}
 						ref={childModalRef}
 					/>
 				</Modal>

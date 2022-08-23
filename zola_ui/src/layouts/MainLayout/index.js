@@ -79,6 +79,7 @@ function MainLayout() {
 						contacts={contacts}
 						currentUser={!!currentUser && currentUser}
 						setCurrentUser={setCurrentUser}
+						setContacts={setContacts}
 						onChangeChat={handleChangeChat}
 						hideSidebar={!!currentChat}
 					/>
