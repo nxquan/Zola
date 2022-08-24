@@ -10,11 +10,11 @@ function Image({ src, alt, className, ...props }) {
 	return (
 		<img
 			className={classes}
-			src={src || images.NoImage}
+			src={src || images.noImage}
 			alt={alt}
 			{...props}
 			onError={(e) => {
-				e.target.src = images.NoImage;
+				e.target.src = images.noImage;
 			}}
 		/>
 	);

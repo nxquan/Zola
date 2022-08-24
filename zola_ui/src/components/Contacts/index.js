@@ -6,7 +6,7 @@ import Contact from '@/components/Contact';
 
 const cx = classNames.bind(styles);
 
-function Contacts({ contacts, onChangeChat }) {
+function Contacts({ contacts, currentUser, onChangeChat }) {
 	const [currentSelected, setCurrentSelected] = useState(undefined);
 
 	const changeSelectedContact = (contact, index) => {
@@ -23,6 +23,7 @@ function Contacts({ contacts, onChangeChat }) {
 						selected={currentSelected === index}
 						key={index}
 						item={contact}
+						self={currentUser.phone === contact.phone}
 					/>
 				);
 			})}

@@ -404,7 +404,11 @@ function Sidebar({
 								</Tippy>
 							</div>
 							<div className={cx('inner')}>
-								<Contacts onChangeChat={onChangeChat} contacts={contacts} />
+								<Contacts
+									onChangeChat={onChangeChat}
+									currentUser={currentUser}
+									contacts={contacts}
+								/>
 							</div>
 						</div>
 					</div>

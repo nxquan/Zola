@@ -7,7 +7,7 @@ class AuthenController {
 		if (checkPhone) return res.json({ msg: 'Số điện thoại đã được sử dụng', status: false });
 		bcrypt.genSalt(10, (err, salt) => {
 			bcrypt.hash(req.body.password, salt, function (err, hash) {
-				const user = new User({ ...req.body, password: hash });
+				const user = new User({ ...req.body, password: hash, friends: [req.body.phone] });
 				user.save()
 					.then(() => {})
 					.catch((error) => {
