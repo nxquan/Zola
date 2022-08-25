@@ -12,7 +12,7 @@ import styles from './Chat.module.scss';
 import ButtonIcon from '@/components/ButtonIcon';
 
 import { useState, memo } from 'react';
-import useClickOutsideContainer from '@/hooks/useClickOutsideContainer';
+import { useClickOutsideContainer } from '@/hooks';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 

@@ -14,7 +14,6 @@ function Menu({ items, className, onChange = defaultFn }) {
 			if (item.children) {
 				return (
 					<Tippy
-						appendTo={() => document.body}
 						key={index}
 						offset={[-10, 0]}
 						interactive
@@ -35,7 +34,6 @@ function Menu({ items, className, onChange = defaultFn }) {
 				return (
 					<MenuItem
 						onClick={(e) => {
-							e.preventDefault();
 							onChange(item);
 						}}
 						key={index}

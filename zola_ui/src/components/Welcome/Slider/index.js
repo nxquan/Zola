@@ -1,17 +1,18 @@
+import { useRef, useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Slider.module.scss';
-import { slideWelcome } from './slideData';
-import { useRef, useState, useEffect } from 'react';
 import SlideDots from './SlideDots';
-
+import { slideWelcome } from './slideData';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
+import { useTranslate } from '@/hooks';
+
 const cx = classNames.bind(styles);
 
 function Slider() {
 	const slideContainerRef = useRef();
 	let offsetRef = useRef(1);
 	const [currentSlide, setCurrentSlide] = useState(offsetRef.current);
-
+	const [t] = useTranslate();
 	useEffect(() => {
 		const id = setInterval(() => {
 			handleChangeSlide('next');
@@ -58,13 +59,17 @@ function Slider() {
 				<BsChevronRight />
 			</button>
 			<div className={cx('slider-inner')} ref={slideContainerRef}>
-				{slideWelcome.map((slide) => {
+				{slideWelcome.map((slide, index) => {
 					return (
 						<div key={slide.id} className={cx('slide-item')}>
 							<img src={slide.img} alt="slide" className={cx('slide-img')} />
 							<div className={cx('slide-content')}>
-								<span className={cx('slide-title')}>{slide.title}</span>
-								<span className={cx('slide-description')}>{slide.description}</span>
+								<span className={cx('slide-title')}>
+									{t(`Slide${index + 1}Title`)}
+								</span>
+								<span className={cx('slide-description')}>
+									{t(`Slide${index + 1}Des`)}
+								</span>
 							</div>
 						</div>
 					);

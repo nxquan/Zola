@@ -6,7 +6,7 @@ import images from '@/assets/images';
 
 const cx = classNames.bind(styles);
 
-function Contact({ selected, item, self, onClick }) {
+function Contact({ selected, item, self, t, onClick }) {
 	let classes = cx('wrapper', { selected });
 	return (
 		<div className={classes} onClick={onClick}>
@@ -16,7 +16,7 @@ function Contact({ selected, item, self, onClick }) {
 				className={cx('avatar')}
 			/>
 			<div className={cx('infor')}>
-				<h3 className={cx('name')}>{self ? 'Cloud của tôi' : item.username}</h3>
+				<h3 className={cx('name')}>{self ? t('MyCloud') : item.username}</h3>
 				<p className={cx('message')}>
 					<span>Bạn: </span>
 					nhớ uống thuốc đó

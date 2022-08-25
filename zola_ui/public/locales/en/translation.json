@@ -1,0 +1,55 @@
+{
+    "Labels": "Labels",
+    "AllLabels": "All labels",
+    "AllMessages": "All messages",
+    "Action": "Action",
+    "Search": "Search",
+    "Close": "Close",
+    "Priority":"Priority",
+    "Other": "Other",
+
+    
+    "AccountInformation": "Account information",
+    "Settings": "Settings",
+    "Storage":"Storage",
+    "Language": "Language",
+    "AboutZola": "About Zola",
+    "LogOut": "Log out",
+    "IsLogIn": "Log in",
+
+    "ManageFiles": "Manage Files",
+    "Version": "Version",
+    "HelpCenter": "Help center",
+    "Welcome": "Welcome to Zalo PC",
+    "DescriptionZola": "Explore the best features to support your work and allow you to chat with your friends and family. All are optimized for your computer!",
+    "MyCloud": "My cloud",
+    "You": "You",
+    "Online": "Just online",
+    "RecentSearch": "Recent search",
+    "NoResult": "No result found!",
+    "Slide1Title": "Messages more, work less",
+    "Slide1Des": "Use Quick Messages to save common messages & respond faster in any conversations.",
+    "Slide2Title": "Disappearing messages",
+    "Slide2Des": "From now messages can auto-disappear after a set time.",
+    "Slide3Title": "Effective teamwork with Zalo Group Call",
+    "Slide3Des": "Connect and converse with your team anytime, anywhere",
+    "Slide4Title": "Stay connected and work on any device",
+    "Slide4Des": "With advanced synchronization",
+    "Slide5Title": "Heavy files to send?",
+    "Slide5Des": "Let Zalo PC deal with it!",
+    "Slide6Title": "Chat with your teammates",
+    "Slide6Des": "Fast and easily with tools optimized for your computer",
+    "Slide7Title": "Enhance productivity up to 40%",
+    "Slide7Des": "With Zalo PC",
+
+    "ShowAllMessages": "Show all messages",
+    "ViewUnreadMessagesOnly": "View unread messages only",
+    "MessageFromStrangerOnly": "Message from stranger only",
+
+    "MarkAsRead": "Mark as read",
+    "SendBroadcastMessages": "Send broadcast messages",
+    "SwitchToNewDesign": "Switch to New design",
+
+    "Profile": "Profile"
+
+}

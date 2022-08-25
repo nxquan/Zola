@@ -1,0 +1,55 @@
+{
+    "Labels": "Phân loại",
+    "AllLabels": "Tất cả",
+    "AllMessages": "Tất cả tin nhắn",
+    "Action": "Thao tác",
+    "Search": "Tìm kiếm",
+    "Close": "Đóng",
+    "Priority":"Ưu tiên",
+    "Other": "Khác",
+
+    
+    "AccountInformation": "Thông tin tài khoản",
+    "Settings": "Cài đặt",
+    "Storage":"Lưu trữ",
+    "Language": "Ngôn ngữ",
+    "AboutZola": "Giới thiệu",
+    "LogOut": "Đăng xuất",
+    "IsLogIn": "Đang đăng nhập ...",
+
+    "ManageFiles": "Quản lý File",
+    "Version": "Thông tin phiên bản",
+    "HelpCenter": "Trung tâm hỗ trợ",
+    "Welcome": "Chào mừng đến với",
+    "DescriptionZola": "Khám phá những tiện ích hỗ trợ làm việc và trò chuyện cùng người thân, bạn bè được tối ưu hoá cho máy tính của bạn.",
+    "MyCloud": "Cloud của tôi",
+    "You": "Bạn",
+    "Online": "Vừa truy cập",
+    "RecentSearch": "Tìm kiếm gần đây",
+    "NoResult": "Không tìm thấy kết quả nào!",
+
+    "Slide1Title": "Nhắn tin nhiều hơn, soạn thảo ít hơn",
+    "Slide1Des": "Sử dụng tin nhắn nhanh để lưu sẵn các tin nhắn thường dùng và gửi nhanh trong hội thoại bất kỳ.",
+    "Slide2Title": "Tin nhắn tự xóa",
+    "Slide2Des": "Từ giờ tin nhắn đã có thể tự động tự xóa sau khoảng thời gian nhất định.",
+    "Slide3Title": "Gọi nhóm và làm việc hiệu quả với Zalo Group Call",
+    "Slide3Des": "Trao đổi công việc mọi lúc mọi nơi",
+    "Slide4Title": "Trải nghiệm xuyên suốt",
+    "Slide4Des": "Kết nối và giải quyết công việc trên mọi thiết bị với dữ liệu luôn được đồng bộ",
+    "Slide5Title": "Gửi File nặng?",
+    "Slide5Des": "Đã có Zalo PC 'xử' hết",
+    "Slide6Title": "Chat nhóm với đồng nghiệp",
+    "Slide6Des": "Tiện lợi hơn, nhờ các công cụ hỗ trợ chat trên máy tính",
+    "Slide7Title": "Giải quyết công việc hiệu quả hơn, lên đến 40%",
+    "Slide7Des": "Với Zalo PC",
+
+    "ShowAllMessages": "Hiển thị tất cả tin nhắn",
+    "ViewUnreadMessagesOnly": "Chỉ tin nhắn chưa đọc",
+    "MessageFromStrangerOnly": "Chỉ tin nhắn từ người lạ",
+    "MarkAsRead": "Đánh dấu tin đã đã đọc",
+    "SendBroadcastMessages": "Gửi tin đồng thời",
+    "SwitchToNewDesign": "Chuyển sang giao diện mới",
+
+    "Profile": "Profile"
+
+}

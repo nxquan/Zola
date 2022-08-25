@@ -10,8 +10,6 @@ import {
 	FaAddressBook,
 	FaRegCheckSquare,
 	FaCheckSquare,
-	FaRegClock,
-	FaClock,
 } from 'react-icons/fa';
 
 import {
@@ -45,19 +43,21 @@ import Image from '@/components/Image';
 
 import Modal from '@/components/Modal';
 import Profile from '@/components/Profile';
+import {useTranslate} from '@/hooks';
+
 const cx = classNames.bind(styles);
 const profileMenu = [
 	{
-		title: 'Hồ sơ của bạn',
+		title: 'Profile',
 		separate: true,
 		type: 'PROFILE',
 	},
 	{
-		title: 'Cài đặt',
+		title: 'Settings',
 		type: 'SETTING',
 	},
 	{
-		title: 'Đăng xuất',
+		title: 'LogOut',
 		className: 'warning',
 		separate: true,
 		type: 'LOG_OUT',
@@ -66,45 +66,57 @@ const profileMenu = [
 const settingMenu = [
 	{
 		icon: <FiUser />,
-		title: 'Thông tin tài khoản',
+		title: 'AccountInformation',
 	},
 	{
 		icon: <BsGear />,
-		title: 'Cài đặt',
+		title: 'Settings',
 	},
 	{
 		icon: <ImFloppyDisk />,
-		title: 'Lưu trữ',
+		title: 'Storage',
 		separate: true,
 		children: [
 			{
-				title: 'Quản lý file',
+				title: 'ManageFiles',
 			},
 		],
 	},
 	{
 		icon: <BsGlobe />,
-		title: 'Ngôn ngữ',
+		title: 'Language',
 		children: [
 			{
 				title: 'Tiếng Việt',
+				bio: 'vn',
 				icon: <FontAwesomeIcon className={cx('language-icon', 'show')} icon={faCheck} />,
-				type: 'language',
+				type: 'LANGUAGE',
 			},
 			{
 				title: 'English',
+				bio: 'en',
 				icon: <FontAwesomeIcon className={cx('language-icon')} icon={faCheck} />,
-				type: 'language',
+				type: 'LANGUAGE',
 			},
 		],
 	},
 	{
 		icon: <AiOutlineExclamationCircle />,
-		title: 'Giới thiệu',
+		title: 'AboutZola',
+		children: [
+			{
+				title: 'Version',
+				type: 'INTRODUCTION',
+			},
+			{
+				title: 'HelpCenter',
+				type: 'INTRODUCTION',
+			},
+		],
 	},
 	{
 		icon: <AiOutlineLogout />,
-		title: 'Đăng xuất',
+		title: 'LogOut',
 		className: 'warning',
 		separate: true,
 		type: 'LOG_OUT',
@@ -113,28 +125,28 @@ const settingMenu = [
 
 const typeMessage = [
 	{
-		title: 'Hiển thị tất cả tin nhắn',
+		title: 'ShowAllMessages',
 		icon: <FontAwesomeIcon className={cx('message-icon', 'show')} icon={faCheck} />,
 	},
 	{
-		title: 'Chỉ tin nhắn chưa đọc',
+		title: 'ViewUnreadMessagesOnly',
 		icon: <FontAwesomeIcon className={cx('message-icon')} icon={faCheck} />,
 	},
 	{
-		title: 'Chỉ tin nhắn từ người lạ',
+		title: 'MessageFromStrangerOnly',
 		icon: <FontAwesomeIcon className={cx('message-icon')} icon={faCheck} />,
 	},
 ];
 
 const typeActionMenu = [
 	{
-		title: 'Đánh dấu tin đã đã đọc',
+		title: 'MarkAsRead',
 	},
 	{
-		title: 'Gửi tin đồng thời',
+		title: 'SendBroadcastMessages',
 	},
 	{
-		title: 'Chuyển sang giao diện mới',
+		title: 'SwitchToNewDesign',
 		separate: true,
 	},
 ];
@@ -157,6 +169,7 @@ function Sidebar({
 	const modalRef = useRef(null);
 	let profileMenuWithUser = [{ title: currentUser.username, heading: true }, ...profileMenu];
 	const navigate = useNavigate();
+	const [t, i18n] = useTranslate();
 
 	const handleChangeSettingMenu = (menuItem) => {
 		switch (menuItem.type) {
@@ -166,6 +179,22 @@ function Sidebar({
 					navigate('/login');
 				}
 				logOutUser();
+				break;
+			case 'LANGUAGE':
+				i18n.changeLanguage(menuItem.bio);
+				let selectedIndex;
+				let languages = settingMenu[3].children;
+				languages.forEach((language, index) => {
+					language.icon = (
+						<FontAwesomeIcon className={cx('language-icon')} icon={faCheck} />
+					);
+					if (language.bio === menuItem.bio) {
+						selectedIndex = index;
+					}
+				});
+				languages[selectedIndex].icon = (
+					<FontAwesomeIcon className={cx('language-icon', 'show')} icon={faCheck} />
+				);
 				break;
 			default:
 				console.log(menuItem);
@@ -259,13 +288,6 @@ function Sidebar({
 							>
 								{tab !== 2 ? <FaRegCheckSquare /> : <FaCheckSquare />}
 							</ButtonIcon>
-							<ButtonIcon
-								className={cx('nav-tab-btn')}
-								active={tab === 3}
-								onClick={() => setTab(3)}
-							>
-								{tab !== 3 ? <FaRegClock /> : <FaClock />}
-							</ButtonIcon>
 						</div>
 					</div>
 					<div className={cx('nav-tab-bottom')}>
@@ -322,6 +344,7 @@ function Sidebar({
 						contacts={contacts}
 						setContacts={setContacts}
 						onChangeChat={onChangeChat}
+						t={t}
 					/>
 					<div className={cx('container')}>
 						<div className={cx('content')}>
@@ -334,23 +357,23 @@ function Sidebar({
 									}
 									onClick={() => setShowCategory(!showCategory)}
 								>
-									Phân loại
+									{t('Labels')}
 								</Button>
 								<div className={cx('category-list', { active: showCategory })}>
 									<div className={cx('category-item', 'active')}>
 										<div className={cx('category-count')}>1</div>
 										<Button rounded className={cx('category-btn')}>
-											Tất cả
+											{t('AllLabels')}
 										</Button>
 									</div>
 									<div className={cx('category-item')}>
 										<Button rounded className={cx('category-btn')}>
-											ƯU TIÊN
+											{t('Priority')}
 										</Button>
 									</div>
 									<div className={cx('category-item')}>
 										<Button rounded className={cx('category-btn')}>
-											KHÁC
+											{t('Other')}
 										</Button>
 									</div>
 								</div>
@@ -376,7 +399,7 @@ function Sidebar({
 										className={cx('action-btn')}
 										onClick={() => setIsShowedTypeMessageMenu(true)}
 									>
-										Tất cả tin nhắn
+										{t('AllMessages')}
 										<BsChevronDown />
 									</button>
 								</Tippy>
@@ -399,7 +422,7 @@ function Sidebar({
 										className={cx('action-btn', 'action-btn--primary')}
 										onClick={() => setIsShowedTypeActionMenu(true)}
 									>
-										Thao tác
+										{t('Action')}
 									</button>
 								</Tippy>
 							</div>
@@ -408,6 +431,7 @@ function Sidebar({
 									onChangeChat={onChangeChat}
 									currentUser={currentUser}
 									contacts={contacts}
+									t={t}
 								/>
 							</div>
 						</div>

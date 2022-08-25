@@ -1,19 +1,18 @@
 import { memo } from 'react';
-import classNames from 'classnames/bind';
-
-import styles from './Chat.module.scss';
-import Image from '@/components/Image';
 
 import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 import { FiVideo } from 'react-icons/fi';
 import { BsLayoutSidebarReverse, BsChevronLeft } from 'react-icons/bs';
 import { IoSearchOutline } from 'react-icons/io5';
 
+import classNames from 'classnames/bind';
+import styles from './Chat.module.scss';
+import Image from '@/components/Image';
+import images from '@/assets/images';
 import ButtonIcon from '@/components/ButtonIcon';
-
 const cx = classNames.bind(styles);
 
-function ChatHeader({ currentChat, handleChangeChat }) {
+function ChatHeader({ currentChat, handleChangeChat, self }) {
 	return (
 		<div className={cx('header')}>
 			<div className={cx('header-infor')}>
@@ -24,13 +23,15 @@ function ChatHeader({ currentChat, handleChangeChat }) {
 					<BsChevronLeft />
 				</ButtonIcon>
 				<Image
-					src={currentChat.profilePicture}
+					src={self ? images.cloudImage : currentChat.profilePicture}
 					alt="Avatar"
 					className={cx('header-avatar')}
 				/>
 				<div className={cx('header-inner')}>
-					<h4 className={cx('header-name')}>{currentChat.username}</h4>
-					<p className={cx('header-status')}>Vừa truy cập</p>
+					<h4 className={cx('header-name')}>
+						{self ? 'Cloud của tôi' : currentChat.username}
+					</h4>
+					{!self && <p className={cx('header-status')}>Vừa truy cập</p>}
 				</div>
 			</div>
 			<div className={cx('header-actions')}>

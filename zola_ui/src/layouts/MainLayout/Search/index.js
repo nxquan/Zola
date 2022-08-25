@@ -12,16 +12,15 @@ import styles from './Search.module.scss';
 import Account from '@/components/Account';
 import Button from '@/components/Button';
 import ButtonIcon from '@/components/ButtonIcon';
-import useDebounce from '@/hooks/useDebounce';
 import { searchUserRoute } from '@/utils/APIRoute';
 import axios from 'axios';
 import Modal from '@/components/Modal';
 import ProfileFriend from '@/components/ProfileFriend';
-import useClickOutside from '@/hooks/useClickOutside';
+import { useClickOutside, useDebounce } from '@/hooks';
 
 const cx = classNames.bind(styles);
 
-function Search({ currentUser, contacts, setContacts, onChangeChat }) {
+function Search({ currentUser, contacts, setContacts, t, onChangeChat }) {
 	const [searchValue, setSearchValue] = useState('');
 	const [showSearchResult, setShowSearchResult] = useState(false);
 	const [results, setResults] = useState([]);
@@ -82,7 +81,7 @@ function Search({ currentUser, contacts, setContacts, onChangeChat }) {
 						render={(attrs) => (
 							<div className="box" tabIndex="-1" {...attrs}>
 								<div className={cx('account-list')}>
-									<div className={cx('heading')}>Tìm kiếm gần đây</div>
+									<div className={cx('heading')}>{t('RecentSearch')}</div>
 									<div className={cx('content')}>
 										{results.length > 0 ? (
 											results.map((item, index) => (
@@ -95,9 +94,7 @@ function Search({ currentUser, contacts, setContacts, onChangeChat }) {
 												/>
 											))
 										) : (
-											<div className={cx('no-users')}>
-												Không tìm thấy người dùng nào!!!
-											</div>
+											<div className={cx('no-users')}>{t('NoResult')}</div>
 										)}
 									</div>
 								</div>
@@ -115,7 +112,7 @@ function Search({ currentUser, contacts, setContacts, onChangeChat }) {
 							<input
 								id="form-input"
 								className={cx('form-input')}
-								placeholder="Tìm kiếm"
+								placeholder={t('Search')}
 								value={searchValue}
 								onChange={(e) => setSearchValue(e.target.value)}
 								ref={inputRef}
@@ -148,7 +145,7 @@ function Search({ currentUser, contacts, setContacts, onChangeChat }) {
 									setSearchValue('');
 								}}
 							>
-								Đóng
+								{t('Close')}
 							</Button>
 						)}
 					</div>

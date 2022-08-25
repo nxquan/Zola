@@ -248,7 +248,11 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 
 	return (
 		<div className={cx('wrapper')}>
-			<ChatHeader handleChangeChat={handleChangeChat} currentChat={currentChat} />
+			<ChatHeader
+				handleChangeChat={handleChangeChat}
+				currentChat={currentChat}
+				self={currentUser.phone === currentChat.phone}
+			/>
 			<ChatMessage messages={messages} ref={scrollRef} />
 			<ChatInput
 				handleSendMsg={handleSendMsg}

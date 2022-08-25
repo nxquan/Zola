@@ -11,6 +11,7 @@ import Welcome from '@/components/Welcome';
 import Chat from '@/Pages/Chat';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { getFriendsRoute, getInformationUserRoute, host } from '@/utils/APIRoute';
+import { useTranslate } from '@/hooks';
 const cx = classNames.bind(styles);
 
 function MainLayout() {
@@ -19,12 +20,11 @@ function MainLayout() {
 	const [currentUser, setCurrentUser] = useState();
 	const [currentChat, setCurrentChat] = useState();
 	const [isLoading, setIsLoading] = useState(false);
-
 	const navigate = useNavigate();
 	const handleChangeChat = (contact) => {
 		setCurrentChat(contact);
 	};
-
+	const [t] = useTranslate();
 	useEffect(() => {
 		async function getUserFromLocalStorage() {
 			if (!localStorage.getItem('account')) navigate('/login');
@@ -72,7 +72,7 @@ function MainLayout() {
 	return (
 		<>
 			{isLoading ? (
-				<LoadingSpinner title="Đang đăng nhập..." />
+				<LoadingSpinner title={t('IsLogIn')} />
 			) : (
 				<div className={cx('wrapper')}>
 					<Sidebar

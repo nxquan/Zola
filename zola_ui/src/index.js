@@ -4,11 +4,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import GlobalStyles from '@/components/GlobalStyles';
+import LanguageProvider from '@/storage/LanguageProvider';
+
+import './i18n';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<React.StrictMode>
 		<GlobalStyles>
-			<App />
+			<LanguageProvider>
+				<App />
+			</LanguageProvider>
 		</GlobalStyles>
 	</React.StrictMode>
 );
