@@ -3,10 +3,14 @@ import classNames from 'classnames/bind';
 import styles from './Chat.module.scss';
 import Image from '@/components/Image';
 import { AiOutlineFile } from 'react-icons/ai';
+import { BiLike } from 'react-icons/bi';
+import data from '@emoji-mart/data';
+import { init } from 'emoji-mart';
 
+init({ data });
 const cx = classNames.bind(styles);
 
-function ChatItem({ item, sameUser }) {
+function ChatItem({ item, sameUser, onSendInteractive }) {
 	let classes = cx(
 		'chat-item',
 		{ sender: item.fromSelf },
@@ -79,6 +83,25 @@ function ChatItem({ item, sameUser }) {
 				<span className={cx('chat-time')}>
 					{textHours}:{minutes}
 				</span>
+				<div className={cx('interactive', { show: item.interactive === 'like' })}>
+					<span
+						className={cx('current-emotion')}
+						onClick={() => {
+							if (item.interactive === 'like') {
+								onSendInteractive(item, 'none');
+							} else {
+								onSendInteractive(item, 'like');
+							}
+						}}
+					>
+						{item.interactive === 'like' ? (
+							<em-emoji id="+1" size="0.8em"></em-emoji>
+						) : (
+							<BiLike />
+						)}
+					</span>
+					<div className={cx('emotions')}></div>
+				</div>
 			</div>
 		</div>
 	);

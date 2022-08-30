@@ -31,6 +31,7 @@ const Message = new mongoose.Schema(
 			ref: 'User',
 			required: true,
 		},
+		interactive: { type: String, default: 'none' },
 	},
 	{
 		timestamps: true,

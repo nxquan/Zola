@@ -5,7 +5,7 @@ import ChatItem from './ChatItem';
 
 const cx = classNames.bind(styles);
 
-const ChatMessage = forwardRef(({ messages }, ref) => {
+const ChatMessage = forwardRef(({ messages, onSendInteractive }, ref) => {
 	return (
 		<div className={cx('chat-message')} ref={ref}>
 			{messages.map((item, index) => {
@@ -13,7 +13,14 @@ const ChatMessage = forwardRef(({ messages }, ref) => {
 				if (index >= 1 && messages[index - 1].fromSelf === item.fromSelf) {
 					sameUser = true;
 				}
-				return <ChatItem key={index} item={item} sameUser={sameUser} />;
+				return (
+					<ChatItem
+						key={index}
+						item={item}
+						sameUser={sameUser}
+						onSendInteractive={onSendInteractive}
+					/>
+				);
 			})}
 		</div>
 	);

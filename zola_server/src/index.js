@@ -44,9 +44,18 @@ io.on('connection', (client) => {
 	});
 
 	client.on('send-msg', (data) => {
-		const sendUser = onlineUsers.get(data.to);
-		if (sendUser) {
-			client.to(sendUser).emit('receive-msg', data.message);
+		const receivedUser = onlineUsers.get(data.to);
+		if (receivedUser) {
+			client.to(receivedUser).emit('receive-msg', data);
+		}
+	});
+	client.on('send-interactive', (data) => {
+		const receivedUser = onlineUsers.get(data.to);
+		if (receivedUser) {
+			client.to(receivedUser).emit('receive-interactive', {
+				_id: data._id,
+				interactive: data.interactive,
+			});
 		}
 	});
 });

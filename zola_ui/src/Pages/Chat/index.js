@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './Chat.module.scss';
@@ -8,7 +8,13 @@ import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
 
 import axios from 'axios';
-import { addMessage, getAllMessages, uploadFile, uploadImage } from '@/utils/APIRoute';
+import {
+	addMessage,
+	getAllMessages,
+	uploadFile,
+	uploadImage,
+	addInteractiveMessageRoute,
+} from '@/utils/APIRoute';
 
 const cx = classNames.bind(styles);
 
@@ -61,41 +67,47 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 			second: textSecond,
 		};
 	};
-	const handleSendMsg = useCallback(async (msg) => {
-		await axios.post(addMessage, {
-			from: currentUser._id,
-			to: currentChat._id,
-			message: msg,
-		});
-
-		socket.current.emit('send-msg', {
-			from: currentUser._id,
-			to: currentChat._id,
-			message: {
-				typeOfMessage: 'text',
-				text: msg,
-			},
-		});
-
-		setMessages((prev) => {
-			const { year, month, day, hour, minute, second } = getSendedTime(curDate);
-			return [
-				...prev,
-				{
-					fromSelf: true,
+	const handleSendMsg = async (msg) => {
+		axios
+			.post(addMessage, {
+				from: currentUser._id,
+				to: currentChat._id,
+				message: msg,
+			})
+			.then(({ data }) => {
+				socket.current.emit('send-msg', {
+					from: currentUser._id,
+					to: currentChat._id,
 					message: {
 						typeOfMessage: 'text',
 						text: msg,
 					},
-					sendedTime: `${year}-${month}-${day}T${hour}:${minute}:${second}.000Z`,
-				},
-			];
-		});
+					_id: data._id,
+					interactive: 'none',
+				});
+
+				setMessages((prev) => {
+					const { year, month, day, hour, minute, second } = getSendedTime(curDate);
+					return [
+						...prev,
+						{
+							fromSelf: true,
+							message: {
+								typeOfMessage: 'text',
+								text: msg,
+							},
+							_id: data._id,
+							interactive: 'none',
+							sendedTime: `${year}-${month}-${day}T${hour}:${minute}:${second}.000Z`,
+						},
+					];
+				});
+			});
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	};
 
-	const handleSendFile = useCallback((file, type) => {
+	const handleSendFile = (file, type) => {
 		switch (type) {
 			case 'IMAGE': {
 				let formData = new FormData();
@@ -183,8 +195,34 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	};
 
+	const handleSendInteractive = async (item, interactive) => {
+		//save db
+		await axios.post(addInteractiveMessageRoute, {
+			_id: item._id,
+			interactive,
+		});
+		//Send socket
+		socket.current.emit('send-interactive', {
+			from: currentUser._id,
+			to: currentChat._id,
+			_id: item._id,
+			interactive: interactive,
+		});
+
+		//Self update
+		setMessages((prevMessages) => {
+			let selectedIndex;
+			prevMessages.forEach((curMessage, index) => {
+				if (curMessage._id === item._id) {
+					selectedIndex = index;
+				}
+			});
+			prevMessages[selectedIndex].interactive = interactive;
+			return [...prevMessages];
+		});
+	};
 	useEffect(() => {
 		async function fetchMessage() {
 			const { data } = await axios.get(getAllMessages, {
@@ -193,9 +231,7 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 					to: currentChat._id,
 				},
 			});
-			if (data.status) {
-				setMessages(data.messages);
-			}
+			setMessages((prev) => data.messages);
 		}
 		if (currentChat) {
 			fetchMessage();
@@ -216,15 +252,30 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 			hours = 24 - (7 - hours);
 		}
 		if (socket.current) {
-			socket.current.on('receive-msg', (message) => {
+			socket.current.on('receive-msg', (data) => {
 				setArrivalMessage({
 					fromSelf: false,
-					message: message,
+					message: data.message,
+					_id: data._id,
+					interactive: data.interactive,
 					sendedTime: `${years}-${months < 10 ? '0' + months : months}-${
 						day < 10 ? '0' + day : day
 					}T${hours < 10 ? '0' + hours : hours}:${
 						minutes < 10 ? '0' + minutes : minutes
 					}:${seconds < 10 ? '0' + seconds : seconds}.000Z`,
+				});
+			});
+
+			socket.current.on('receive-interactive', (data) => {
+				setMessages((prevMessages) => {
+					let selectedIndex;
+					prevMessages.forEach((curMessage, index) => {
+						if (curMessage._id === data._id) {
+							selectedIndex = index;
+						}
+					});
+					prevMessages[selectedIndex].interactive = data.interactive;
+					return [...prevMessages];
 				});
 			});
 		}
@@ -244,7 +295,7 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 			}
 		}, 100);
 		return () => clearTimeout(id);
-	}, [messages]);
+	}, [messages.length]);
 
 	return (
 		<div className={cx('wrapper')}>
@@ -253,7 +304,11 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 				currentChat={currentChat}
 				self={currentUser.phone === currentChat.phone}
 			/>
-			<ChatMessage messages={messages} ref={scrollRef} />
+			<ChatMessage
+				messages={messages}
+				ref={scrollRef}
+				onSendInteractive={handleSendInteractive}
+			/>
 			<ChatInput
 				handleSendMsg={handleSendMsg}
 				handleSendFile={handleSendFile}

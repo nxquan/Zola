@@ -20,6 +20,7 @@ function MainLayout() {
 	const [currentUser, setCurrentUser] = useState();
 	const [currentChat, setCurrentChat] = useState();
 	const [isLoading, setIsLoading] = useState(false);
+
 	const navigate = useNavigate();
 	const handleChangeChat = (contact) => {
 		setCurrentChat(contact);

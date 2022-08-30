@@ -138,7 +138,12 @@
 		padding: 12px;
 		margin-left: 8px;
 		max-width: calc(100% - 38px - 119px);
-
+		position: relative;
+		&:hover {
+			.interactive {
+				display: flex;
+			}
+		}
 		::selection {
 			background-color: #abcdff;
 		}
@@ -157,6 +162,31 @@
 			user-select: none;
 		}
 	}
+}
+
+.interactive {
+	&.show {
+		display: flex;
+	}
+	display: none;
+	width: 22px;
+	height: 22px;
+	background-color: var(--white-color);
+	border-radius: 50%;
+
+	position: absolute;
+	bottom: -11px;
+	left: 11px;
+
+	&:hover {
+		cursor: pointer;
+	}
+	.current-emotion {
+		margin: auto;
+		color: var(--icon-color);
+	}
+
+	z-index: 100;
 }
 .chat-file {
 	height: 56px;

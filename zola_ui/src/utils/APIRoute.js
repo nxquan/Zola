@@ -11,6 +11,7 @@ export const searchUserRoute = `${host}/api/user/search-users`;
 export const addFriendRoute = `${host}/api/user/add-friend`;
 
 export const addMessage = `${host}/api/message/add-message`;
+export const addInteractiveMessageRoute = `${host}/api/message/add-interactive`;
 export const getAllMessages = `${host}/api/message/get-all-messages`;
 export const uploadImage = `${host}/api/message/upload-image`;
 export const uploadFile = `${host}/api/message/upload-file`;

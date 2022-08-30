@@ -13,27 +13,58 @@ class MessageController {
 				sender: from,
 			});
 			if (curMsg) {
-				return res.json({ msg: 'Message is added successfully!', status: true });
+				return res.json({
+					_id: curMsg._id,
+					msg: 'Message is added successfully!',
+					status: true,
+				});
 			}
 			return res.json({ msg: 'Failed to add message to database!', status: false });
 		} catch (error) {
 			next(error);
 		}
 	}
+	async addInteractive(req, res, next) {
+		try {
+			const message = await Message.findOne({ _id: req.body._id });
+			let curInteractive;
+			if (message.interactive === req.body.interactive) {
+				curInteractive = 'none';
+			} else {
+				curInteractive = req.body.interactive;
+			}
+			await Message.findOneAndUpdate(
+				{ _id: req.body._id },
+				{
+					interactive: curInteractive,
+				}
+			);
 
+			return res.json({ status: true, msg: 'Add interactive successfully!' });
+		} catch (error) {
+			next(error);
+		}
+	}
 	async getAllMessages(req, res, next) {
 		try {
 			const { from, to } = req.query;
 
-			const plainMessages = await Message.find({
+			const plainMessagesFromDB = await Message.find({
 				users: { $all: [from, to] },
-			}).sort({ updatedAt: 1 });
-
+			}).sort({ createdAt: 1 });
+			const plainMessages = plainMessagesFromDB.filter((message) => {
+				return (
+					(message.users[0] === from && message.users[1] === to) ||
+					(message.users[0] === to && message.users[1] === from)
+				);
+			});
 			const messages = plainMessages.map((msg) => {
 				return {
 					fromSelf: msg.sender.toString() === from,
 					message: msg.message,
 					sendedTime: msg.updatedAt,
+					interactive: msg.interactive,
+					_id: msg._id,
 				};
 			});
 
