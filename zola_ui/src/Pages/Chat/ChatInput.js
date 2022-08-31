@@ -115,7 +115,7 @@ function ChatInput({ currentChat, handleSendMsg, handleSendFile, scrollRef }) {
 						<BiMessageEdit />
 					</ButtonIcon>
 					<div
-						className={cx('chat-input-btn', 'emoji')}
+						className={cx('chat-input-btn', 'emoji', { selected: showEmoji })}
 						onClick={handleShowEmojiPicker}
 						ref={containRef}
 					>

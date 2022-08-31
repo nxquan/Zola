@@ -10,9 +10,12 @@ import styles from './Chat.module.scss';
 import Image from '@/components/Image';
 import images from '@/assets/images';
 import ButtonIcon from '@/components/ButtonIcon';
+import { useTranslate } from '@/hooks';
 const cx = classNames.bind(styles);
 
-function ChatHeader({ currentChat, handleChangeChat, onChangeActions, self }) {
+function ChatHeader({ currentChat, showSideInfo, handleChangeChat, onChangeActions, self }) {
+	const [t] = useTranslate();
+
 	return (
 		<div className={cx('header')}>
 			<div className={cx('header-infor')}>
@@ -31,7 +34,7 @@ function ChatHeader({ currentChat, handleChangeChat, onChangeActions, self }) {
 					<h4 className={cx('header-name')}>
 						{self ? 'Cloud của tôi' : currentChat.username}
 					</h4>
-					{!self && <p className={cx('header-status')}>Vừa truy cập</p>}
+					{!self && <p className={cx('header-status')}>{t('Online')}</p>}
 				</div>
 			</div>
 			<div className={cx('header-actions')}>
@@ -45,7 +48,7 @@ function ChatHeader({ currentChat, handleChangeChat, onChangeActions, self }) {
 					<FiVideo />
 				</ButtonIcon>
 				<ButtonIcon
-					className={cx('header-btn')}
+					className={cx('header-btn', { selected: showSideInfo })}
 					onClick={() => onChangeActions('SIDE_INFO')}
 				>
 					<BsLayoutSidebarReverse />

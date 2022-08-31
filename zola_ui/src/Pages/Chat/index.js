@@ -20,6 +20,7 @@ import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 import { GiAlarmClock } from 'react-icons/gi';
 import { IoWarningOutline } from 'react-icons/io5';
 import { FiTrash } from 'react-icons/fi';
+import { useTranslate } from '@/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -28,6 +29,8 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 	const [messages, setMessages] = useState([]);
 	const [arrivalMessage, setArrivalMessage] = useState(null);
 	const [showSideInfo, setShowSideInfo] = useState(false);
+	const [t] = useTranslate();
+
 	const scrollRef = useRef();
 	const getSendedTime = () => {
 		let year = curDate.getFullYear();
@@ -315,11 +318,12 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 
 	return (
 		<div className={cx('wrapper')}>
-			<div className={cx('chat-inner')}>
+			<div className={cx('conversation')}>
 				<ChatHeader
 					handleChangeChat={handleChangeChat}
 					currentChat={currentChat}
 					onChangeActions={handleChangeActions}
+					showSideInfo={showSideInfo}
 					self={currentUser.phone === currentChat.phone}
 				/>
 				<ChatMessage
@@ -349,40 +353,40 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 									<div className={cx('infor-body-icon')}>
 										<BsBell />
 									</div>
-									Mute
+									{t('Mute')}
 								</div>
 								<div className={cx('infor-body-control')}>
 									<div className={cx('infor-body-icon')}>
 										<BsPinAngle />
 									</div>
-									Pin
+									{t('Pin')}
 								</div>
 								<div className={cx('infor-body-control')}>
 									<div className={cx('infor-body-icon')}>
 										<AiOutlineUsergroupAdd />
 									</div>
-									Create <br />
-									group
+									{t('Create')} <br />
+									{t('Group')}
 								</div>
 							</div>
 						</div>
 						<div className={cx('infor-body-actions')}>
 							<div className={cx('infor-body-action')}>
 								<GiAlarmClock />
-								Reminder board
+								{t('ReminderBoard')}
 							</div>
 							<div className={cx('infor-body-action')}>
 								<AiOutlineUsergroupAdd />
-								Mutual group
+								{t('MutualGroup')}
 							</div>
 
 							<div className={cx('infor-body-action')}>
 								<IoWarningOutline />
-								Report
+								{t('Report')}
 							</div>
 							<div className={cx('infor-body-action')}>
 								<FiTrash />
-								Delete chat history
+								{t('DeleteChat')}
 							</div>
 						</div>
 					</div>

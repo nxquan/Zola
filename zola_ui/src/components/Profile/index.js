@@ -15,6 +15,7 @@ import { BsChevronDown } from 'react-icons/bs';
 import axios from 'axios';
 import { updateInformationUserRoute, uploadAvatar } from '@/utils/APIRoute';
 import { ToastContainer, toast } from 'react-toastify';
+import { useTranslate } from '@/hooks';
 
 const cx = classNames.bind(styles);
 const toastOptions = {
@@ -43,6 +44,7 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 	const [coverPicture, setCoverPicture] = useState();
 	const [profilePicture, setProfilePicture] = useState();
 	const [submit, setSubmit] = useState(false);
+	const [t] = useTranslate();
 
 	const renderDaysOfMonth = (month) => {
 		let days;
@@ -288,7 +290,7 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 			((!showEdit && (
 				<animated.div className={cx('wrapper')} ref={ref} style={styles}>
 					<div className={cx('header')}>
-						<h4 className={cx('header-heading')}>Thông tin tài khoản</h4>
+						<h4 className={cx('header-heading')}>{t('Profile')}</h4>
 						<ButtonIcon
 							className={cx('header-icon')}
 							onClick={() => setShowModal(false)}
@@ -307,25 +309,25 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 						</div>
 
 						<div className={cx('body-infor')}>
-							<h5>Thông tin cá nhân</h5>
+							<h5>{t('PersonalProfile')}</h5>
 							<div className={cx('body-detail')}>
-								<span className={cx('body-name')}>Bio</span>
+								<span className={cx('body-name')}>Bio </span>
 								<span className={cx('body-value')}>Online</span>
 							</div>
 							<div className={cx('body-detail')}>
-								<span className={cx('body-name')}>Điện thoại</span>
+								<span className={cx('body-name')}> {t('PhoneNumber')}</span>
 								<span className={cx('body-value')}>
 									+84{currentUser.phone.substr(1)}
 								</span>
 							</div>
 							<div className={cx('body-detail')}>
-								<span className={cx('body-name')}>Giới tính</span>
+								<span className={cx('body-name')}>{t('Gender')}</span>
 								<span className={cx('body-value')}>
 									{currentUser.gender ? 'Nam' : 'Nữ'}{' '}
 								</span>
 							</div>
 							<div className={cx('body-detail')}>
-								<span className={cx('body-name')}>Ngày sinh</span>
+								<span className={cx('body-name')}>{t('Birthday')}</span>
 								<span className={cx('body-value')}>
 									{currentUser.birthday.day} tháng {currentUser.birthday.month},{' '}
 									{currentUser.birthday.year}{' '}
@@ -340,7 +342,7 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 						className={cx('edit-infor')}
 						onClick={() => setShowEdit(true)}
 					>
-						Cập nhật thông tin
+						{t('EditProfile')}
 					</Button>
 				</animated.div>
 			)) || (
@@ -351,7 +353,7 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 						style={styles}
 					>
 						<div className={cx('header')}>
-							<h4 className={cx('header-heading')}>Cập nhật thông tin</h4>
+							<h4 className={cx('header-heading')}>{t('EditProfile')}</h4>
 							<ButtonIcon
 								className={cx('header-icon')}
 								onClick={() => setShowModal(false)}
@@ -398,7 +400,7 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 							<div className={cx('body-infor')}>
 								<div className={cx('form-group')}>
 									<label htmlFor="input-username" className={cx('form-label')}>
-										Tên hiển thị
+										{t('DisplayName')}
 									</label>
 									<input
 										id="input-username"
@@ -411,16 +413,14 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 											setSubmit(true);
 										}}
 									/>
-									<span className={cx('form-note')}>
-										Sử dụng tên thật để bạn bè dễ dàng nhận diện hơn
-									</span>
+									<span className={cx('form-note')}>{t('DesOfDisplayName')}</span>
 								</div>
 
 								<div className={cx('body-inner')}>
-									<h5>Thông tin cá nhân</h5>
+									<h5>{t('PersonalProfile')}</h5>
 									<div className={cx('form-group')}>
 										<label htmlFor="input-gender" className={cx('form-label')}>
-											Giới tính
+											{t('Gender')}
 										</label>
 										<div className={cx('form-inner')}>
 											<input
@@ -434,7 +434,7 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 												}}
 												defaultChecked={gender === 1}
 											/>
-											<span>Nam</span>
+											<span>{t('Male')}</span>
 											<input
 												type="radio"
 												id="input-gender"
@@ -446,7 +446,7 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 												}}
 												defaultChecked={gender === 0}
 											/>
-											<span>Nữ</span>
+											<span>{t('Female')}</span>
 										</div>
 									</div>
 									<div className={cx('form-group')}>
@@ -454,7 +454,7 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 											htmlFor="input-birthday"
 											className={cx('form-label')}
 										>
-											Ngày sinh
+											{t('Birthday')}
 										</label>
 										<div className={cx('form-group--birthday')}>
 											<Tippy
@@ -583,7 +583,7 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 								className={cx('footer-btn', 'footer-btn--cancel')}
 								onClick={() => setShowModal(false)}
 							>
-								Hủy
+								{t('Cancel')}
 							</Button>
 							<Button
 								primary
@@ -593,7 +593,7 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 									submit && handleSubmitProfile();
 								}}
 							>
-								Cập nhật
+								{t('Update')}
 							</Button>
 						</div>
 					</animated.div>

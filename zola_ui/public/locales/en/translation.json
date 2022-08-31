@@ -24,7 +24,7 @@
     "DescriptionZola": "Explore the best features to support your work and allow you to chat with your friends and family. All are optimized for your computer!",
     "MyCloud": "My cloud",
     "You": "You",
-    "Online": "Just online",
+    "Online": "Just now",
     "RecentSearch": "Recent search",
     "NoResult": "No result found!",
     "Slide1Title": "Messages more, work less",
@@ -50,6 +50,31 @@
     "SendBroadcastMessages": "Send broadcast messages",
     "SwitchToNewDesign": "Switch to New design",
 
-    "Profile": "Profile"
+    "ConversationInfo": "Conversation Info",
+    "Mute": "Mute",
+    "Pin": "Pin",
+    "Create": "Create",
+    "Group": "Group",
+    "ReminderBoard": "Reminder board",
+    "Report": "Report",
+    "MutualGroup": "Mutual group",
+    "DeleteChat": "Delete chat history",
+    "Profile": "Profile",
+
+    "PersonalProfile": "Personal profile",
+    "Bio": "Bio",
+    "PhoneNumber": "Phone number",
+    "Gender": "Gender",
+    "Birthday": "Birthday",
+    "EditProfile": "Edit profile",
+    "DisplayName": "Display name",
+    "DesOfDisplayName": "Use your real name so friends know who they are connecting with",
+    "Male": "Male",
+    "Female": "Female",
+    "Cancel": "Cancel",
+    "Update": "Update",
+    "AddFriend": "Add friend",
+    "Chat": "Chat"
+
 
 }

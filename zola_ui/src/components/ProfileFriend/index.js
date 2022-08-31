@@ -8,6 +8,7 @@ import Image from '@/components/Image';
 import { GrClose } from 'react-icons/gr';
 import { addFriendRoute } from '@/utils/APIRoute';
 import axios from 'axios';
+import { useTranslate } from '@/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -29,10 +30,12 @@ const ProfileFriend = forwardRef(
 				return contact.phone === currentFriend.phone;
 			});
 		};
+		const [t] = useTranslate();
+
 		return (
 			<div className={cx('wrapper')} ref={ref}>
 				<div className={cx('header')}>
-					<h4 className={cx('header-heading')}>Thông tin tài khoản</h4>
+					<h4 className={cx('header-heading')}>{t('Profile')}</h4>
 					<ButtonIcon className={cx('header-icon')} onClick={onClose}>
 						<GrClose />
 					</ButtonIcon>
@@ -49,7 +52,7 @@ const ProfileFriend = forwardRef(
 					<div className={cx('body-actions')}>
 						{!isFriend() && (
 							<Button className={cx('body-action')} rounded onClick={handleAddFriend}>
-								Kết bạn
+								{t('AddFriend')}
 							</Button>
 						)}
 						<Button
@@ -60,29 +63,29 @@ const ProfileFriend = forwardRef(
 								onClose();
 							}}
 						>
-							Nhắn tin
+							{t('Chat')}
 						</Button>
 					</div>
 					<div className={cx('body-infor')}>
-						<h5>Thông tin cá nhân</h5>
+						<h5>{t('PersonalProfile')}</h5>
 						<div className={cx('body-detail')}>
 							<span className={cx('body-name')}>Bio</span>
 							<span className={cx('body-value')}>Online</span>
 						</div>
 						<div className={cx('body-detail')}>
-							<span className={cx('body-name')}>Điện thoại</span>
+							<span className={cx('body-name')}>{t('PhoneNumber')}</span>
 							<span className={cx('body-value')}>
 								+84{currentFriend.phone.substr(1)}
 							</span>
 						</div>
 						<div className={cx('body-detail')}>
-							<span className={cx('body-name')}>Giới tính</span>
+							<span className={cx('body-name')}>{t('Gender')}</span>
 							<span className={cx('body-value')}>
 								{currentFriend.gender ? 'Nam' : 'Nữ'}{' '}
 							</span>
 						</div>
 						<div className={cx('body-detail')}>
-							<span className={cx('body-name')}>Ngày sinh</span>
+							<span className={cx('body-name')}>{t('Birthday')}</span>
 							<span className={cx('body-value')}>
 								{currentFriend.birthday.day} tháng {currentFriend.birthday.month},{' '}
 								{currentFriend.birthday.year}{' '}

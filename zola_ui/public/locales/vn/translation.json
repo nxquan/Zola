@@ -50,6 +50,31 @@
     "SendBroadcastMessages": "Gửi tin đồng thời",
     "SwitchToNewDesign": "Chuyển sang giao diện mới",
 
-    "Profile": "Profile"
+    "ConversationInfo": "Thông tin hội thoại",
+    "Mute": "Tắt thông báo",
+    "Pin": "Bỏ ghim hội thoại",
+    "CreateGroup": "Tạo nhóm trò chuyện",
+    "Create": "Tạo nhóm",
+    "Group": "trò chuyện",
+    "ReminderBoard": "Danh sách nhắc hẹn",
+    "Report": "Báo xấu",
+    "MutualGroup": "Nhóm chung",
+    "DeleteChat": "Xóa lịch sử trò chuyện",
+
+    "Profile": "Thông tin tài khoản",
+    "PersonalProfile": "Thông tin cá nhân",
+    "Bio": "Bio",
+    "PhoneNumber": "Điện thoại",
+    "Gender": "Giới tính",
+    "Birthday": "Ngày sinh",
+    "EditProfile": "Cập nhật thông tin",
+    "DisplayName": "Tên hiển thị",
+    "DesOfDisplayName": "Sử dụng tên thật để bạn bè dễ dàng nhận diện hơn",
+    "Male": "Nam",
+    "Female": "Nữ",
+    "Cancel": "Hủy",
+    "Update": "Cập nhật",
+    "AddFriend": "Kết bạn",
+    "Chat": "Nhắn tin"
 
 }
