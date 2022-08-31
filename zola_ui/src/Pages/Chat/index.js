@@ -6,7 +6,7 @@ import styles from './Chat.module.scss';
 import ChatHeader from './ChatHeader';
 import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
-
+import Image from '@/components/Image';
 import axios from 'axios';
 import {
 	addMessage,
@@ -15,6 +15,11 @@ import {
 	uploadImage,
 	addInteractiveMessageRoute,
 } from '@/utils/APIRoute';
+import { BsBell, BsPinAngle } from 'react-icons/bs';
+import { AiOutlineUsergroupAdd } from 'react-icons/ai';
+import { GiAlarmClock } from 'react-icons/gi';
+import { IoWarningOutline } from 'react-icons/io5';
+import { FiTrash } from 'react-icons/fi';
 
 const cx = classNames.bind(styles);
 
@@ -22,6 +27,7 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 	let curDate = new Date();
 	const [messages, setMessages] = useState([]);
 	const [arrivalMessage, setArrivalMessage] = useState(null);
+	const [showSideInfo, setShowSideInfo] = useState(false);
 	const scrollRef = useRef();
 	const getSendedTime = () => {
 		let year = curDate.getFullYear();
@@ -223,6 +229,16 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 			return [...prevMessages];
 		});
 	};
+	const handleChangeActions = (actionType) => {
+		switch (actionType) {
+			case 'SIDE_INFO':
+				setShowSideInfo((prev) => !prev);
+
+				break;
+
+			default:
+		}
+	};
 	useEffect(() => {
 		async function fetchMessage() {
 			const { data } = await axios.get(getAllMessages, {
@@ -299,22 +315,79 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 
 	return (
 		<div className={cx('wrapper')}>
-			<ChatHeader
-				handleChangeChat={handleChangeChat}
-				currentChat={currentChat}
-				self={currentUser.phone === currentChat.phone}
-			/>
-			<ChatMessage
-				messages={messages}
-				ref={scrollRef}
-				onSendInteractive={handleSendInteractive}
-			/>
-			<ChatInput
-				handleSendMsg={handleSendMsg}
-				handleSendFile={handleSendFile}
-				currentChat={currentChat}
-				scrollRef={scrollRef}
-			/>
+			<div className={cx('chat-inner')}>
+				<ChatHeader
+					handleChangeChat={handleChangeChat}
+					currentChat={currentChat}
+					onChangeActions={handleChangeActions}
+					self={currentUser.phone === currentChat.phone}
+				/>
+				<ChatMessage
+					messages={messages}
+					ref={scrollRef}
+					onSendInteractive={handleSendInteractive}
+				/>
+				<ChatInput
+					handleSendMsg={handleSendMsg}
+					handleSendFile={handleSendFile}
+					currentChat={currentChat}
+					scrollRef={scrollRef}
+				/>
+			</div>
+			{showSideInfo && (
+				<div className={cx('infor')}>
+					<div className={cx('infor-header')}>Conversation Info</div>
+					<div className={cx('infor-body')}>
+						<div className={cx('infor-body-heading')}>
+							<Image
+								src={currentChat.profilePicture}
+								className={cx('infor-body-avatar')}
+							/>
+							<h4 className={cx('infor-body-name')}>{currentChat.username}</h4>
+							<div className={cx('infor-body-controls')}>
+								<div className={cx('infor-body-control')}>
+									<div className={cx('infor-body-icon')}>
+										<BsBell />
+									</div>
+									Mute
+								</div>
+								<div className={cx('infor-body-control')}>
+									<div className={cx('infor-body-icon')}>
+										<BsPinAngle />
+									</div>
+									Pin
+								</div>
+								<div className={cx('infor-body-control')}>
+									<div className={cx('infor-body-icon')}>
+										<AiOutlineUsergroupAdd />
+									</div>
+									Create <br />
+									group
+								</div>
+							</div>
+						</div>
+						<div className={cx('infor-body-actions')}>
+							<div className={cx('infor-body-action')}>
+								<GiAlarmClock />
+								Reminder board
+							</div>
+							<div className={cx('infor-body-action')}>
+								<AiOutlineUsergroupAdd />
+								Mutual group
+							</div>
+
+							<div className={cx('infor-body-action')}>
+								<IoWarningOutline />
+								Report
+							</div>
+							<div className={cx('infor-body-action')}>
+								<FiTrash />
+								Delete chat history
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

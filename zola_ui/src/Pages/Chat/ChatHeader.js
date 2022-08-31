@@ -12,7 +12,7 @@ import images from '@/assets/images';
 import ButtonIcon from '@/components/ButtonIcon';
 const cx = classNames.bind(styles);
 
-function ChatHeader({ currentChat, handleChangeChat, self }) {
+function ChatHeader({ currentChat, handleChangeChat, onChangeActions, self }) {
 	return (
 		<div className={cx('header')}>
 			<div className={cx('header-infor')}>
@@ -44,7 +44,10 @@ function ChatHeader({ currentChat, handleChangeChat, self }) {
 				<ButtonIcon className={cx('header-btn')}>
 					<FiVideo />
 				</ButtonIcon>
-				<ButtonIcon className={cx('header-btn')}>
+				<ButtonIcon
+					className={cx('header-btn')}
+					onClick={() => onChangeActions('SIDE_INFO')}
+				>
 					<BsLayoutSidebarReverse />
 				</ButtonIcon>
 			</div>

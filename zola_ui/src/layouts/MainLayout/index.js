@@ -66,7 +66,14 @@ function MainLayout() {
 	useEffect(() => {
 		if (currentUser) {
 			socketRef.current = io(host);
-			socketRef.current.emit('add-user', currentUser._id);
+			socketRef.current.on('connect', () => {
+				socketRef.current.emit('add-user', currentUser._id);
+			});
+
+			socketRef.current.on('receive-status', (onlineUsers) => {
+				console.log('onlineUsers: ', onlineUsers);
+				//onlineUsers: []
+			});
 		}
 	}, [currentUser]);
 

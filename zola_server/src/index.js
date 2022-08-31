@@ -15,6 +15,7 @@ const io = socket(server, {
 		credentials: true,
 	},
 });
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use(morgan('combined'));
@@ -33,30 +34,35 @@ app.get('/', (req, res) => {
 });
 
 route(app);
-
-global.onlineUsers = new Map();
+const onlineUsers = [];
 
 io.on('connection', (client) => {
 	global.chatClient = client;
 
 	client.on('add-user', (userId) => {
-		onlineUsers.set(userId, client.id);
+		onlineUsers[userId] = client.id;
+		console.log(onlineUsers);
+		io.emit('receive-status', [...onlineUsers]);
 	});
 
 	client.on('send-msg', (data) => {
-		const receivedUser = onlineUsers.get(data.to);
+		const receivedUser = onlineUsers[data.to];
 		if (receivedUser) {
 			client.to(receivedUser).emit('receive-msg', data);
 		}
 	});
+
 	client.on('send-interactive', (data) => {
-		const receivedUser = onlineUsers.get(data.to);
+		const receivedUser = onlineUsers[data.to];
 		if (receivedUser) {
 			client.to(receivedUser).emit('receive-interactive', {
 				_id: data._id,
 				interactive: data.interactive,
 			});
 		}
+	});
+	client.on('disconnect', () => {
+		io.emit('receive-status', onlineUsers);
 	});
 });
 
