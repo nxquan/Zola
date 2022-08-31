@@ -43,7 +43,8 @@ import Image from '@/components/Image';
 
 import Modal from '@/components/Modal';
 import Profile from '@/components/Profile';
-import {useTranslate} from '@/hooks';
+import { useTranslate } from '@/hooks';
+import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
 const profileMenu = [
@@ -166,6 +167,8 @@ function Sidebar({
 	const [showCategory, setShowCategory] = useState(false);
 	const [showProfileMenu, setShowProfileMenu] = useState(false);
 	const [showModal, setShowModal] = useState(false);
+	const [positionCloud, setPositionCloud] = useState();
+
 	const modalRef = useRef(null);
 	let profileMenuWithUser = [{ title: currentUser.username, heading: true }, ...profileMenu];
 	const navigate = useNavigate();
@@ -231,6 +234,14 @@ function Sidebar({
 			document.removeEventListener('click', handleClickOutsideModal, true);
 		};
 	}, [modalRef]);
+	useEffect(() => {
+		contacts.forEach((contact, index) => {
+			if (contact._id === currentUser._id) {
+				setPositionCloud(index);
+			}
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [contacts]);
 
 	return (
 		<>
@@ -294,7 +305,10 @@ function Sidebar({
 						<ButtonIcon
 							className={cx('nav-tab-btn')}
 							active={tab === 4}
-							onClick={() => setTab(4)}
+							onClick={() => {
+								setTab(4);
+								onChangeChat(contacts[positionCloud]);
+							}}
 						>
 							{tab !== 4 ? <AiOutlineCloud /> : <AiTwotoneCloud />}
 						</ButtonIcon>
@@ -431,6 +445,7 @@ function Sidebar({
 									onChangeChat={onChangeChat}
 									currentUser={currentUser}
 									contacts={contacts}
+									onTab={setTab}
 									t={t}
 								/>
 							</div>
@@ -451,5 +466,12 @@ function Sidebar({
 		</>
 	);
 }
+
+Sidebar.propTypes = {
+	currentUser: PropTypes.object,
+	contacts: PropTypes.array,
+	onChangeChat: PropTypes.func,
+	hideSidebar: PropTypes.any,
+};
 
 export default Sidebar;

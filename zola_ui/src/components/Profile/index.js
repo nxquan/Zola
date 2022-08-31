@@ -16,6 +16,7 @@ import axios from 'axios';
 import { updateInformationUserRoute, uploadAvatar } from '@/utils/APIRoute';
 import { ToastContainer, toast } from 'react-toastify';
 import { useTranslate } from '@/hooks';
+import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
 const toastOptions = {
@@ -602,5 +603,9 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 			))
 	);
 });
+
+Profile.propTypes = {
+	currentUser: PropTypes.object,
+};
 
 export default Profile;

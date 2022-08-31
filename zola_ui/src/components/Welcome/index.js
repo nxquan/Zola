@@ -2,7 +2,6 @@ import classNames from 'classnames/bind';
 import Slider from './Slider';
 import styles from './Welcome.module.scss';
 import { useTranslate } from '@/hooks';
-
 const cx = classNames.bind(styles);
 
 function Welcome({ className }) {

@@ -6,6 +6,7 @@ import { AiOutlineFile } from 'react-icons/ai';
 import { BiLike } from 'react-icons/bi';
 import data from '@emoji-mart/data';
 import { init } from 'emoji-mart';
+import PropTypes from 'prop-types';
 
 init({ data });
 const cx = classNames.bind(styles);
@@ -106,5 +107,10 @@ function ChatItem({ item, sameUser, onSendInteractive }) {
 		</div>
 	);
 }
+
+ChatItem.propTypes = {
+	item: PropTypes.object,
+	onSendInteractive: PropTypes.func,
+};
 
 export default ChatItem;

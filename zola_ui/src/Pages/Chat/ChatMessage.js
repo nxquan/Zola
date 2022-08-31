@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Chat.module.scss';
 import ChatItem from './ChatItem';
-
+import PropTypes from 'prop-types';
 const cx = classNames.bind(styles);
 
 const ChatMessage = forwardRef(({ messages, onSendInteractive }, ref) => {
@@ -25,5 +25,10 @@ const ChatMessage = forwardRef(({ messages, onSendInteractive }, ref) => {
 		</div>
 	);
 });
+
+ChatMessage.propTypes = {
+	messages: PropTypes.array,
+	onSendInteractive: PropTypes.func,
+};
 
 export default ChatMessage;

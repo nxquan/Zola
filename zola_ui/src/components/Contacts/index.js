@@ -4,16 +4,17 @@ import styles from './Contacts.module.scss';
 
 import Contact from '@/components/Contact';
 import { useTranslate } from '@/hooks';
-
+import PropTypes from 'prop-types';
 const cx = classNames.bind(styles);
 
-function Contacts({ contacts, currentUser, onChangeChat }) {
+function Contacts({ contacts, currentUser, onChangeChat, onTab }) {
 	const [currentSelected, setCurrentSelected] = useState(undefined);
 	const [t] = useTranslate();
 
 	const changeSelectedContact = (contact, index) => {
 		setCurrentSelected(index);
 		onChangeChat(contact);
+		onTab(0);
 	};
 
 	return (
@@ -33,5 +34,11 @@ function Contacts({ contacts, currentUser, onChangeChat }) {
 		</div>
 	);
 }
+Contacts.propTypes = {
+	contacts: PropTypes.array,
+	currentUser: PropTypes.object,
+	onChangeChat: PropTypes.func,
+	onTab: PropTypes.func,
+};
 
 export default Contacts;

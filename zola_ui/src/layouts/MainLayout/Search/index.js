@@ -17,7 +17,7 @@ import axios from 'axios';
 import Modal from '@/components/Modal';
 import ProfileFriend from '@/components/ProfileFriend';
 import { useClickOutside, useDebounce } from '@/hooks';
-
+import PropTypes from 'prop-types';
 const cx = classNames.bind(styles);
 
 function Search({ currentUser, contacts, setContacts, t, onChangeChat }) {
@@ -168,4 +168,9 @@ function Search({ currentUser, contacts, setContacts, t, onChangeChat }) {
 	);
 }
 
+Search.propTypes = {
+	currentUser: PropTypes.object,
+	contacts: PropTypes.array,
+	onChangeChat: PropTypes.func,
+};
 export default Search;

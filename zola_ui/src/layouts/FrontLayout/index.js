@@ -4,6 +4,7 @@ import styles from './FrontLayout.module.scss';
 import Header from './Header';
 import Footer from './Footer';
 import images from '@/assets/images';
+import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
 
@@ -24,5 +25,9 @@ function FrontLayout({ children }) {
 		</div>
 	);
 }
+
+FrontLayout.propTypes = {
+	children: PropTypes.element,
+};
 
 export default FrontLayout;

@@ -15,7 +15,7 @@ import { useState, memo } from 'react';
 import { useClickOutsideContainer } from '@/hooks';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
-
+import PropTypes from 'prop-types';
 const cx = classNames.bind(styles);
 
 function ChatInput({ currentChat, handleSendMsg, handleSendFile, scrollRef }) {
@@ -148,5 +148,11 @@ function ChatInput({ currentChat, handleSendMsg, handleSendFile, scrollRef }) {
 		</div>
 	);
 }
+
+ChatInput.propTypes = {
+	currentChat: PropTypes.object,
+	handleSendFile: PropTypes.func,
+	handleSendMsg: PropTypes.func,
+};
 
 export default memo(ChatInput);

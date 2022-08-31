@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import styles from './Menu.module.scss';
 import MenuItem from './MenuItem';
 import WrapPopper from '@/components/Popper';
+import PropTypes from 'prop-types';
 const cx = classNames.bind(styles);
 
 const defaultFn = () => {};
@@ -47,5 +48,10 @@ function Menu({ items, className, onChange = defaultFn }) {
 
 	return <div className={cx('menu-list', { [className]: className })}>{renderItem()}</div>;
 }
+
+Menu.propTypes = {
+	items: PropTypes.array,
+	onChange: PropTypes.func,
+};
 
 export default Menu;

@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './Contact.module.scss';
 import Image from '@/components/Image';
 import images from '@/assets/images';
+import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
 
@@ -26,4 +27,8 @@ function Contact({ selected, item, self, t, onClick }) {
 	);
 }
 
+Contact.propTypes = {
+	item: PropTypes.object,
+	onClick: PropTypes.func,
+};
 export default Contact;

@@ -11,6 +11,7 @@ import Image from '@/components/Image';
 import images from '@/assets/images';
 import ButtonIcon from '@/components/ButtonIcon';
 import { useTranslate } from '@/hooks';
+import PropTypes from 'prop-types';
 const cx = classNames.bind(styles);
 
 function ChatHeader({ currentChat, showSideInfo, handleChangeChat, onChangeActions, self }) {
@@ -57,5 +58,11 @@ function ChatHeader({ currentChat, showSideInfo, handleChangeChat, onChangeActio
 		</div>
 	);
 }
+
+ChatHeader.propTypes = {
+	currentChat: PropTypes.object,
+	handleChangeChat: PropTypes.func,
+	onChangeActions: PropTypes.func,
+};
 
 export default memo(ChatHeader);

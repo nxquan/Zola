@@ -21,7 +21,7 @@ import { GiAlarmClock } from 'react-icons/gi';
 import { IoWarningOutline } from 'react-icons/io5';
 import { FiTrash } from 'react-icons/fi';
 import { useTranslate } from '@/hooks';
-
+import PropTypes from 'prop-types';
 const cx = classNames.bind(styles);
 
 function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
@@ -395,5 +395,11 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 		</div>
 	);
 }
+
+Chat.propTypes = {
+	currentUser: PropTypes.object,
+	currentChat: PropTypes.object,
+	handleChangeChat: PropTypes.func,
+};
 
 export default Chat;

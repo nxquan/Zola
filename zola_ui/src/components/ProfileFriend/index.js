@@ -9,11 +9,23 @@ import { GrClose } from 'react-icons/gr';
 import { addFriendRoute } from '@/utils/APIRoute';
 import axios from 'axios';
 import { useTranslate } from '@/hooks';
+import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
 
+const defaultFn = () => {};
 const ProfileFriend = forwardRef(
-	({ currentFriend, currentUserPhone, contacts, setContacts, onClose, onChangeChat }, ref) => {
+	(
+		{
+			currentFriend,
+			currentUserPhone,
+			contacts,
+			setContacts,
+			onClose = defaultFn,
+			onChangeChat = defaultFn,
+		},
+		ref
+	) => {
 		const handleAddContact = (contact) => {
 			setContacts((prev) => [...prev, contact]);
 		};
@@ -97,5 +109,11 @@ const ProfileFriend = forwardRef(
 		);
 	}
 );
-
+ProfileFriend.propTypes = {
+	currentFriend: PropTypes.object,
+	currentUserPhone: PropTypes.any,
+	contacts: PropTypes.array,
+	onClose: PropTypes.func,
+	onChangeChat: PropTypes.func,
+};
 export default ProfileFriend;

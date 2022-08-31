@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Modal.module.scss';
 import { useTransition, animated } from 'react-spring';
+import PropTypes from 'prop-types';
 const cx = classNames.bind(styles);
 
 function Modal({ children, showModal }) {
@@ -23,5 +24,9 @@ function Modal({ children, showModal }) {
 			)
 	);
 }
+
+Modal.propTypes = {
+	children: PropTypes.element,
+};
 
 export default Modal;
