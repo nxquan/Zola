@@ -74,7 +74,25 @@
     "Cancel": "Cancel",
     "Update": "Update",
     "AddFriend": "Add friend",
-    "Chat": "Chat"
+    "Chat": "Chat",
+
+    "WithQRCode": "With QR Code",
+    "WithPassword": "With password",
+    "QRExpired": "QR Code was expired",
+    "Regenerate": "Regenerate",
+    "QRExpiredAndRegenerate": "QR Code was expired, please regenerate",
+
+    "ScanQR": "Scan the QR code with Zalo to log in",
+    "DesSignInZalo1": "Sign in Zalo account",
+    "DesSignInZalo2": " to connect to Zalo Web",
+    "OtherApp": "Use your Zalo account to access ZA's applications",
+    "LoginWithPass": "Login with password",
+    "SendRequestLogin": "Send request login to Zalo App",
+    "ForgotPass": "Forgot password?",
+    "Password": "Password",
+    "HaveAccount": "Do'nt have an account?",
+    "RegisterNow": "Register now!"
+
 
 
 }

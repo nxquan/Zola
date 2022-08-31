@@ -2,29 +2,49 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import styles from './Footer.module.scss';
+import { useTranslate } from '@/hooks';
 
 const cx = classNames.bind(styles);
 
 function Footer() {
+	const [t, i18n] = useTranslate();
+
+	const handleChangeLanguage = (lang) => {
+		i18n.changeLanguage(lang);
+	};
 	return (
 		<div className={cx('wrapper')}>
 			<div className={cx('more-action')}>
 				<p>
-					Bạn chưa có tài khoản?
-					<Link to="/register">Đăng ký ngay!</Link>
+					{t('HaveAccount')}
+					<Link to="/register">{t('RegisterNow')}</Link>
 				</p>
 			</div>
 
 			<div className={cx('inner')}>
 				<div className={cx('languages')}>
-					<a href="/" className={cx('lang', 'active')}>
+					<a
+						href="/"
+						className={cx('lang', { active: i18n.language === 'vn' })}
+						onClick={(e) => {
+							e.preventDefault();
+							handleChangeLanguage('vn');
+						}}
+					>
 						Tiếng Việt
 					</a>
-					<a href="/" className={cx('lang')}>
+					<a
+						href="/"
+						className={cx('lang', { active: i18n.language === 'en' })}
+						onClick={(e) => {
+							e.preventDefault();
+							handleChangeLanguage('en');
+						}}
+					>
 						English
 					</a>
 				</div>
-				<p>Dùng tài khoản Zalo để truy cập các ứng dụng của ZA</p>
+				<p>{t('OtherApp')}</p>
 				<div className={cx('logos')}>
 					<ul>
 						<li>

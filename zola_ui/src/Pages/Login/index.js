@@ -13,6 +13,7 @@ import axios from 'axios';
 import images from '@/assets/images';
 import Button from '@/components/Button';
 import { loginRoute } from '@/utils/APIRoute';
+import { useTranslate } from '@/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -28,6 +29,7 @@ function Login() {
 	const [tab, setTab] = useState(1);
 	const [loginQR, setLoginQR] = useState(true);
 	const [account, setAccount] = useState({ phone: '', password: '' });
+	const [t] = useTranslate();
 
 	const navigate = useNavigate();
 	const { phone, password } = account;
@@ -71,36 +73,36 @@ function Login() {
 					className={cx('tab', 'tab-pane', { active: tab === 1 })}
 					onClick={(e) => toggleTab(e, 1)}
 				>
-					VỚI MÃ QR
+					{t('WithQRCode')}
 				</a>
 				<a
 					href="/"
 					className={cx('tab', { active: tab === 2 })}
 					onClick={(e) => toggleTab(e, 2)}
 				>
-					VỚI SỐ ĐIỆN THOẠI
+					{t('WithPassword')}
 				</a>
 			</div>
 			<div className={cx('contents')}>
 				<div className={cx('content-item', { active: tab === 1 }, { disabled: !loginQR })}>
 					<div className={cx('error')}>
-						<p>Mã QR đã hết hạn, vui lòng tải lại mã mới</p>
+						<p>{t('QRExpiredAndRegenerate')}</p>
 					</div>
 					<div className={cx('qrcode')}>
 						<img className={cx('qrcode-img')} src={images.download} alt="QR Code" />
 						<div className={cx('qrcode-expired')}>
-							<p>Mã QR hết hạn</p>
+							<p>{t('QRExpired')}</p>
 							<Button
 								className={cx('qrcode-btn')}
 								primary
 								small
 								onClick={() => setLoginQR(true)}
 							>
-								Lấy mã mới
+								{t('Regenerate')}
 							</Button>
 						</div>
 					</div>
-					<p className={cx('note')}>Quét mã QR bằng Zalo để đăng nhập</p>
+					<p className={cx('note')}>{t('ScanQR')}</p>
 				</div>
 				<div className={cx('content-item', { active: tab === 2 })}>
 					<form className={cx('form-signin')} onSubmit={(e) => handleSubmit(e)}>
@@ -112,7 +114,7 @@ function Login() {
 							<input
 								className={cx('form-input')}
 								type="tel"
-								placeholder="Số điện thoại"
+								placeholder={t('PhoneNumber')}
 								autoComplete="off"
 								name="phone"
 								onChange={(e) => handleForm(e)}
@@ -123,7 +125,7 @@ function Login() {
 							<input
 								className={cx('form-input')}
 								type="password"
-								placeholder="Mật khẩu"
+								placeholder={t('Password')}
 								autoComplete="off"
 								name="password"
 								onChange={(e) => handleForm(e)}
@@ -137,17 +139,17 @@ function Login() {
 								large
 								type="submit"
 							>
-								Đăng nhập với mật khẩu
+								{t('LoginWithPass')}
 							</Button>
 							<Button
 								outline
 								disabled={phone.length >= 10 && password.length >= 6 ? false : true}
 								large
 							>
-								Gửi yêu cầu đăng nhập
+								{t('SendRequestLogin')}
 							</Button>
 							<Button text small to="/register">
-								Quên mật khẩu?
+								{t('ForgotPass')}
 							</Button>
 						</div>
 					</form>

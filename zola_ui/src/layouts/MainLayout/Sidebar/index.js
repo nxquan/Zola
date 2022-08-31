@@ -64,65 +64,6 @@ const profileMenu = [
 		type: 'LOG_OUT',
 	},
 ];
-const settingMenu = [
-	{
-		icon: <FiUser />,
-		title: 'AccountInformation',
-	},
-	{
-		icon: <BsGear />,
-		title: 'Settings',
-	},
-	{
-		icon: <ImFloppyDisk />,
-		title: 'Storage',
-		separate: true,
-		children: [
-			{
-				title: 'ManageFiles',
-			},
-		],
-	},
-	{
-		icon: <BsGlobe />,
-		title: 'Language',
-		children: [
-			{
-				title: 'Tiếng Việt',
-				bio: 'vn',
-				icon: <FontAwesomeIcon className={cx('language-icon', 'show')} icon={faCheck} />,
-				type: 'LANGUAGE',
-			},
-			{
-				title: 'English',
-				bio: 'en',
-				icon: <FontAwesomeIcon className={cx('language-icon')} icon={faCheck} />,
-				type: 'LANGUAGE',
-			},
-		],
-	},
-	{
-		icon: <AiOutlineExclamationCircle />,
-		title: 'AboutZola',
-		children: [
-			{
-				title: 'Version',
-				type: 'INTRODUCTION',
-			},
-			{
-				title: 'HelpCenter',
-				type: 'INTRODUCTION',
-			},
-		],
-	},
-	{
-		icon: <AiOutlineLogout />,
-		title: 'LogOut',
-		className: 'warning',
-		separate: true,
-		type: 'LOG_OUT',
-	},
-];
 
 const typeMessage = [
 	{
@@ -170,9 +111,79 @@ function Sidebar({
 	const [positionCloud, setPositionCloud] = useState();
 
 	const modalRef = useRef(null);
-	let profileMenuWithUser = [{ title: currentUser.username, heading: true }, ...profileMenu];
 	const navigate = useNavigate();
 	const [t, i18n] = useTranslate();
+	let profileMenuWithUser = [{ title: currentUser.username, heading: true }, ...profileMenu];
+
+	const settingMenu = [
+		{
+			icon: <FiUser />,
+			title: 'AccountInformation',
+		},
+		{
+			icon: <BsGear />,
+			title: 'Settings',
+		},
+		{
+			icon: <ImFloppyDisk />,
+			title: 'Storage',
+			separate: true,
+			children: [
+				{
+					title: 'ManageFiles',
+				},
+			],
+		},
+		{
+			icon: <BsGlobe />,
+			title: 'Language',
+			children: [
+				{
+					title: 'Tiếng Việt',
+					bio: 'vn',
+					icon: (
+						<FontAwesomeIcon
+							className={cx('language-icon', { show: i18n.language === 'vn' })}
+							icon={faCheck}
+						/>
+					),
+					type: 'LANGUAGE',
+				},
+				{
+					title: 'English',
+					bio: 'en',
+					icon: (
+						<FontAwesomeIcon
+							className={cx('language-icon', { show: i18n.language === 'en' })}
+							icon={faCheck}
+						/>
+					),
+					type: 'LANGUAGE',
+				},
+			],
+		},
+		{
+			icon: <AiOutlineExclamationCircle />,
+			title: 'AboutZola',
+			children: [
+				{
+					title: 'Version',
+					type: 'INTRODUCTION',
+				},
+				{
+					title: 'HelpCenter',
+					type: 'INTRODUCTION',
+				},
+			],
+		},
+		{
+			icon: <AiOutlineLogout />,
+			title: 'LogOut',
+			className: 'warning',
+			separate: true,
+			type: 'LOG_OUT',
+		},
+	];
 
 	const handleChangeSettingMenu = (menuItem) => {
 		switch (menuItem.type) {
