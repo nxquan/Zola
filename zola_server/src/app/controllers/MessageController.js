@@ -73,7 +73,27 @@ class MessageController {
 			next(error);
 		}
 	}
+	async getLatestMessage(req, res, next) {
+		try {
+			const { from, to } = req.query;
 
+			const plainMessageFromDB = await Message.findOne({
+				users: { $all: [from, to] },
+			}).sort({ createdAt: -1 });
+
+			const message = {
+				fromSelf: plainMessageFromDB.sender.toString() === from,
+				message: plainMessageFromDB.message,
+				sendedTime: plainMessageFromDB.updatedAt,
+				interactive: plainMessageFromDB.interactive,
+				_id: plainMessageFromDB._id,
+			};
+
+			return res.json({ status: true, message: message });
+		} catch (error) {
+			next(error);
+		}
+	}
 	async uploadImage(req, res, next) {
 		let url = process.env.HOST + req.file.path.substr(10);
 		try {

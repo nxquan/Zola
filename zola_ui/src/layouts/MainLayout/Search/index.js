@@ -169,7 +169,7 @@ function Search({ currentUser, contacts, setContacts, t, onChangeChat }) {
 }
 
 Search.propTypes = {
-	currentUser: PropTypes.object,
+	currentUser: PropTypes.any,
 	contacts: PropTypes.array,
 	onChangeChat: PropTypes.func,
 };

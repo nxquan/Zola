@@ -22,6 +22,7 @@ function Contacts({ contacts, currentUser, onChangeChat, onTab }) {
 			{contacts.map((contact, index) => {
 				return (
 					<Contact
+						currentUser={currentUser}
 						onClick={() => changeSelectedContact(contact, index)}
 						selected={currentSelected === index}
 						key={index}
@@ -36,7 +37,6 @@ function Contacts({ contacts, currentUser, onChangeChat, onTab }) {
 }
 Contacts.propTypes = {
 	contacts: PropTypes.array,
-	currentUser: PropTypes.object,
 	onChangeChat: PropTypes.func,
 	onTab: PropTypes.func,
 };

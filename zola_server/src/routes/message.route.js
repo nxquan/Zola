@@ -40,9 +40,10 @@ const uploadFile = multer({ storage: storageFile });
 
 const messageController = require('../app/controllers/MessageController');
 
+Router.get('/get-all-messages', messageController.getAllMessages);
+Router.get('/get-latest-message', messageController.getLatestMessage);
 Router.post('/add-message', messageController.addMessage);
 Router.post('/add-interactive', messageController.addInteractive);
-Router.get('/get-all-messages', messageController.getAllMessages);
 Router.post('/upload-image', uploadImage.single('image'), messageController.uploadImage);
 Router.post('/upload-file', uploadFile.single('file'), messageController.uploadFile);
 

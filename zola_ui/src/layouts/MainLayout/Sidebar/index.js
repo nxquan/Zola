@@ -479,7 +479,6 @@ function Sidebar({
 }
 
 Sidebar.propTypes = {
-	currentUser: PropTypes.object,
 	contacts: PropTypes.array,
 	onChangeChat: PropTypes.func,
 	hideSidebar: PropTypes.any,

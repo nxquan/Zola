@@ -13,7 +13,7 @@ import WrapPopper from '@/components/Popper';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { BsChevronDown } from 'react-icons/bs';
 import axios from 'axios';
-import { updateInformationUserRoute, uploadAvatar } from '@/utils/APIRoute';
+import { updateInformationUserRoute, uploadAvatarRoute } from '@/utils/APIRoute';
 import { ToastContainer, toast } from 'react-toastify';
 import { useTranslate } from '@/hooks';
 import PropTypes from 'prop-types';
@@ -224,12 +224,12 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 			profileForm.append('profile-image', profilePicture);
 
 			sendAllImages = Promise.all([
-				axios.post(uploadAvatar, coverForm, {
+				axios.post(uploadAvatarRoute, coverForm, {
 					headers: {
 						'Content-Type': 'multipart/form-data',
 					},
 				}),
-				axios.post(uploadAvatar, profileForm, {
+				axios.post(uploadAvatarRoute, profileForm, {
 					headers: {
 						'Content-Type': 'multipart/form-data',
 					},
@@ -246,7 +246,7 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 			delete coverPicture.urlPreview;
 			coverForm.append('profile-image', coverPicture);
 			axios
-				.post(uploadAvatar, coverForm, {
+				.post(uploadAvatarRoute, coverForm, {
 					headers: {
 						'Content-Type': 'multipart/form-data',
 					},
@@ -260,7 +260,7 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 			delete profilePicture.urlPreview;
 			coverForm.append('profile-image', profilePicture);
 			axios
-				.post(uploadAvatar, coverForm, {
+				.post(uploadAvatarRoute, coverForm, {
 					headers: {
 						'Content-Type': 'multipart/form-data',
 					},
@@ -605,7 +605,7 @@ const Profile = forwardRef(({ currentUser, setCurrentUser, showModal, setShowMod
 });
 
 Profile.propTypes = {
-	currentUser: PropTypes.object,
+	currentUser: PropTypes.any,
 };
 
 export default Profile;

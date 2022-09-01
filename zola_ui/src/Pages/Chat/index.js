@@ -9,10 +9,10 @@ import ChatInput from './ChatInput';
 import Image from '@/components/Image';
 import axios from 'axios';
 import {
-	addMessage,
-	getAllMessages,
-	uploadFile,
-	uploadImage,
+	addMessageRoute,
+	getAllMessagesRoute,
+	uploadFileRoute,
+	uploadImageRoute,
 	addInteractiveMessageRoute,
 } from '@/utils/APIRoute';
 import { BsBell, BsPinAngle } from 'react-icons/bs';
@@ -78,7 +78,7 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 	};
 	const handleSendMsg = async (msg) => {
 		axios
-			.post(addMessage, {
+			.post(addMessageRoute, {
 				from: currentUser._id,
 				to: currentChat._id,
 				message: msg,
@@ -124,7 +124,7 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 				formData.append('from', currentUser._id);
 				formData.append('to', currentChat._id);
 				axios
-					.post(uploadImage, formData, {
+					.post(uploadImageRoute, formData, {
 						headers: {
 							'Content-Type': 'multipart/form-data',
 						},
@@ -167,7 +167,7 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 				formData.append('from', currentUser._id);
 				formData.append('to', currentChat._id);
 				axios
-					.post(uploadFile, formData, {
+					.post(uploadFileRoute, formData, {
 						headers: {
 							'Content-Type': 'multipart/form-data',
 						},
@@ -244,7 +244,7 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 	};
 	useEffect(() => {
 		async function fetchMessage() {
-			const { data } = await axios.get(getAllMessages, {
+			const { data } = await axios.get(getAllMessagesRoute, {
 				params: {
 					from: currentUser._id,
 					to: currentChat._id,
@@ -397,7 +397,7 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 }
 
 Chat.propTypes = {
-	currentUser: PropTypes.object,
+	currentUser: PropTypes.any,
 	currentChat: PropTypes.object,
 	handleChangeChat: PropTypes.func,
 };
