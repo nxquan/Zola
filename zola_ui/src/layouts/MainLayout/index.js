@@ -25,6 +25,7 @@ function MainLayout() {
 	const handleChangeChat = (contact) => {
 		setCurrentChat(contact);
 	};
+
 	const [t] = useTranslate();
 	useEffect(() => {
 		async function getUserFromLocalStorage() {
@@ -76,6 +77,15 @@ function MainLayout() {
 			});
 		}
 	}, [currentUser]);
+
+	useEffect(() => {
+		if (socketRef.current) {
+			socketRef.current.on('receive-status', (onlineUsers) => {
+				console.log('onlineUsers: ', onlineUsers);
+				//onlineUsers: []
+			});
+		}
+	}, []);
 
 	return (
 		<>

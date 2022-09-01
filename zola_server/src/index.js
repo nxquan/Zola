@@ -41,8 +41,6 @@ io.on('connection', (client) => {
 
 	client.on('add-user', (userId) => {
 		onlineUsers[userId] = client.id;
-		console.log(onlineUsers);
-		io.emit('receive-status', [...onlineUsers]);
 	});
 
 	client.on('send-msg', (data) => {
@@ -60,9 +58,6 @@ io.on('connection', (client) => {
 				interactive: data.interactive,
 			});
 		}
-	});
-	client.on('disconnect', () => {
-		io.emit('receive-status', onlineUsers);
 	});
 });
 
