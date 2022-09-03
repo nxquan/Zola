@@ -1,5 +1,4 @@
 const express = require('express');
-var morgan = require('morgan');
 var cors = require('cors');
 const db = require('./config/db');
 const route = require('./routes');
@@ -18,7 +17,6 @@ const io = socket(server, {
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
-app.use(morgan('combined'));
 
 app.use(
 	express.urlencoded({
@@ -61,6 +59,6 @@ io.on('connection', (client) => {
 	});
 });
 
-server.listen(process.env.PORT, () => {
+server.listen(process.env.PORT || 5000, () => {
 	console.log(`Example app listening on port ${process.env.PORT}`);
 });
