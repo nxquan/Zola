@@ -1,10 +1,10 @@
 import classNames from 'classnames/bind';
-import styles from './FrontLayout.module.scss';
+import PropTypes from 'prop-types';
 
+import styles from './FrontLayout.module.scss';
 import Header from './Header';
 import Footer from './Footer';
 import images from '@/assets/images';
-import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
 
@@ -20,14 +20,18 @@ function FrontLayout({ children }) {
 			</div>
 
 			<div className={cx('bg')}>
-				<img src={images.bg} className={cx('bg-svg')} alt="Background" />
+				<img
+					src={images.bg}
+					className={cx('bg-svg')}
+					alt='Background'
+				/>
 			</div>
 		</div>
 	);
 }
 
 FrontLayout.propTypes = {
-	children: PropTypes.element,
+	children: PropTypes.node.isRequired,
 };
 
 export default FrontLayout;

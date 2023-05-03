@@ -1,13 +1,13 @@
 import FrontLayout from '@/layouts/FrontLayout';
 
-import Login from '@/Pages/Login';
-import Register from '@/Pages/Register';
-import Chat from '@/Pages/Chat';
+import LoginPage from '@/Pages/Login';
+import RegisterPage from '@/Pages/Register';
+import ChatPage from '@/Pages/Chat';
 
 const publicRoutes = [
-	{ path: '/login', element: Login, layout: FrontLayout },
-	{ path: '/register', element: Register, layout: FrontLayout },
-	{ path: '/', element: Chat },
+	{ path: '/login', element: LoginPage, layout: FrontLayout },
+	{ path: '/register', element: RegisterPage, layout: FrontLayout },
+	{ path: '/', element: ChatPage },
 ];
 
 const privateRoutes = [];

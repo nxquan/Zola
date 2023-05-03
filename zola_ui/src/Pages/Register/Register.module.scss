@@ -5,40 +5,36 @@
 	border-radius: 3px;
 	box-shadow: 0 8px 24px rgb(21 48 142 / 14%);
 }
-.tabs {
-	display: flex;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
+
 .tab {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	color: #333;
+
 	height: 50px;
-	text-align: center;
+	width: 100%;
 	line-height: 50px;
 	font-size: 1.4rem;
 	font-weight: 600;
 	padding: 0 20px;
 
-	flex: 1;
-	position: relative;
-	display: inline-block;
+	text-align: center;
 	text-transform: uppercase;
+	position: relative;
+
+	&::before {
+		content: '';
+		display: block;
+		width: 40%;
+		height: 1px;
+		position: absolute;
+		bottom: -1px;
+		left: 30%;
+		background-color: var(--text-color);
+	}
 }
 
-.tab::before {
-	content: '';
-	display: block;
-	width: 60%;
-	height: 1px;
-	position: absolute;
-	bottom: -1px;
-	left: 20%;
-	background-color: var(--text-color);
-}
 
-.contents {
-	width: 100%;
-}
-.content-item {
+.tab-pane {
 	width: 100%;
 	min-height: 270px;
 	padding: 30px 45px;
@@ -50,6 +46,7 @@
 .form-signin {
 	width: 100%;
 }
+
 .form-group {
 	width: 100%;
 	height: 40px;
@@ -59,6 +56,7 @@
 	display: flex;
 	align-items: center;
 }
+
 .form-group::after {
 	position: absolute;
 	bottom: 0;
@@ -68,6 +66,7 @@
 	width: 100%;
 	height: 1px;
 }
+
 .form-icon {
 	font-size: 1.4rem;
 	color: #555;
@@ -80,18 +79,8 @@
 	height: 100%;
 	flex: 1;
 }
+
 .icon-btn {
 	padding: 0 !important;
 	display: inline-block;
-}
-.error {
-	color: var(--error-color);
-	font-size: 0.9rem;
-	margin-bottom: 10px;
-	text-align: center;
-	display: none;
-}
-
-.error.active {
-	display: block;
 }

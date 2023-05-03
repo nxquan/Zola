@@ -1,11 +1,6 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faMobileScreenButton,
-	faLock,
-	faAnglesLeft,
-	faUser,
-} from '@fortawesome/free-solid-svg-icons';
+import { faMobileScreenButton, faLock, faAnglesLeft, faUser } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -17,15 +12,11 @@ import styles from './Register.module.scss';
 
 import Button from '@/components/Button';
 import { registerRoute } from '@/utils/APIRoute';
-const cx = classNames.bind(styles);
+import { useTranslate } from '@/hooks';
+import { defaultToastOptions } from '@/utils/toastOption';
+import FormGroup from '@/components/FormGroup';
 
-const toastOptions = {
-	position: 'bottom-right',
-	autoClose: 5000,
-	closeOnClick: true,
-	draggable: true,
-	theme: 'light',
-};
+const cx = classNames.bind(styles);
 
 function Register() {
 	const [account, setAccount] = useState({
@@ -34,29 +25,40 @@ function Register() {
 		password: '',
 		confirmPassword: '',
 	});
+	const [t] = useTranslate();
+
 	const { phone, username, password, confirmPassword } = account;
 
-	const handleForm = (e) => {
+	const handleChangeValue = useCallback((e) => {
 		setAccount({
 			...account,
 			[e.target.name]: e.target.value,
 		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	const validateInput = () => {
+		return phone.length >= process.env.REACT_APP_LEAST_LENGTH_PHONE &&
+			username.length >= 1 &&
+			password.length >= process.env.REACT_APP_LEAST_LENGTH_PASSWORD &&
+			confirmPassword.length >= process.env.REACT_APP_LEAST_LENGTH_PASSWORD
+			? false
+			: true;
 	};
 
 	const validateUser = () => {
 		if (!phone.startsWith('0') || phone.length < 10) {
-			toast.error('Số điện thoại không hợp lệ', toastOptions);
+			toast.error('Số điện thoại không hợp lệ', defaultToastOptions);
 			return false;
 		}
 		if (password !== confirmPassword) {
-			toast.error('Mật khẩu phải giống nhau!!', toastOptions);
+			toast.error('Mật khẩu phải giống nhau!!', defaultToastOptions);
 			return false;
 		}
 		return true;
 	};
 
 	const handleSubmit = async (e) => {
-		e.preventDefault();
 		if (validateUser()) {
 			const { data } = await axios.post(registerRoute, {
 				phone,
@@ -65,7 +67,7 @@ function Register() {
 			});
 
 			if (data.status) {
-				toast.success(data.msg, toastOptions);
+				toast.success(data.msg, defaultToastOptions);
 				setAccount((prev) => ({
 					phone: '',
 					username: '',
@@ -73,96 +75,72 @@ function Register() {
 					confirmPassword: '',
 				}));
 			} else {
-				toast.error(data.msg, toastOptions);
+				toast.error(data.msg, defaultToastOptions);
 			}
 		}
 	};
+
 	return (
 		<div className={cx('wrapper')}>
-			<div className={cx('tabs')}>
-				<a href="/" className={cx('tab', 'tab-pane')} onClick={(e) => e.preventDefault()}>
-					Đăng ký tài khoản
-				</a>
-			</div>
-			<div className={cx('contents')}>
-				<div className={cx('content-item')}>
-					<form className={cx('form-signin')} onSubmit={(e) => handleSubmit(e)}>
-						<div className={cx('form-group')}>
-							<FontAwesomeIcon
-								className={cx('form-icon')}
-								icon={faMobileScreenButton}
-							/>
-							<input
-								className={cx('form-input')}
-								type="phone"
-								placeholder="Số điện thoại"
-								name="phone"
-								value={phone}
-								onChange={(e) => handleForm(e)}
-							/>
-						</div>
-						<div className={cx('form-group')}>
-							<FontAwesomeIcon className={cx('form-icon')} icon={faUser} />
-							<input
-								className={cx('form-input')}
-								type="text"
-								placeholder="Tên người dùng"
-								name="username"
-								autoComplete="off"
-								value={username}
-								onChange={(e) => handleForm(e)}
-							/>
-						</div>
-						<div className={cx('form-group')}>
-							<FontAwesomeIcon className={cx('form-icon')} icon={faLock} />
-							<input
-								className={cx('form-input')}
-								type="password"
-								placeholder="Mật khẩu"
-								autoComplete="off"
-								name="password"
-								value={password}
-								onChange={(e) => handleForm(e)}
-							/>
-						</div>
-						<div className={cx('form-group')}>
-							<FontAwesomeIcon className={cx('form-icon')} icon={faLock} />
-							<input
-								className={cx('form-input')}
-								type="password"
-								placeholder="Nhập lại mật khẩu"
-								autoComplete="off"
-								name="confirmPassword"
-								value={confirmPassword}
-								onChange={(e) => handleForm(e)}
-							/>
-						</div>
-						<Button
-							primary
-							disabled={
-								phone.length >= 6 &&
-								username.length >= 1 &&
-								password.length >= 8 &&
-								confirmPassword.length >= 8
-									? false
-									: true
-							}
-							large
-							type="submit"
-						>
-							Đăng ký với số điện thoại
-						</Button>
-						<Button
-							className={cx('icon-btn')}
-							text
-							small
-							leftIcon={<FontAwesomeIcon icon={faAnglesLeft} />}
-							to="/login"
-						>
-							Quay lại
-						</Button>
-					</form>
-				</div>
+			<button className={cx('tab')}>{t('SignUp')}</button>
+			<div className={cx('tab-pane')}>
+				<form className={cx('form-signin')}>
+					<FormGroup
+						icon={<FontAwesomeIcon icon={faMobileScreenButton} />}
+						type='phone'
+						placeholder={t('PhoneNumber')}
+						name='phone'
+						autoComplete='on'
+						value={phone}
+						onChange={handleChangeValue}
+					/>
+
+					<FormGroup
+						icon={<FontAwesomeIcon icon={faUser} />}
+						type='text'
+						placeholder={t('Username')}
+						name='username'
+						autoComplete='on'
+						value={username}
+						onChange={handleChangeValue}
+					/>
+
+					<FormGroup
+						icon={<FontAwesomeIcon icon={faLock} />}
+						type='password'
+						placeholder={t('Password')}
+						name='password'
+						value={password}
+						onChange={handleChangeValue}
+					/>
+
+					<FormGroup
+						icon={<FontAwesomeIcon icon={faLock} />}
+						type='password'
+						placeholder={t('ConfirmationPassword')}
+						name='confirmPassword'
+						value={confirmPassword}
+						// onChange={handleChangeValue}
+					/>
+
+					<Button
+						primary
+						disabled={validateInput()}
+						large
+						onClick={handleSubmit}
+					>
+						{t('SignUp')}
+					</Button>
+					<Button
+						className={cx('icon-btn')}
+						text
+						small
+						leftIcon={<FontAwesomeIcon icon={faAnglesLeft} />}
+						to='/login'
+					>
+						{t('BackToLogin')}
+					</Button>
+				</form>
 			</div>
 			<ToastContainer />
 		</div>

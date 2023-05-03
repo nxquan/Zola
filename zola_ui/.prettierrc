@@ -5,6 +5,10 @@
   "arrowParens": "always",
   "bracketSpacing": true,
   "singleQuote": true,
+  "jsxSingleQuote": true,
   "trailingComma": "es5",
-  "printWidth": 100
+  "printWidth": 120,
+  "bracketSameLine": false,
+  "singleAttributePerLine": true,
+  "vueIndentScriptAndStyle": true
 }

@@ -77,12 +77,6 @@
     "AddFriend": "Kết bạn",
     "Chat": "Nhắn tin",
 
-    "WithQRCode": "Với mã QL",
-    "WithPassword": "Với mật khẩu",
-    "QRExpired": "Mã QR hết hạn",
-    "Regenerate": "Lấy mã mới",
-    "QRExpiredAndRegenerate": "Mã QR đã hết hạn, vui lòng tải lại mã mới",
-    "ScanQR": "Quét mã QR bằng Zalo để đăng nhập",
     "DesSignInZalo1": "Đăng nhập tài khoản Zalo",
     "DesSignInZalo2": " để kết nối với ứng dụng Zalo Web",
     "OtherApp": "Dùng tài khoản Zalo để truy cập các ứng dụng của ZA",
@@ -90,7 +84,11 @@
     "SendRequestLogin": "Gửi yêu cầu đăng nhập",
     "ForgotPass": "Quên mật khẩu?",
     "Password": "Mật khẩu",
+    "Username": "Tên người dùng",
+    "ConfirmationPassword": "Nhập lại mật khẩu",
     "HaveAccount": "Bạn chưa có tài khoản?",
-    "RegisterNow": "Đăng ký ngay!"
-
+    "RegisterNow": "Đăng ký ngay!",
+    "Login": "Đăng nhập",
+    "SignUp": "Đăng ký",
+    "BackToLogin": "Quay lại"
 }
