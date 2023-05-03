@@ -1,5 +1,7 @@
 import React from 'react';
 import classNames from 'classnames/bind';
+import lodash from 'lodash';
+
 import styles from './FormGroup.module.scss';
 
 const cx = classNames.bind(styles);
@@ -7,7 +9,7 @@ const defaultFn = () => {};
 
 function FormGroup({ icon, className, type, autoComplete = 'off', value, name, onChange = defaultFn, ...passProps }) {
 	const classes = cx('form-group', { [className]: className });
-
+	console.log('re-render ', name);
 	return (
 		<div className={classes}>
 			<span className={cx('form-icon')}>{icon}</span>
@@ -24,4 +26,13 @@ function FormGroup({ icon, className, type, autoComplete = 'off', value, name, o
 	);
 }
 
-export default React.memo(FormGroup);
+// Customize HOC React.memo with new condition
+export default React.memo(FormGroup, (prevProps, nextProps) => {
+	return (
+		lodash.isEqual(prevProps.icon.props, nextProps.icon.props) &&
+		prevProps.className === nextProps.className &&
+		prevProps.type === nextProps.type &&
+		prevProps.value === nextProps.value &&
+		prevProps.onChange === nextProps.onChange
+	);
+});
