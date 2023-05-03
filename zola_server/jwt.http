@@ -1,0 +1,32 @@
+GET http://localhost:5500/books
+Authorization: Beaer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAzNDg1NTE4NTAiLCJpYXQiOjE2ODMwMzM0MzQsImV4cCI6MTY4MzAzMzQ0OX0.1RbzNWVpzxkuAps4X4eM2dAJ3F-7MQdY3UpGH4BuEGE
+
+###
+
+POST http://localhost:5500/api/auth/login
+Content-Type: application/json
+
+{
+    "phone":"0348551850",
+    "password": "admin123"
+}
+
+
+###
+POST http://localhost:5500/api/auth/refresh-token
+Content-Type: application/json
+
+{
+    "phone":"0348551850",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAzNDg1NTE4NTAiLCJpYXQiOjE2ODMwMzMzNTB9.1lkM4qBAJdwMb5nTf2S3dGfwzn-2QGXuemgg5TIYdGs"
+}
+
+###
+POST http://localhost:5500/api/auth/log-out
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjAzNDg1NTE4NTAiLCJpYXQiOjE2ODMwMzIxMjh9.WWE01PuWpS-hnU23TjSHAjeru_hbFzIN8eeeVrCy0SU"
+}
+
+
