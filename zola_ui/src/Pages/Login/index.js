@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,9 +23,16 @@ function Login() {
 	// const navigate = useNavigate();
 	const { phone, password } = account;
 
-	const handleChangeValue = (e) => {
-		setAccount({ ...account, [e.target.name]: e.target.value });
-	};
+	const handleChangeValue = useCallback((e) => {
+		const {name, value} = e.target
+
+		setAccount(prevState => {
+			return {
+				...prevState,
+				[name]: value
+			}
+		});
+	}, []);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

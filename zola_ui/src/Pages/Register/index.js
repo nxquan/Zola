@@ -30,10 +30,12 @@ function Register() {
 	const { phone, username, password, confirmPassword } = account;
 
 	const handleChangeValue = useCallback((e) => {
-		setAccount({
-			...account,
-			[e.target.name]: e.target.value,
+		const { name, value } = e.target;
+
+		setAccount((prevState) => {
+			return { ...prevState, [name]: value };
 		});
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -66,14 +68,14 @@ function Register() {
 				password,
 			});
 
-			if (data.status) {
-				toast.success(data.msg, defaultToastOptions);
-				setAccount((prev) => ({
+			if (data.result) {
+				setAccount(() => ({
 					phone: '',
 					username: '',
 					password: '',
 					confirmPassword: '',
 				}));
+				toast.success(data.msg, defaultToastOptions);
 			} else {
 				toast.error(data.msg, defaultToastOptions);
 			}
@@ -84,7 +86,10 @@ function Register() {
 		<div className={cx('wrapper')}>
 			<button className={cx('tab')}>{t('SignUp')}</button>
 			<div className={cx('tab-pane')}>
-				<form className={cx('form-signin')}>
+				<form
+					className={cx('form-signin')}
+					onSubmit={(e) => e.preventDefault()}
+				>
 					<FormGroup
 						icon={<FontAwesomeIcon icon={faMobileScreenButton} />}
 						type='phone'
@@ -120,7 +125,7 @@ function Register() {
 						placeholder={t('ConfirmationPassword')}
 						name='confirmPassword'
 						value={confirmPassword}
-						// onChange={handleChangeValue}
+						onChange={handleChangeValue}
 					/>
 
 					<Button

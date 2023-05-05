@@ -1,6 +1,7 @@
+:root {
+	--toastify-icon-color-success: var(--primary-color);
+}
+
 .Toastify__progress-bar--success {
 	background-color: var(--primary-color);
-}
-.Toastify__progress-bar--success .Toastify__toast-icon svg {
-	fill: var(--primary-color);
 }

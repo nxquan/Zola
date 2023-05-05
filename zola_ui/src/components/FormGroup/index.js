@@ -9,7 +9,6 @@ const defaultFn = () => {};
 
 function FormGroup({ icon, className, type, autoComplete = 'off', value, name, onChange = defaultFn, ...passProps }) {
 	const classes = cx('form-group', { [className]: className });
-	console.log('re-render ', name);
 	return (
 		<div className={classes}>
 			<span className={cx('form-icon')}>{icon}</span>
