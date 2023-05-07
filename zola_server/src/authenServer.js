@@ -16,21 +16,22 @@ app.use(
 		credentials: true,
 	})
 )
+
+// Parsers for form-data, json
 app.use(
 	express.urlencoded({
 		extended: true,
 	})
 )
+
 app.use(express.json())
+
+// Connect to database
 db.connect()
 
+// Set routes. (I don't split individual file b/c this auth server
+// consists of 4 route. That is small amount.)
 app.use('/api/auth', authenRoutes)
-app.use('/books',authenticateToken, (req, res) => {
-	return res.json({
-		data: 'oke!'
-	})
-})
-
 app.listen(PORT, () => {
 	console.log(`Authen Server is listening on PORT ${PORT}`)
 })

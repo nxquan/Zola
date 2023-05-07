@@ -249,7 +249,9 @@ function Chat({ currentUser, currentChat, socket, handleChangeChat }) {
 					from: currentUser._id,
 					to: currentChat._id,
 				},
+				withCredentials: true
 			});
+			
 			setMessages((prev) => data.messages);
 		}
 		if (currentChat) {

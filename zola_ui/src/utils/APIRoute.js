@@ -1,9 +1,6 @@
 export const host = 'http://localhost:5000';
 export const authHost = 'http://localhost:5500';
 
-export const registerRoute = `${authHost}/api/auth/register`;
-export const loginRoute = `${authHost}/api/auth/login`;
-
 export const getInformationUserRoute = `${host}/api/user/:phone`;
 export const updateInformationUserRoute = `${host}/api/user/update-information`;
 export const getFriendsRoute = `${host}/api/user/get-friends`;

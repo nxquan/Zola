@@ -54,7 +54,12 @@ class AuthenController {
 			const refreshToken = jwt.sign({phone: req.body.phone}, process.env.REFRESH_TOKEN_SECRET)
 			await RefreshToken.create({token: refreshToken})
 
-			return res.json({ result: true, accessToken, refreshToken })
+			res.cookie('access_token', accessToken, {
+				maxAge: 1000*60*15,
+				httpOnly: true,
+			})
+
+			return res.json({ result: true, refreshToken })
 			
 		} else
 			return res.json({
@@ -78,7 +83,14 @@ class AuthenController {
 				expiresIn: '15m'
 			})
 
-			return res.json({accessToken})
+			res.cookie('access_token', accessToken, {
+				maxAge: 1000*60*15,
+				httpOnly: true,
+			})
+
+			return res.json({
+				result: true
+			})
 		})
 	}
 

@@ -1,18 +1,19 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMobileScreenButton, faLock } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
-import axios from 'axios';
 
 import styles from './Login.module.scss';
 import Button from '@/components/Button';
-import { loginRoute } from '@/utils/APIRoute';
 import { useTranslate } from '@/hooks';
 import FormGroup from '@/components/FormGroup';
 import { defaultToastOptions } from '@/utils/toastOption';
+import CryptoJS from 'crypto-js';
+import * as authenService from '@/services/authenService'
+
 
 const cx = classNames.bind(styles);
 
@@ -20,7 +21,7 @@ function Login() {
 	const [account, setAccount] = useState({ phone: '', password: '' });
 	const [t] = useTranslate();
 
-	// const navigate = useNavigate();
+	const navigator = useNavigate();
 	const { phone, password } = account;
 
 	const handleChangeValue = useCallback((e) => {
@@ -36,15 +37,16 @@ function Login() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(account);
-		const { data } = await axios.post(loginRoute, {
+
+		const data = await authenService.login({
 			phone,
 			password,
 		});
 
-		if (data.status) {
-			await localStorage.setItem('account', JSON.stringify(account));
-			// navigate('/');
+		if (data.result) {
+			const encryptedRefreshToken = CryptoJS.AES.encrypt(data.refreshToken, process.env.REACT_APP_PRIVATE_KEY).toString()
+			localStorage.setItem('refresh_token', encryptedRefreshToken);
+			navigator('/');
 		} else {
 			toast.error(data.msg, defaultToastOptions);
 		}

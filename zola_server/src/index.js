@@ -6,6 +6,8 @@ const path = require('path')
 const app = express()
 const server = require('http').createServer(app)
 const socket = require('socket.io')
+const cookieParser = require('cookie-parser')
+
 require('dotenv').config()
 
 const io = socket(server, {
@@ -22,13 +24,16 @@ app.use(express.static(path.join(__dirname, 'public')))
 // Using cors to receive requests from clients (CORS Policy)
 app.use(cors())
 
-// Using middleware to recieve data from client by form-data or json
+// Using middleware to receive data from client by form-data or json
 app.use(
 	express.urlencoded({
 		extended: true,
 	})
 )
 app.use(express.json())
+
+// Using parser for getting cookie from clients
+app.use(cookieParser())
 
 // Connect to db (mongodb)
 db.connect()

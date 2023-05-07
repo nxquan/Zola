@@ -25,7 +25,9 @@ function Contact({ currentUser, selected, item, self, t, onClick }) {
 					from: currentUser._id,
 					to: item._id,
 				},
+				withCredentials: true
 			});
+			
 			setLatestMessage(data.message);
 		}
 		const id = setTimeout(getLatestMessage, 5000);

@@ -1,6 +1,7 @@
 const express = require('express');
 const Router = express.Router();
 const multer = require('multer');
+const authenticateToken = require('../middleware/authenticateToken')
 
 const storageImage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -40,10 +41,10 @@ const uploadFile = multer({ storage: storageFile });
 
 const messageController = require('../app/controllers/MessageController');
 
-Router.get('/get-all-messages', messageController.getAllMessages);
-Router.get('/get-latest-message', messageController.getLatestMessage);
-Router.post('/add-message', messageController.addMessage);
-Router.post('/add-interactive', messageController.addInteractive);
+Router.get('/get-all-messages', authenticateToken, messageController.getAllMessages);
+Router.get('/get-latest-message',authenticateToken, messageController.getLatestMessage);
+Router.post('/add-message', authenticateToken, messageController.addMessage);
+Router.post('/add-interactive', authenticateToken, messageController.addInteractive);
 Router.post('/upload-image', uploadImage.single('image'), messageController.uploadImage);
 Router.post('/upload-file', uploadFile.single('file'), messageController.uploadFile);
 

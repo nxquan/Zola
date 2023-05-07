@@ -17,6 +17,7 @@
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "classnames": "^2.3.1",
+    "crypto-js": "^4.1.1",
     "emoji-mart": "^5.2.0",
     "i18next": "^21.9.1",
     "i18next-browser-languagedetector": "^6.1.5",
@@ -46,6 +47,7 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:5500/",
   "eslintConfig": {
     "extends": [
       "react-app",

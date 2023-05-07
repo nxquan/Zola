@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMobileScreenButton, faLock, faAnglesLeft, faUser } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,10 +10,10 @@ import classNames from 'classnames/bind';
 import styles from './Register.module.scss';
 
 import Button from '@/components/Button';
-import { registerRoute } from '@/utils/APIRoute';
 import { useTranslate } from '@/hooks';
 import { defaultToastOptions } from '@/utils/toastOption';
 import FormGroup from '@/components/FormGroup';
+import * as authenService from '@/services/authenService'
 
 const cx = classNames.bind(styles);
 
@@ -62,12 +61,12 @@ function Register() {
 
 	const handleSubmit = async (e) => {
 		if (validateUser()) {
-			const { data } = await axios.post(registerRoute, {
+			const data = await authenService.register({
 				phone,
 				username,
 				password,
-			});
-
+			})
+			
 			if (data.result) {
 				setAccount(() => ({
 					phone: '',

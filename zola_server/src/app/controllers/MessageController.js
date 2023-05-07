@@ -76,7 +76,6 @@ class MessageController {
 	async getLatestMessage(req, res, next) {
 		try {
 			const { from, to } = req.query;
-
 			const plainMessageFromDB = await Message.findOne({
 				users: { $all: [from, to] },
 			}).sort({ createdAt: -1 });
